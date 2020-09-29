@@ -138,8 +138,14 @@
     </form>
     <hr />
 
-    <table>
-      货品列表
+    <table border="1">
+      <caption>货品列表</caption>
+      <colgroup>
+        <col>
+        <col bgcolor="lightblue">
+        <col>
+        <col>
+      </colgroup>
       <thead align="center">
         <tr>
           <th>编号</th>
@@ -152,13 +158,12 @@
         <tr>
           <th>001</th>
           <td>苹果</td>
-          <td>5</td>
+          <td rowspan="2">5</td>
           <td>8</td>
         </tr>
         <tr>
           <th>002</th>
           <td>桔子</td>
-          <td>5</td>
           <td>8</td>
         </tr>
         <tr>
@@ -199,12 +204,15 @@
       />
     </map>
     <hr />
-    <a href="https://www.mi.com/">
+    <a href="https://www.mi.com/" target="iframe-x">
       点击我会在下面的frame中打开小米商场，但是并不能
-    </a>
-    <p>如何使两个字之间的间距这么 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 大呢</p>
-    <p>怎样在页面中显示以下内容</p>
-    <p>&lt;span&gt;&lt;/span&gt;</p>
-    <span id="bottom"></span>
+    </a><br>
+    <iframe src="https://nodejs.org/en/" frameborder="1" name="iframe-x"></iframe><br>
+    <div>
+      <span>如何使两个字之间的间距这么 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 大呢</span> <br>
+      <span>怎样在页面中显示以下内容</span> <br>
+      <span>&lt;span&gt;&lt;/span&gt;</span>
+      <span id="bottom"></span>
+    </div>
   </body>
 </html>
