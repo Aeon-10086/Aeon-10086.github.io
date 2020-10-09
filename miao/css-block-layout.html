@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS-Block-Layout</title>
+    <style>
+      body {
+        margin: 0;
+      }
+      header {
+        background-color: black;
+        color: white;
+        min-width: 600px;
+      }
+      header > nav,
+      main,
+      footer > div {
+        margin: 0 auto;
+        width: 600px;
+      }
+      .product {
+        list-style: none;
+        padding: 0;
+        text-align: center;
+      }
+      .product > li {
+        box-sizing: border-box;
+        width: 180px;
+        height: 40px;
+        border: 3px solid black;
+        margin: 15px 0;
+        line-height: 34px;
+        background-color: lightblue;
+      }
+      .product > li:hover {
+        background-color: silver;
+      }
+      .product > li:nth-child(n + 5) {
+        margin-left: 210px;
+      }
+      .product > li:nth-child(n + 9) {
+        margin-left: 420px;
+      }
+      .product > li:nth-child(4n + 5) {
+        margin-top: -220px;
+      }
+      .test-inline {
+        text-align: justify;
+        text-align-last: justify;
+      }
+
+      .test-inline > span {
+        line-height: 34px;
+        display: inline-block;
+        box-sizing: border-box;
+        width: 180px;
+        height: 40px;
+        border: 3px solid brown;
+        vertical-align: top;
+        text-align: center;
+        text-align-last: center;
+        margin-top: 15px;
+        background-color: darkseagreen;
+      }
+      .test-inline > span:hover {
+        background-color: darksalmon;
+      }
+      .link {
+        list-style: none;
+        padding: 0;
+      }
+      .link > li {
+        border-bottom: 1px dotted;
+      }
+      .link > li:last-child {
+        border-bottom: none;
+      }
+      footer {
+        min-width: 600px;
+        background-color: cadetblue;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav>Hello World</nav>
+    </header>
+    <main>
+      <p>
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Animi
+        consequatur, ullam nobis consectetur soluta beatae ea minus labore esse,
+        delectus fuga tempore assumenda rerum quasi voluptate nihil repudiandae
+        provident, asperiores magnam quia? In atque placeat recusandae! Nulla
+        libero perspiciatis harum quidem modi quod ex atque ratione a est.
+      </p>
+      <ul class="product">
+        <li>Hello CSS Block</li>
+        <li>Hello CSS Block</li>
+        <li>Hello CSS Block</li>
+        <li>Hello CSS Block</li>
+        <li>Hello CSS Block</li>
+        <li>Hello CSS Block</li>
+        <li>Hello CSS Block</li>
+        <li>Hello CSS Block</li>
+        <li>Hello CSS Block</li>
+        <li>Hello CSS Block</li>
+        <li>Hello CSS Block</li>
+        <li>Hello CSS Block</li>
+      </ul>
+      <div class="test-inline">
+        <span>Hello Inline-Block</span>
+        <span>Hello Inline-Block</span>
+        <span>Hello Inline-Block</span>
+        <span>Hello Inline-Block</span>
+        <span>Hello Inline-Block</span>
+        <span>Hello Inline-Block</span>
+        <span>Hello Inline-Block</span>
+        <span>Hello Inline-Block</span>
+        <span>Hello Inline-Block</span>
+        <span>Hello Inline-Block</span>
+        <span>Hello Inline-Block</span>
+        <span>Hello Inline-Block</span>
+      </div>
+      <ul class="link">
+        <li>link</li>
+        <li>link</li>
+        <li>link</li>
+        <li>link</li>
+        <li>link</li>
+      </ul>
+    </main>
+    <footer>
+      <div>&copy;版权所有</div>
+      <div>本页所有布局均使用块元素</div>
+    </footer>
+  </body>
+</html>
