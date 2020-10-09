@@ -39,10 +39,16 @@
         width: 50px;
         margin: 0 auto;
         box-sizing: border-box;
-        border-top: 50px solid transparent;
         border-left: 50px solid transparent;
         border-right: 50px solid transparent;
+      }
+      div.top {
+        border-top: 50px solid transparent;
         border-bottom: 50px solid orange;
+      }
+      div.bottom {
+        border-top: 50px solid orange;
+        border-bottom: 50px solid transparent;
       }
     </style>
   </head>
@@ -69,7 +75,8 @@
       </p>
     </main>
     <footer>
-      <div></div>
+      <div class="top"></div>
+      <div class="bottom"></div>
     </footer>
   </body>
 </html>
