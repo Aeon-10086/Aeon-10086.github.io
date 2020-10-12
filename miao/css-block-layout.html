@@ -47,26 +47,46 @@
         margin-top: -220px;
       }
       .test-inline {
+        list-style: none;
+        padding: 0;
         text-align: justify;
         text-align-last: justify;
       }
 
-      .test-inline > span {
+      .test-inline > li {
         line-height: 34px;
         display: inline-block;
         box-sizing: border-box;
         width: 180px;
         height: 40px;
         border: 3px solid brown;
-        vertical-align: top;
         text-align: center;
         text-align-last: center;
         margin-top: 15px;
         background-color: darkseagreen;
       }
-      .test-inline > span:hover {
+      .test-inline > li:hover {
         background-color: darksalmon;
       }
+      /* 排版的另一种常用思路：
+        为每一个 li 设置相同的样式，通过为父元素设置额外的样式抵消 li 中多余的部分
+        .test-inline{
+          list-style: none;
+          padding: 0;
+          margin-left: -15px;
+          margin-right: -15px;
+        }
+        .test-inline > li{
+          line-height: 34px;
+          display: inline-block;
+          box-sizing: border-box;
+          width: 180px;
+          height: 40px;
+          border: 3px solid brown;
+          margin: 8px 15px;
+        }
+       */
+
       .link {
         list-style: none;
         padding: 0;
@@ -77,6 +97,19 @@
       .link > li:last-child {
         border-bottom: none;
       }
+      /* link 的另一种思路：
+          为每个link设置负的margin-bottom，并为 ul 开启 BFC(overflow: hidden;)
+          此时，ul包裹的是 link 的margin-box，并且会隐藏超出的部分，以此将最后一个 link 的 border-bottom 隐藏
+      .link {
+        list-style: none;
+        padding: 0;
+        overflow: hidden;
+      }
+      .link > li {
+        border-bottom: 1px dotted;
+        margin-bottom: -1px;
+      }
+       */
       footer {
         min-width: 600px;
         background-color: cadetblue;
@@ -110,20 +143,21 @@
         <li>Hello CSS Block</li>
         <li>Hello CSS Block</li>
       </ul>
-      <div class="test-inline">
-        <span>Hello Inline-Block</span>
-        <span>Hello Inline-Block</span>
-        <span>Hello Inline-Block</span>
-        <span>Hello Inline-Block</span>
-        <span>Hello Inline-Block</span>
-        <span>Hello Inline-Block</span>
-        <span>Hello Inline-Block</span>
-        <span>Hello Inline-Block</span>
-        <span>Hello Inline-Block</span>
-        <span>Hello Inline-Block</span>
-        <span>Hello Inline-Block</span>
-        <span>Hello Inline-Block</span>
-      </div>
+      <!-- 语义上依然需要使用 ul，将 li 设置为 inline-block -->
+      <ul class="test-inline">
+        <li>Hello Inline-Block</li>
+        <li>Hello Inline-Block</li>
+        <li>Hello Inline-Block</li>
+        <li>Hello Inline-Block</li>
+        <li>Hello Inline-Block</li>
+        <li>Hello Inline-Block</li>
+        <li>Hello Inline-Block</li>
+        <li>Hello Inline-Block</li>
+        <li>Hello Inline-Block</li>
+        <li>Hello Inline-Block</li>
+        <li>Hello Inline-Block</li>
+        <li>Hello Inline-Block</li>
+      </ul>
       <ul class="link">
         <li>link</li>
         <li>link</li>
