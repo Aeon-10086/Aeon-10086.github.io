@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ABS-CENTER</title>
+    <style>
+      .box01,
+      .box02,
+      .box03 {
+        border: 1px solid;
+      }
+      .box01,
+      .box03 {
+        width: 400px;
+        height: 200px;
+        margin: 0 auto;
+        position: relative;
+      }
+      .content01 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        height: 50px;
+        width: 50px;
+        background-color: teal;
+      }
+      .box02 {
+        height: 200px;
+        text-align: center;
+        line-height: 200px;
+      }
+      .content02 {
+        width: 50%;
+        height: 50%;
+        background-color: lightblue;
+        display: inline-block;
+        vertical-align: middle;
+      }
+      .content03 {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        height: 50px;
+        width: 50px;
+        background-color: gray;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box01"><div class="content01"></div></div>
+    <hr />
+    <div class="box02"><div class="content02"></div></div>
+    <hr />
+    <div class="box03"><div class="content03"></div></div>
+  </body>
+</html>
