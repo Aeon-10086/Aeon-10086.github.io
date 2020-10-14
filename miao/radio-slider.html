@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RADIO-SLIDER</title>
+    <style>
+      main {
+        position: relative;
+      }
+      img {
+        width: 500px;
+        position: absolute;
+        opacity: 0;
+        transition: 1s;
+      }
+      div {
+        width: 500px;
+        height: 300px;
+        border: 2px solid gray;
+        position: relative;
+        overflow: hidden;
+      }
+      input:nth-child(1):checked ~ div > img:nth-child(1),
+      input:nth-child(2):checked ~ div > img:nth-child(2),
+      input:nth-child(3):checked ~ div > img:nth-child(3),
+      input:nth-child(4):checked ~ div > img:nth-child(4),
+      input:nth-child(5):checked ~ div > img:nth-child(5) {
+        opacity: 1;
+      }
+      label {
+        position: absolute;
+        display: block;
+        top: 170px;
+        height: 25px;
+        width: 30px;
+        background-color: orangered;
+        z-index: 3;
+        display: none;
+      }
+      input:nth-child(1):checked ~ label[for="btn2"],
+      input:nth-child(2):checked ~ label[for="btn3"],
+      input:nth-child(3):checked ~ label[for="btn4"],
+      input:nth-child(4):checked ~ label[for="btn5"],
+      input:nth-child(5):checked ~ label[for="btn1"] {
+        display: block;
+        left: 475px;
+      }
+      input:nth-child(1):checked ~ label[for="btn5"],
+      input:nth-child(2):checked ~ label[for="btn1"],
+      input:nth-child(3):checked ~ label[for="btn2"],
+      input:nth-child(4):checked ~ label[for="btn3"],
+      input:nth-child(5):checked ~ label[for="btn4"] {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <input id="btn1" type="radio" checked name="slider" />
+      <input id="btn2" type="radio" name="slider" />
+      <input id="btn3" type="radio" name="slider" />
+      <input id="btn4" type="radio" name="slider" />
+      <input id="btn5" type="radio" name="slider" />
+      <label for="btn1"> ovo </label>
+      <label for="btn2"> ovo </label>
+      <label for="btn3"> ovo </label>
+      <label for="btn4"> ovo </label>
+      <label for="btn5"> ovo </label>
+      <div>
+        <img
+          src="https://travel.12306.cn/imgs/resources/uploadfiles/images/243945e6-c45d-4870-9cf5-77e488068646_product_W572_H370.jpg"
+          alt=""
+        />
+        <img
+          src="https://travel.12306.cn/imgs/resources/uploadfiles/images/6d77d0ea-53d0-4518-b7e9-e53795b4920c_product_W572_H370.jpg"
+          alt=""
+        />
+        <img
+          src="https://travel.12306.cn/imgs/resources/uploadfiles/images/d9ae79de-2f3f-4e9f-ad6e-bdc291dda92a_product_W572_H370.jpg"
+          alt=""
+        />
+        <img
+          src="https://travel.12306.cn/imgs/resources/uploadfiles/images/8b36f9a7-f780-4e71-b719-9300109a9ff2_product_W572_H370.jpg"
+          alt=""
+        />
+        <img
+          src="https://travel.12306.cn/imgs/resources/uploadfiles/images/c7c03732-3c86-4308-aea7-df747d4999e8_product_W572_H370.jpg"
+          alt=""
+        />
+      </div>
+    </main>
+  </body>
+</html>

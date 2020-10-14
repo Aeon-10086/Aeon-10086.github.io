@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS-MENU</title>
+    <style>
+      body {
+        margin: 0;
+      }
+      html,
+      body {
+        height: 100%;
+        font-size: 30px;
+      }
+      header {
+        width: 100%;
+        background-color: lightgray;
+        border: 2px solid black;
+        padding: 0 20px;
+      }
+      ul {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+      }
+      nav > ul {
+        position: relative;
+      }
+      nav > ul > li {
+        display: inline-block;
+        box-sizing: border-box;
+        margin: 0 20px;
+      }
+      .sub {
+        /* border: 2px solid slategray; */
+        display: none;
+        position: absolute;
+      }
+      .sub > li {
+        border-bottom: 1px solid silver;
+        position: relative;
+      }
+      li:hover {
+        background-color: lightsteelblue;
+      }
+      nav > ul > li:hover > .sub {
+        display: block;
+      }
+      .sub li:hover > .sub {
+        display: block;
+        left: 100%;
+        top: 0;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <ul>
+          <li>
+            File
+            <ul class="sub">
+              <li>
+                Lorem ipsum
+                <ul class="sub">
+                  <li>
+                    Lorem, ipdolor.
+                    <ul class="sub">
+                      <li>Lorem, ipdolor.</li>
+                      <li>Lorem dolor.</li>
+                      <li>Lorem, sum dolor.</li>
+                      <li>Lorem,um dolor.</li>
+                    </ul>
+                  </li>
+                  <li>Lorem dolor.</li>
+                  <li>
+                    Lorem, sum dolor.
+                    <ul class="sub">
+                      <li>Lorem, ipdolor.</li>
+                      <li>Lorem dolor.</li>
+                      <li>Lorem, sum dolor.</li>
+                      <li>Lorem,um dolor.</li>
+                    </ul>
+                  </li>
+                  <li>Lorem,um dolor.</li>
+                </ul>
+              </li>
+              <li>Lorem ipsum dolor sit.</li>
+              <li>
+                Lorem ipsum sit.
+                <ul class="sub">
+                  <li>Lorem, ipdolor.</li>
+                  <li>Lorem dolor.</li>
+                  <li>Lorem, sum dolor.</li>
+                  <li>Lorem,um dolor.</li>
+                </ul>
+              </li>
+              <li>Lorem ipsum dolor sit.</li>
+            </ul>
+          </li>
+          <li>
+            Edit
+            <ul class="sub">
+              <li>Lorem ipsum dolor sit amet.</li>
+              <li>Lorem ipsum sit amet.</li>
+              <li>
+                dolor sit amet.
+                <ul class="sub">
+                  <li>Lorem, ipdolor.</li>
+                  <li>Lorem dolor.</li>
+                  <li>Lorem, sum dolor.</li>
+                  <li>Lorem,um dolor.</li>
+                </ul>
+              </li>
+              <li>rem ium dolor sit amet.</li>
+            </ul>
+          </li>
+          <li>
+            Selection
+            <ul class="sub">
+              <li>Lorem, ipdolor.</li>
+              <li>Lorem dolor.</li>
+              <li>Lorem, sum dolor.</li>
+              <li>Lorem,um dolor.</li>
+            </ul>
+          </li>
+          <li>
+            View
+            <ul class="sub">
+              <li>Lorem ipamet consectetur.</li>
+              <li>Lormet consectetur.</li>
+              <li>
+                Lorem ipsum dolit amnsectetur.
+                <ul class="sub">
+                  <li>Lorem, ipdolor.</li>
+                  <li>Lorem dolor.</li>
+                  <li>Lorem, sum dolor.</li>
+                  <li>
+                    Lorem,um dolor.
+                    <ul class="sub">
+                      <li>Lorem dolor sit.</li>
+                      <li>Lorem ipsum r sit.</li>
+                      <li>Loem ipsum dolor sit.</li>
+                      <li>Lorpsum door sit.</li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                Lorem ipsuor sit ameur.
+                <ul class="sub">
+                  <li>Lorem, ipdolor.</li>
+                  <li>Lorem dolor.</li>
+                  <li>Lorem, sum dolor.</li>
+                  <li>Lorem,um dolor.</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>
+            Terminal
+            <ul class="sub">
+              <li>Lorem dolor sit.</li>
+              <li>Lorem ipsum r sit.</li>
+              <li>Loem ipsum dolor sit.</li>
+              <li>Lorpsum door sit.</li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+    </header>
+  </body>
+</html>
