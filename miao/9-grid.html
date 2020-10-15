@@ -80,19 +80,16 @@
         text-align: center;
         font-size: 50px;
       }
-      .table table tr td {
-        width: 88px;
-        height: 88px;
+      col {
+        width: 100px;
         border: 10px solid;
-        position: relative;
+      }
+      .table table tr {
+        height: 100px;
+        border: 10px solid;
         cursor: pointer;
       }
-      .table table tr td:hover > span {
-        position: absolute;
-        top: -10px;
-        left: -10px;
-        width: 90px;
-        height: 90px;
+      .table table tr td:hover {
         border: 10px solid burlywood;
       }
     </style>
@@ -128,21 +125,26 @@
     <hr />
     <section class="table">
       <table>
+        <colgroup>
+          <col />
+          <col />
+          <col />
+        </colgroup>
         <tbody>
           <tr>
-            <td>1 <span></span></td>
-            <td>2 <span></span></td>
-            <td>3 <span></span></td>
+            <td>1</td>
+            <td>2</td>
+            <td>3</td>
           </tr>
           <tr>
-            <td>4 <span></span></td>
-            <td>5 <span></span></td>
-            <td>6 <span></span></td>
+            <td>4</td>
+            <td>5</td>
+            <td>6</td>
           </tr>
           <tr>
-            <td>7 <span></span></td>
-            <td>8 <span></span></td>
-            <td>9 <span></span></td>
+            <td>7</td>
+            <td>8</td>
+            <td>9</td>
           </tr>
         </tbody>
       </table>
