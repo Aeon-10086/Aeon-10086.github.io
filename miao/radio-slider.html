@@ -3,92 +3,168 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RADIO-SLIDER</title>
+    <title>Document</title>
     <style>
-      main {
+      section {
+        height: 400px;
+        width: 600px;
+        border: 2px solid salmon;
         position: relative;
+        margin: 50px auto;
       }
+      section > input {
+        display: none;
+      }
+      ul,
+      li,
       img {
-        width: 500px;
-        position: absolute;
-        opacity: 0;
-        transition: 1s;
+        height: 100%;
+        width: 100%;
       }
-      div {
-        width: 500px;
-        height: 300px;
-        border: 2px solid gray;
-        position: relative;
+      ul {
+        box-sizing: border-box;
         overflow: hidden;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        position: relative;
+        border: 2px solid black;
       }
-      input:nth-child(1):checked ~ div > img:nth-child(1),
-      input:nth-child(2):checked ~ div > img:nth-child(2),
-      input:nth-child(3):checked ~ div > img:nth-child(3),
-      input:nth-child(4):checked ~ div > img:nth-child(4),
-      input:nth-child(5):checked ~ div > img:nth-child(5) {
+      ul > li {
+        position: absolute;
+        transition: 0.6s;
+      }
+      li {
+        opacity: 0;
+      }
+      input:nth-child(1):checked ~ ul > li:nth-child(1),
+      input:nth-child(2):checked ~ ul > li:nth-child(2),
+      input:nth-child(3):checked ~ ul > li:nth-child(3),
+      input:nth-child(4):checked ~ ul > li:nth-child(4),
+      input:nth-child(5):checked ~ ul > li:nth-child(5) {
+        z-index: 8;
         opacity: 1;
       }
       label {
+        cursor: pointer;
+      }
+
+      ul label {
+        width: 40px;
+        height: 60px;
+        background-color: silver;
         position: absolute;
-        display: block;
-        top: 170px;
-        height: 25px;
-        width: 30px;
-        background-color: orangered;
-        z-index: 3;
-        display: none;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        text-align: center;
+        line-height: 60px;
+        opacity: 0.6;
       }
-      input:nth-child(1):checked ~ label[for="btn2"],
-      input:nth-child(2):checked ~ label[for="btn3"],
-      input:nth-child(3):checked ~ label[for="btn4"],
-      input:nth-child(4):checked ~ label[for="btn5"],
-      input:nth-child(5):checked ~ label[for="btn1"] {
-        display: block;
-        left: 475px;
+      .prev {
+        left: 0;
       }
-      input:nth-child(1):checked ~ label[for="btn5"],
-      input:nth-child(2):checked ~ label[for="btn1"],
-      input:nth-child(3):checked ~ label[for="btn2"],
-      input:nth-child(4):checked ~ label[for="btn3"],
-      input:nth-child(5):checked ~ label[for="btn4"] {
-        display: block;
+      .next {
+        right: 0;
+      }
+      nav {
+        position: absolute;
+        bottom: 0;
+        height: 30px;
+        line-height: 30px;
+        width: 100%;
+        z-index: 20;
+        text-align: center;
+      }
+      .indic {
+        display: inline-block;
+        background-color: #eee4;
+        border-radius: 20px;
+      }
+      .indic > label {
+        vertical-align: text-bottom;
+        display: inline-block;
+        margin: 0 10px;
+        border-radius: 50%;
+        height: 20px;
+        width: 20px;
+        background-color: lightsteelblue;
+      }
+      input:nth-child(1):checked ~ nav > div > label:nth-child(1),
+      input:nth-child(2):checked ~ nav > div > label:nth-child(2),
+      input:nth-child(3):checked ~ nav > div > label:nth-child(3),
+      input:nth-child(4):checked ~ nav > div > label:nth-child(4),
+      input:nth-child(5):checked ~ nav > div > label:nth-child(5) {
+        background-color: lightsalmon;
+      }
+      label:hover {
+        background-color: lightsalmon;
       }
     </style>
   </head>
   <body>
-    <main>
-      <input id="btn1" type="radio" checked name="slider" />
-      <input id="btn2" type="radio" name="slider" />
-      <input id="btn3" type="radio" name="slider" />
-      <input id="btn4" type="radio" name="slider" />
-      <input id="btn5" type="radio" name="slider" />
-      <label for="btn1"> ovo </label>
-      <label for="btn2"> ovo </label>
-      <label for="btn3"> ovo </label>
-      <label for="btn4"> ovo </label>
-      <label for="btn5"> ovo </label>
-      <div>
-        <img
-          src="https://travel.12306.cn/imgs/resources/uploadfiles/images/243945e6-c45d-4870-9cf5-77e488068646_product_W572_H370.jpg"
-          alt=""
-        />
-        <img
-          src="https://travel.12306.cn/imgs/resources/uploadfiles/images/6d77d0ea-53d0-4518-b7e9-e53795b4920c_product_W572_H370.jpg"
-          alt=""
-        />
-        <img
-          src="https://travel.12306.cn/imgs/resources/uploadfiles/images/d9ae79de-2f3f-4e9f-ad6e-bdc291dda92a_product_W572_H370.jpg"
-          alt=""
-        />
-        <img
-          src="https://travel.12306.cn/imgs/resources/uploadfiles/images/8b36f9a7-f780-4e71-b719-9300109a9ff2_product_W572_H370.jpg"
-          alt=""
-        />
-        <img
-          src="https://travel.12306.cn/imgs/resources/uploadfiles/images/c7c03732-3c86-4308-aea7-df747d4999e8_product_W572_H370.jpg"
-          alt=""
-        />
-      </div>
-    </main>
+    <section>
+      <input type="radio" name="slider" id="s1" checked />
+      <input type="radio" name="slider" id="s2" />
+      <input type="radio" name="slider" id="s3" />
+      <input type="radio" name="slider" id="s4" />
+      <input type="radio" name="slider" id="s5" />
+      <ul>
+        <li>
+          <label for="s5" class="prev"><</label>
+          <label for="s2" class="next">></label>
+          <a href="#"
+            ><img
+              src="https://travel.12306.cn/imgs/resources/uploadfiles/images/243945e6-c45d-4870-9cf5-77e488068646_product_W572_H370.jpg"
+              alt=""
+          /></a>
+        </li>
+        <li>
+          <label for="s1" class="prev"><</label>
+          <label for="s3" class="next">></label>
+          <a href="#"
+            ><img
+              src="https://travel.12306.cn/imgs/resources/uploadfiles/images/6d77d0ea-53d0-4518-b7e9-e53795b4920c_product_W572_H370.jpg"
+              alt=""
+          /></a>
+        </li>
+        <li>
+          <label for="s2" class="prev"><</label>
+          <label for="s4" class="next">></label>
+          <a href="#"
+            ><img
+              src="https://travel.12306.cn/imgs/resources/uploadfiles/images/d9ae79de-2f3f-4e9f-ad6e-bdc291dda92a_product_W572_H370.jpg"
+              alt=""
+          /></a>
+        </li>
+        <li>
+          <label for="s3" class="prev"><</label>
+          <label for="s5" class="next">></label>
+          <a href="#"
+            ><img
+              src="https://travel.12306.cn/imgs/resources/uploadfiles/images/8b36f9a7-f780-4e71-b719-9300109a9ff2_product_W572_H370.jpg"
+              alt=""
+          /></a>
+        </li>
+        <li>
+          <label for="s4" class="prev"><</label>
+          <label for="s1" class="next">></label>
+          <a href="#"
+            ><img
+              src="https://travel.12306.cn/imgs/resources/uploadfiles/images/c7c03732-3c86-4308-aea7-df747d4999e8_product_W572_H370.jpg"
+              alt=""
+          /></a>
+        </li>
+      </ul>
+      <nav>
+        <div class="indic">
+          <label for="s1"></label>
+          <label for="s2"></label>
+          <label for="s3"></label>
+          <label for="s4"></label>
+          <label for="s5"></label>
+        </div>
+      </nav>
+    </section>
   </body>
 </html>

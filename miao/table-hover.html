@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TABLE-HOVER</title>
+    <style>
+      table {
+        border-collapse: collapse;
+        overflow: hidden;
+      }
+      td {
+        position: relative;
+        border: 3px solid teal;
+      }
+      td:hover span {
+        top: -999px;
+        left: 0;
+        height: 9999px;
+        width: 100%;
+        position: absolute;
+        background-color: brown;
+        z-index: -1;
+      }
+      tr:hover {
+        background-color: tan;
+      }
+    </style>
+  </head>
+  <body>
+    <table>
+      <tbody>
+        <tr>
+          <td>001 <span></span></td>
+          <td>002 <span></span></td>
+          <td>003 <span></span></td>
+          <td>004 <span></span></td>
+        </tr>
+        <tr>
+          <td>001 <span></span></td>
+          <td>002 <span></span></td>
+          <td>003 <span></span></td>
+          <td>004 <span></span></td>
+        </tr>
+        <tr>
+          <td>001 <span></span></td>
+          <td>002 <span></span></td>
+          <td>003 <span></span></td>
+          <td>004 <span></span></td>
+        </tr>
+        <tr>
+          <td>001 <span></span></td>
+          <td>002 <span></span></td>
+          <td>003 <span></span></td>
+          <td>004 <span></span></td>
+        </tr>
+        <tr>
+          <td>001 <span></span></td>
+          <td>002 <span></span></td>
+          <td>003 <span></span></td>
+          <td>004 <span></span></td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

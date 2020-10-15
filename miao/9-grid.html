@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>9-GRID</title>
+    <style>
+      ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+      li {
+        cursor: pointer;
+      }
+      /* 行内 */
+      .inline ul {
+        width: 300px;
+        font-size: 0;
+        border: 5px solid steelblue;
+      }
+      .inline ul li {
+        position: relative;
+        text-align: center;
+        font-size: 50px;
+        line-height: 100px;
+        box-sizing: border-box;
+        display: inline-block;
+        width: 100px;
+        height: 100px;
+        border: 5px solid steelblue;
+      }
+      .inline ul li:hover {
+        z-index: 10;
+        width: 110px;
+        height: 110px;
+        margin: -5px;
+        border: 10px solid tomato;
+      }
+      /* 定位 */
+      .position ul {
+        width: 300px;
+        height: 310px;
+        /* border: 5px solid seagreen; */
+        position: relative;
+      }
+      .position ul li {
+        position: absolute;
+        text-align: center;
+        font-size: 50px;
+        line-height: 100px;
+        box-sizing: border-box;
+        width: 110px;
+        height: 110px;
+        border: 10px solid seagreen;
+      }
+      .position ul li:nth-child(2),
+      .position ul li:nth-child(5),
+      .position ul li:nth-child(8) {
+        left: 100px;
+      }
+      .position ul li:nth-child(3),
+      .position ul li:nth-child(6),
+      .position ul li:nth-child(9) {
+        left: 200px;
+      }
+      .position ul li:nth-child(n + 4) {
+        top: 100px;
+      }
+      .position ul li:nth-child(n + 7) {
+        top: 200px;
+      }
+      .position ul li:hover {
+        border-color: orange;
+        z-index: 1;
+      }
+      /* 表格布局 */
+      .table table {
+        border-collapse: collapse;
+        text-align: center;
+        font-size: 50px;
+      }
+      .table table tr td {
+        width: 88px;
+        height: 88px;
+        border: 10px solid;
+        position: relative;
+      }
+      .table table tr td:hover > span {
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        width: 90px;
+        height: 90px;
+        border: 10px solid burlywood;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="inline">
+      <ul>
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+        <li>6</li>
+        <li>7</li>
+        <li>8</li>
+        <li>9</li>
+      </ul>
+    </section>
+    <hr />
+    <section class="position">
+      <ul>
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+        <li>6</li>
+        <li>7</li>
+        <li>8</li>
+        <li>9</li>
+      </ul>
+    </section>
+    <hr />
+    <section class="table">
+      <table>
+        <tbody>
+          <tr>
+            <td>1 <span></span></td>
+            <td>2 <span></span></td>
+            <td>3 <span></span></td>
+          </tr>
+          <tr>
+            <td>4 <span></span></td>
+            <td>5 <span></span></td>
+            <td>6 <span></span></td>
+          </tr>
+          <tr>
+            <td>7 <span></span></td>
+            <td>8 <span></span></td>
+            <td>9 <span></span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </body>
+</html>
