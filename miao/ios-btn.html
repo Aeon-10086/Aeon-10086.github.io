@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IOS-BTN</title>
+    <style>
+      input {
+        display: none;
+      }
+      label {
+        display: inline-block;
+        width: 250px;
+        height: 140px;
+        border: 3px solid #cbc7ca;
+        border-radius: 150px;
+        position: relative;
+      }
+      label,
+      span {
+        transition: 0.5s;
+      }
+      span {
+        top: 0px;
+        bottom: 0;
+        margin: auto;
+        left: 6px;
+        position: absolute;
+        display: inline-block;
+        height: 125px;
+        width: 125px;
+        background: white;
+        border-radius: 135px;
+        box-shadow: 2px 3px 20px 1px #ccc;
+      }
+      input:checked + label {
+        border-color: #30f34a;
+        background: #30f34a;
+      }
+      input:checked + label span {
+        left: 120px;
+        box-shadow: -3px 2px 25px 2px #aaa;
+      }
+    </style>
+  </head>
+  <body>
+    <input type="checkbox" name="" id="c1" />
+    <label for="c1">
+      <span></span>
+    </label>
+  </body>
+</html>
