@@ -7,7 +7,8 @@
     <style>
       .box01,
       .box02,
-      .box03 {
+      .box03,
+      .box04 {
         border: 1px solid;
       }
       .box01,
@@ -49,6 +50,19 @@
         width: 50px;
         background-color: gray;
       }
+      .box04 {
+        border-collapse: collapse;
+        width: 100%;
+        height: 200px;
+        margin: 0 auto;
+        text-align: center;
+      }
+      .content04 {
+        display: inline-block;
+        width: 100px;
+        height: 100px;
+        background-color: cadetblue;
+      }
     </style>
   </head>
   <body>
@@ -57,5 +71,13 @@
     <div class="box02"><div class="content02"></div></div>
     <hr />
     <div class="box03"><div class="content03"></div></div>
+    <hr />
+    <table class="box04">
+      <tr>
+        <td>
+          <div class="content04"></div>
+        </td>
+      </tr>
+    </table>
   </body>
 </html>
