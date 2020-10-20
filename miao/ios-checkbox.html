@@ -9,16 +9,17 @@
         display: none;
       }
       label {
+        box-sizing: border-box;
         display: inline-block;
         width: 250px;
         height: 140px;
         border: 3px solid #cbc7ca;
         border-radius: 150px;
         position: relative;
+        transition: 1s;
       }
-      label,
-      span {
-        transition: 0.5s;
+      label span {
+        transition: left 0.7s, padding 0.7s, width 0.4s 0.3s;
       }
       span {
         top: 0px;
@@ -27,23 +28,32 @@
         left: 6px;
         position: absolute;
         display: inline-block;
-        height: 125px;
-        width: 125px;
+        height: 124px;
+        width: 100px;
+        padding: 0 12px;
         background: white;
         border-radius: 135px;
-        box-shadow: 2px 3px 20px 1px #ccc;
+        box-shadow: 2px 3px 20px 1px grey;
       }
       input:checked + label {
+        /* 使用 box-shadow 向内扩散 */
+        box-shadow: 0 0 0 70px #30f34a inset;
+        border-width: 6px;
         border-color: #30f34a;
-        background: #30f34a;
+
+        /* background: #30f34a; */
       }
       input:checked + label span {
-        left: 120px;
+        width: 124px;
+        padding: 0 0px;
+        left: 110px;
         box-shadow: -3px 2px 25px 2px #aaa;
+        transition: left 0.7s, padding 0.4s 0.3s, width 0.7s;
       }
     </style>
   </head>
   <body>
+    <!-- 通过灵活控制 padding 和 width 来实现变宽的效果 -->
     <input type="checkbox" name="" id="c1" />
     <label for="c1">
       <span></span>
