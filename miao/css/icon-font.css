@@ -1,0 +1,130 @@
+@font-face {
+  font-family: "EasyFontAwe";
+  src: url("../assets/fonts/fontawesome-webfont.woff2") format("woff2");
+  font-style: normal;
+  font-weight: normal;
+}
+.efa {
+  display: inline-block;
+  font: normal normal normal 14px/1 EasyFontAwe;
+  font-size: inherit;
+  text-align: center;
+}
+/* Larger Icons */
+.efa-normal {
+  font-size: 1em;
+}
+.efa-lg {
+  font-size: 1.33em;
+}
+.efa-2x {
+  font-size: 1.67em;
+}
+.efa-3x {
+  font-size: 2em;
+}
+.efa-4x {
+  font-size: 2.33em;
+}
+.efa-5x {
+  font-size: 2.67em;
+}
+/* 宽度修正 */
+.efa-fw {
+  width: 1.2em;
+}
+/* 列表图标 */
+.efa-ul {
+  list-style-type: none;
+  padding: 0;
+  margin-left: 2em;
+}
+.efa-ul > li {
+  position: relative;
+}
+.efa-li {
+  position: absolute;
+  left: -1.8em;
+  width: 1.5em;
+  top: 0.15em;
+}
+/* 放大居中 */
+.efa-li.efa-lg {
+  left: -1.54em;
+  top: 0.02em;
+}
+/* 颜色反转 */
+.efa-reverse {
+  color: #fff;
+}
+/* 危险标识 */
+.efa-danger {
+  color: red;
+}
+/* 组合图标 */
+.efa-stack {
+  position: relative;
+  display: inline-block;
+  width: 2em;
+  height: 2em;
+  line-height: 2em;
+  vertical-align: middle;
+}
+.efa-outter,
+.efa-inner {
+  position: absolute;
+  left: 0;
+  width: 100%;
+}
+.efa-outter {
+  font-size: 2em;
+}
+.efa-inner {
+  line-height: 2em;
+}
+/* 基础图标 */
+.efa-search:before {
+  content: "\f002";
+}
+.efa-send:before {
+  content: "\f1d8";
+}
+.efa-apple:before {
+  content: "\f179";
+}
+.efa-chrome:before {
+  content: "\f268";
+}
+.efa-steam:before {
+  content: "\f1b6";
+}
+.efa-google:before {
+  content: "\f1a0";
+}
+.efa-link:before {
+  content: "\f0c1";
+}
+.efa-square:before {
+  content: "\f096";
+}
+.efa-circle:before {
+  content: "\f10c";
+}
+.efa-sun:before {
+  content: "\f185";
+}
+.efa-moon:before {
+  content: "\f186";
+}
+.efa-gitlab:before {
+  content: "\f296";
+}
+.efa-bicycle:before {
+  content: "\f206";
+}
+.efa-file:before {
+  content: "\f15b";
+}
+.efa-ban:before {
+  content: "\f05e";
+}

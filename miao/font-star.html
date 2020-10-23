@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>五星好评</title>
+    <link
+      href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <style>
+      * {
+        font-size: 50px;
+      }
+      div {
+        position: absolute;
+        display: flex;
+        width: 600px;
+        flex-direction: row-reverse;
+        justify-content: flex-end;
+      }
+      a {
+        color: orange;
+        position: relative;
+        display: inline-block;
+        width: 40px;
+        height: 50px;
+        padding: 0 5px;
+      }
+      i {
+        position: absolute;
+        top: 0;
+        left: 0;
+        color: gray;
+      }
+      i.fa-star {
+        display: none;
+      }
+      a:hover > i.fa-star,
+      a:nth-child(n):hover ~ a > i.fa-star {
+        display: inline-block;
+        color: orange;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <a href="#">
+        <i class="fa fa-star-o"></i>
+        <i class="fa fa-star"></i>
+      </a>
+      <a href="#">
+        <i class="fa fa-star-o"></i>
+        <i class="fa fa-star"></i>
+      </a>
+      <a href="#">
+        <i class="fa fa-star-o"></i>
+        <i class="fa fa-star"></i>
+      </a>
+      <a href="#">
+        <i class="fa fa-star-o"></i>
+        <i class="fa fa-star"></i>
+      </a>
+      <a href="#">
+        <i class="fa fa-star-o"></i>
+        <i class="fa fa-star"></i>
+      </a>
+    </div>
+  </body>
+</html>
