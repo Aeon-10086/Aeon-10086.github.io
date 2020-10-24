@@ -35,7 +35,7 @@ a {
   overflow: hidden;
 }
 // 浏览更多样式
-%to-more {
+/* %to-more {
   i {
     position: absolute;
     right: 35px;
@@ -57,7 +57,7 @@ a {
     font-size: 12px;
     color: #757575;
   }
-}
+} */
 // 商品卡片内样式
 // %语法必须放在全局作用域中才可使用
 %card-info {
@@ -73,14 +73,14 @@ a {
       margin: 0 auto 22px;
     }
     h3.title {
-      margin: 0 21px 3px;
+      margin: 0 10px 3px;
       font-size: 14px;
       font-weight: 400;
       color: #212121;
     }
     p.desc {
       height: 18px;
-      margin: 0 20px 12px;
+      margin: 0 10px 12px;
       font-size: 12px;
       color: #b0b0b0;
     }
@@ -100,7 +100,172 @@ a {
     }
   }
 }
+// hover swtich card-list 公共样式
+%hover-switch {
+  width: 100%;
+  padding-bottom: 14px;
+  position: relative;
 
+  div.content {
+    height: 614px;
+
+    div.left {
+      float: left;
+      width: 234px;
+      height: 100%;
+
+      ul {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-content: space-between;
+        li {
+          height: 300px;
+          padding: 0;
+          img {
+            height: 100%;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+          }
+        }
+      }
+    }
+    div.right {
+      width: 978px;
+      height: 100%;
+      float: right;
+      position: relative;
+      input {
+        display: none;
+        &:nth-child(1):checked ~ div.wrap > ul.hot {
+          display: flex;
+        }
+        &:nth-child(2):checked ~ div.wrap > ul:nth-child(2) {
+          display: flex;
+        }
+        &:nth-child(1):checked ~ nav > label.h-nav {
+          color: orangered;
+        }
+        &:nth-child(2):checked ~ nav > label:nth-last-child(2) {
+          color: orangered;
+          border-color: #ff6700;
+          ~ label.h-nav:not(:hover) {
+            color: #424242;
+            border-color: transparent;
+          }
+        }
+      }
+      label {
+        position: absolute;
+        top: -59px;
+        right: 0;
+        padding-top: 16px;
+        cursor: pointer;
+        display: inline-block;
+        margin-left: 32px;
+        font-size: 16px;
+        padding-bottom: 2px;
+        border-bottom: 2px solid transparent;
+        transition: 0.2s;
+        color: #424242;
+        // 各部分按钮内容
+        /* &.h-nav {
+          right: 95px;
+        }
+        &.tm-nav {
+          &:hover {
+            ~ ul.tv-moive {
+              display: flex;
+            }
+            ~ ul.hot {
+              display: none;
+              z-index: -2;
+            }
+          }
+        } */
+        &.h-nav {
+          color: #ff6700;
+          border-color: #ff6700;
+          right: 95px;
+        }
+        &:hover {
+          color: #ff6700;
+          border-color: #ff6700;
+        }
+      }
+
+      ul {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        display: none;
+        flex-direction: column;
+        justify-content: space-between;
+        align-content: space-between;
+        flex-wrap: wrap;
+        li:nth-child(n + 8) {
+          box-sizing: border-box;
+          height: 143px;
+          padding-top: 50px;
+          margin: 0;
+          position: relative;
+          img {
+            position: absolute;
+            right: 20px;
+            top: 32px;
+            width: 80px;
+            height: 80px;
+            margin: 0;
+            padding: 0;
+          }
+          h3.title {
+            text-align: left;
+            font-size: 14px;
+            line-height: 1.5em;
+            margin: -10px 110px 5px 30px;
+            white-space: break-spaces;
+            overflow: initial;
+          }
+          p.price {
+            text-align: left;
+            margin: 0px 110px 0px 30px;
+          }
+          &.to-more {
+            i {
+              position: absolute;
+              right: 35px;
+              top: 48px;
+              font-size: 48px;
+              line-height: 48px;
+              width: 48px;
+              height: 48px;
+              color: #ff6700;
+            }
+            h3.more,
+            p {
+              font-size: 18px;
+              margin: 0 110px 0 30px;
+              text-align: left;
+              color: black;
+            }
+            p.title {
+              font-size: 12px;
+              color: #757575;
+            }
+          }
+        }
+        // 第2-n页面hover前不显示
+        /* &.tv-moive {
+          display: none;
+        } */
+      }
+    }
+  }
+}
 body > header {
   width: 100%;
   .ad {
@@ -900,124 +1065,81 @@ div.products-bg {
     }
     // 家电类产品
     .home-app {
-      width: 100%;
-      padding-bottom: 14px;
-      position: relative;
-
+      @extend %hover-switch;
+    }
+    // 智能类产品
+    .smart {
+      @extend %hover-switch;
       div.content {
-        // 调试用代码起
-        // border: 1px solid orangered;
-        // box-sizing: border-box;
-        // 调试用代码止
-        height: 614px;
-
-        div.left {
-          float: left;
-          width: 234px;
-          height: 100%;
-
-          ul {
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-content: space-between;
-            li {
-              height: 300px;
-              padding: 0;
-              img {
-                height: 100%;
-                width: 100%;
-                padding: 0;
-                margin: 0;
-              }
-            }
-          }
-        }
         div.right {
-          width: 978px;
-          height: 100%;
-          float: right;
-          position: relative;
-          span {
-            position: absolute;
-            top: -59px;
-            right: 0;
-            padding-top: 16px;
-            cursor: pointer;
-            display: inline-block;
-            margin-left: 32px;
-            font-size: 16px;
-            padding-bottom: 2px;
-            border-bottom: 2px solid transparent;
-            transition: 0.2s;
-            &.h-nav {
-              right: 95px;
+          input {
+            &:nth-child(3):checked ~ div.wrap > ul:nth-child(3) {
+              display: flex;
             }
-            &.tm-nav {
-              &:hover {
-                ~ ul.tv-moive {
-                  display: flex;
-                }
-                ~ ul.hot {
-                  display: none;
-                  z-index: -2;
-                }
-              }
-            }
-            &:hover {
-              color: #ff6700;
+            &:nth-child(3):checked ~ nav > label:nth-last-child(3) {
+              color: orangered;
               border-color: #ff6700;
+              ~ label.h-nav:not(:hover) {
+                color: #424242;
+                border-color: transparent;
+              }
             }
           }
-
-          ul {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-content: space-between;
-            flex-wrap: wrap;
-            li:nth-child(n + 8) {
-              box-sizing: border-box;
-              height: 143px;
-              padding-top: 50px;
-              margin: 0;
-              position: relative;
-              img {
-                position: absolute;
-                right: 20px;
-                top: 32px;
-                width: 80px;
-                height: 80px;
-                margin: 0;
-                padding: 0;
-              }
-              h3.title {
-                text-align: left;
-                font-size: 14px;
-                line-height: 1.5em;
-                margin: -10px 110px 5px 30px;
-                white-space: break-spaces;
-                overflow: initial;
-              }
-              p.price {
-                text-align: left;
-                margin: 0px 110px 0px 30px;
-              }
-              &:last-child {
-                @extend %to-more;
-              }
+          label {
+            &.h-nav {
+              right: 125px;
             }
-            &.tv-moive {
-              display: none;
+            &.safe-nav {
+              right: 62px;
+            }
+          }
+          div.wrap > ul.trip > li.to-more:last-child {
+            visibility: hidden;
+          }
+        }
+      }
+    }
+    // 搭配区产品
+    .match {
+      @extend %hover-switch;
+      div.content {
+        div.right {
+          div.wrap > ul.trip > li.to-more:last-child {
+            visibility: hidden;
+          }
+        }
+      }
+    }
+    // 配件产品
+    .parts {
+      @extend %hover-switch;
+      div.content {
+        div.right {
+          label {
+            &.h-nav {
+              right: 78px;
             }
           }
         }
+      }
+    }
+    // 周边产品
+    .related {
+      @extend %hover-switch;
+      div.content {
+        div.right {
+          label {
+            &.h-nav {
+              right: 62px;
+            }
+          }
+        }
+      }
+    }
+    // 视频
+    .movie {
+      div.content {
+        width: 100%;
       }
     }
   }
