@@ -1,7 +1,7 @@
 * {
   margin: 0;
   padding: 0;
-  font: 14px/1.5 Helvetica Neue, Helvetica, Arial, Microsoft Yahei, sans-serif;
+  font: 14px Helvetica Neue, Helvetica, Arial, Microsoft Yahei, sans-serif;
 }
 ul {
   list-style: none;
@@ -28,11 +28,79 @@ a {
   }
 }
 // 字数超过时，不折行显示省略号
-.text-nowrap {
+// 无法在 % 中继承？
+%text-nowrap {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
 }
+// 浏览更多样式
+%to-more {
+  i {
+    position: absolute;
+    right: 35px;
+    top: 48px;
+    font-size: 48px;
+    line-height: 48px;
+    width: 48px;
+    height: 48px;
+    color: #ff6700;
+  }
+  h3.more,
+  p {
+    font-size: 18px;
+    margin: 0 110px 0 30px;
+    text-align: left;
+    color: black;
+  }
+  p.title {
+    font-size: 12px;
+    color: #757575;
+  }
+}
+// 商品卡片内样式
+// %语法必须放在全局作用域中才可使用
+%card-info {
+  a {
+    height: 100%;
+    width: 100%;
+    display: block;
+    text-align: center;
+    img {
+      display: block;
+      height: 160px;
+      width: 160px;
+      margin: 0 auto 22px;
+    }
+    h3.title {
+      margin: 0 21px 3px;
+      font-size: 14px;
+      font-weight: 400;
+      color: #212121;
+    }
+    p.desc {
+      height: 18px;
+      margin: 0 20px 12px;
+      font-size: 12px;
+      color: #b0b0b0;
+    }
+    .title,
+    .desc {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    p.price {
+      margin: 0;
+      color: #fa6509;
+      font-size: 14px;
+      del {
+        color: #adadad;
+      }
+    }
+  }
+}
+
 body > header {
   width: 100%;
   .ad {
@@ -49,12 +117,13 @@ body > header {
     /* 文字垂直居中 */
     ul {
       height: 40px;
-      line-height: 40px;
       font-size: 0;
       li {
+        line-height: 40px;
+
         display: inline-block;
-        font-size: 12px;
         a {
+          font-size: 12px;
           color: #b0b0b0;
           &:hover {
             color: #fff;
@@ -180,7 +249,6 @@ div.top-bg {
         position: relative;
         float: right;
         input {
-          font-size: 12px;
           height: 50px;
           border: 1px solid #e0e0e0;
           box-sizing: border-box;
@@ -197,6 +265,11 @@ div.top-bg {
               }
               ~ ul {
                 display: block;
+                li {
+                  color: #666;
+                  font-size: 12px;
+                  padding: 7px 15px;
+                }
               }
             }
           }
@@ -204,6 +277,9 @@ div.top-bg {
             width: 50px;
             background-color: transparent;
             outline: none;
+            font-size: 24px;
+            line-height: 24px;
+            vertical-align: top;
             &:hover {
               background-color: #ff6700;
               color: white;
@@ -251,11 +327,11 @@ div.top-bg {
         .bn-list > li {
           font-size: 14px;
           height: 42px;
-          line-height: 42px;
           box-sizing: border-box;
           padding-left: 30px;
           /* position: relative;*/
           > a {
+            line-height: 42px;
             display: block;
             color: #fff;
             height: 100px;
@@ -528,12 +604,12 @@ div.top-bg {
 div.products-bg {
   background-color: #f5f5f5;
   section.products {
-    height: 900px;
     // 轮播图隐藏
     overflow: hidden;
     // 标题公共样式
     .prod-h {
       height: 58px;
+      position: relative;
       h2 {
         margin: 0;
         font-size: 22px;
@@ -541,7 +617,38 @@ div.products-bg {
         line-height: 58px;
         color: #333;
       }
+      .more {
+        position: absolute;
+        top: 0;
+        right: 0;
+        a {
+          font-size: 16px;
+          line-height: 58px;
+          color: #424242;
+          transition: 0.4s;
+          i {
+            width: 12px;
+            height: 12px;
+            padding: 4px;
+            border-radius: 16px;
+            font-size: 12px;
+            line-height: 12px;
+            margin-left: 4px;
+            vertical-align: 1px;
+            background-color: #b0b0b0;
+            color: white;
+            transition: 0.4s;
+          }
+          &:hover {
+            color: #ff6700;
+            i {
+              background-color: #ff6700;
+            }
+          }
+        }
+      }
     }
+
     /*小米闪购*/
     .flash {
       // 顶部彩色边框样式
@@ -667,68 +774,52 @@ div.products-bg {
                 line-height: 16px;
                 font-size: 16px;
                 border: 1px solid #e0e0e0;
+                color: #b0b0b0;
                 &.prev {
-                  &::after {
-                    content: "";
-                    display: block;
-                    border: 1px solid #b0b0b0;
-                    border-top-color: transparent;
-                    border-right-color: transparent;
+                  &::before {
+                    width: 6px;
+                    height: 6px;
+                    line-height: 6px;
+                    left: 10px;
                     position: absolute;
                     top: 0;
                     bottom: 0;
-                    right: 0;
-                    left: 0;
                     margin: auto;
-                    width: 6px;
-                    height: 6px;
-                    transform: rotate(45deg);
                     transition: 0.6s;
                   }
-                  &:hover::after {
-                    border-bottom-color: #ff6732;
-                    border-left-color: #ff6732;
+                  &:hover::before {
+                    color: #ff6732;
                   }
                 }
                 &.next {
-                  &::after {
-                    content: "";
-                    display: block;
-                    border: 1px solid #b0b0b0;
-                    border-bottom-color: transparent;
-                    border-left-color: transparent;
+                  &::before {
+                    width: 6px;
+                    height: 6px;
+                    line-height: 6px;
+                    left: 10px;
                     position: absolute;
                     top: 0;
                     bottom: 0;
-                    right: 0;
-                    left: 0;
                     margin: auto;
-                    width: 6px;
-                    height: 6px;
-                    transform: rotate(45deg);
-                    transition: 0.5s;
+                    transition: 0.6s;
                   }
-                  &:hover::after {
-                    border-top-color: #ff6732;
-                    border-right-color: #ff6732;
+                  &:hover::before {
+                    color: #ff6732;
                   }
                 }
                 &.disabled {
                   cursor: default;
-                  &.prev::after {
-                    border-bottom-color: #e0e0e0;
-                    border-left-color: #e0e0e0;
+                  &.prev::before {
+                    color: #e0e0e0;
                   }
-                  &.next::after {
-                    border-top-color: #e0e0e0;
-                    border-right-color: #e0e0e0;
+                  &.next::before {
+                    color: #e0e0e0;
                   }
                 }
               }
             }
           }
           .slider {
-            // 测试代码
             clip: rect(auto, auto, auto, auto);
             width: 100%;
             height: 100%;
@@ -758,39 +849,7 @@ div.products-bg {
                   width: 234px;
                   text-align: center;
                   background-color: #fafafa;
-                  a {
-                    height: 100%;
-                    width: 100%;
-                    display: block;
-                    img {
-                      display: block;
-                      height: 160px;
-                      width: 160px;
-                      margin: 0 auto 22px;
-                    }
-                    .title {
-                      margin: 0 21px 3px;
-                      font-size: 14px;
-                      font-weight: 400;
-                      color: #212121;
-                      @extend .text-nowrap;
-                    }
-                    .desc {
-                      height: 18px;
-                      margin: 0 20px 12px;
-                      font-size: 12px;
-                      color: #b0b0b0;
-                      @extend .text-nowrap;
-                    }
-                    .price {
-                      margin: 0;
-                      color: #fa6509;
-                      font-size: 14px;
-                      del {
-                        color: #adadad;
-                      }
-                    }
-                  }
+                  @extend %card-info;
                 }
               }
             }
@@ -803,6 +862,163 @@ div.products-bg {
       width: 100vw;
       height: 120px;
       margin: 22px 0;
+    }
+    // 通用卡片类
+    .prod-card {
+      width: 234px;
+      height: 260px;
+      padding: 20px 0;
+      background-color: #fff;
+      transition: 0.3s;
+      &:hover {
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      }
+      @extend %card-info;
+    }
+    // 手机类产品
+    .phone {
+      width: 100%;
+      div.content {
+        ul {
+          li {
+            float: left;
+            margin-left: 14px;
+            margin-bottom: 14px;
+            &:first-child {
+              height: 614px;
+              margin-left: 0;
+              margin-bottom: 0px;
+              padding: 0;
+              img {
+                width: 100%;
+                height: 100%;
+              }
+            }
+          }
+        }
+      }
+    }
+    // 家电类产品
+    .home-app {
+      width: 100%;
+      padding-bottom: 14px;
+      position: relative;
+
+      div.content {
+        // 调试用代码起
+        // border: 1px solid orangered;
+        // box-sizing: border-box;
+        // 调试用代码止
+        height: 614px;
+
+        div.left {
+          float: left;
+          width: 234px;
+          height: 100%;
+
+          ul {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-content: space-between;
+            li {
+              height: 300px;
+              padding: 0;
+              img {
+                height: 100%;
+                width: 100%;
+                padding: 0;
+                margin: 0;
+              }
+            }
+          }
+        }
+        div.right {
+          width: 978px;
+          height: 100%;
+          float: right;
+          position: relative;
+          span {
+            position: absolute;
+            top: -59px;
+            right: 0;
+            padding-top: 16px;
+            cursor: pointer;
+            display: inline-block;
+            margin-left: 32px;
+            font-size: 16px;
+            padding-bottom: 2px;
+            border-bottom: 2px solid transparent;
+            transition: 0.2s;
+            &.h-nav {
+              right: 95px;
+            }
+            &.tm-nav {
+              &:hover {
+                ~ ul.tv-moive {
+                  display: flex;
+                }
+                ~ ul.hot {
+                  display: none;
+                  z-index: -2;
+                }
+              }
+            }
+            &:hover {
+              color: #ff6700;
+              border-color: #ff6700;
+            }
+          }
+
+          ul {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-content: space-between;
+            flex-wrap: wrap;
+            li:nth-child(n + 8) {
+              box-sizing: border-box;
+              height: 143px;
+              padding-top: 50px;
+              margin: 0;
+              position: relative;
+              img {
+                position: absolute;
+                right: 20px;
+                top: 32px;
+                width: 80px;
+                height: 80px;
+                margin: 0;
+                padding: 0;
+              }
+              h3.title {
+                text-align: left;
+                font-size: 14px;
+                line-height: 1.5em;
+                margin: -10px 110px 5px 30px;
+                white-space: break-spaces;
+                overflow: initial;
+              }
+              p.price {
+                text-align: left;
+                margin: 0px 110px 0px 30px;
+              }
+              &:last-child {
+                @extend %to-more;
+              }
+            }
+            &.tv-moive {
+              display: none;
+            }
+          }
+        }
+      }
     }
   }
 }
