@@ -40,3 +40,6 @@
 .mi-icon-add::before {
   content: "\E637";
 }
+.mi-icon-chart::before {
+  content: "\E600";
+}

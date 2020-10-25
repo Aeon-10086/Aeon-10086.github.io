@@ -1245,6 +1245,7 @@ div.products-bg {
 
 // 页脚
 > footer {
+  // 服务和链接
   div.mi-footer {
     width: 100%;
     height: 332px;
@@ -1267,11 +1268,122 @@ div.products-bg {
         a {
           color: #616161;
           font-size: 16px;
+          transition: 0.3s;
           i::before {
             font-size: 24px;
             line-height: 24px;
             margin-right: 6px;
             vertical-align: -4px;
+          }
+          &:hover {
+            color: #ff6700;
+          }
+        }
+      }
+    }
+    div.other-links {
+      position: relative;
+      width: 100%;
+      padding: 40px 0;
+      .left {
+        float: left;
+        width: 974px;
+        display: flex;
+        a {
+          font-size: 12px;
+          color: #757575;
+          &:hover {
+            color: #ff6700;
+          }
+        }
+        dl {
+          width: 160px;
+          dt {
+            margin-top: -2px;
+            margin-bottom: 26px;
+            color: #242424;
+          }
+          dd {
+            margin-top: 10px;
+          }
+        }
+      }
+      .right {
+        float: right;
+        width: 251px;
+        border-left: 1px solid #e0e0e0;
+        text-align: center;
+        p {
+          margin-bottom: 5px;
+        }
+        p.call {
+          font-size: 22px;
+          line-height: 1;
+          color: #ff6700;
+        }
+        p.time {
+          font-size: 12px;
+          color: #616161;
+        }
+        a.contact {
+          display: inline-block;
+          box-sizing: border-box;
+          border: 1px solid #ff6700;
+          width: 120px;
+          height: 30px;
+          line-height: 30px;
+          font-size: 12px;
+          color: #ff6700;
+          transition: 0.3s;
+          i::before {
+            font-size: 12px;
+            vertical-align: -1px;
+            margin-right: 2px;
+          }
+          &:hover {
+            background-color: #ff6700;
+            color: white;
+          }
+        }
+        p.follow {
+          color: #616161;
+          font-size: 12px;
+          position: relative;
+          margin-top: 10px;
+          a {
+            display: inline-block;
+            text-indent: -9999px;
+            width: 24px;
+            height: 24px;
+            margin: 0 3px;
+          }
+          a.wb {
+            background: url("./image/wb.png");
+            background-size: cover;
+            &:hover {
+              background: url("./image/wb-h.png");
+              background-size: cover;
+            }
+          }
+          a.wx {
+            background: url("./image/wx.png");
+            background-size: cover;
+            &:hover {
+              background: url("./image/wx-h.png");
+              background-size: cover;
+              ~ img {
+                display: block;
+              }
+            }
+          }
+          img {
+            width: 126px;
+            height: 126px;
+            position: absolute;
+            top: 20px;
+            left: 100px;
+            display: none;
+            z-index: 2;
           }
         }
       }
@@ -1280,7 +1392,84 @@ div.products-bg {
   // 各种信息
   div.mi-info {
     width: 100%;
-    height: 246px;
+    height: 210px;
     background-color: #fafafa;
+    padding-top: 30px;
+    div.inner {
+      > img {
+        float: left;
+        margin-right: 10px;
+      }
+      div.info-links {
+        float: left;
+        ul.links {
+          li {
+            display: inline-block;
+            a {
+              font-size: 12px;
+              color: #757575;
+              &:hover {
+                color: #ff6700;
+              }
+            }
+            span {
+              color: #b0b0b0;
+            }
+          }
+        }
+        p.copy {
+          font-size: 12px;
+          color: #b0b0b0;
+
+          a {
+            font-size: 12px;
+            color: #b0b0b0;
+            &:hover {
+              color: #ff6700;
+            }
+          }
+        }
+        ul.credit {
+          margin-top: 8px;
+          li {
+            display: inline-block;
+
+            a {
+              display: inline-block;
+              img {
+                height: 28px;
+              }
+            }
+
+            &:last-child {
+              a {
+                height: 40px;
+                position: relative;
+                img {
+                  height: 100%;
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  &:last-child {
+                    display: none;
+                  }
+                }
+                &:hover {
+                  img:last-child {
+                    display: inline;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    div.purpose {
+      width: 100%;
+      height: 19px;
+      margin: 30px auto 0;
+      background: url("./image/slogan2020.png") no-repeat center 0;
+    }
   }
 }
