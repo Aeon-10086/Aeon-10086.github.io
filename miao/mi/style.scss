@@ -268,6 +268,7 @@ a {
 }
 body > header {
   width: 100%;
+  // 顶部广告
   .ad {
     text-indent: -9999px;
     display: block;
@@ -276,6 +277,7 @@ body > header {
     background-position: 50%;
     background-size: auto 120px;
   }
+  // 顶部黑色导航栏
   nav.top-bar {
     height: 40px;
     background-color: #333;
@@ -297,6 +299,47 @@ body > header {
       }
       &.nav-list {
         float: left;
+        a.down-app {
+          position: relative;
+          &:hover {
+            &::before {
+              content: "";
+              position: absolute;
+              bottom: -12px;
+              left: 50%;
+              width: 0;
+              height: 0;
+              border-width: 8px;
+              border-style: solid;
+              border-color: transparent transparent #fff;
+            }
+            span {
+              height: 148px;
+            }
+          }
+          span {
+            position: absolute;
+            top: 27px;
+            left: -50%;
+            width: 124px;
+            height: 0px;
+            background-color: #fff;
+            box-shadow: 0 1px 5px #aaa;
+            text-align: center;
+            font-size: 14px;
+            line-height: 1;
+            overflow: hidden;
+            z-index: 10;
+            color: #000;
+            transition: 0.3s;
+            img {
+              display: block;
+              width: 90px;
+              height: 90px;
+              margin: 18px auto 12px;
+            }
+          }
+        }
       }
       &.user-nav {
         float: right;
@@ -350,7 +393,7 @@ main {
   position: relative;
 }
 
-/* 页面主内容导航 */
+/* 页面MI导航 */
 div.top-bg {
   margin-bottom: 26px;
   display: flow-root;
@@ -474,7 +517,7 @@ div.top-bg {
         }
       }
     }
-    /* Banner 组件 */
+    /* Banner 轮播图组件 */
     div.banner {
       width: 100%;
       height: 460px;
@@ -879,7 +922,7 @@ div.products-bg {
             }
           }
         }
-        // 商品列表
+        // 闪购轮播图
         div.slider-box {
           position: relative;
           width: 978px;
@@ -1140,7 +1183,104 @@ div.products-bg {
     .movie {
       div.content {
         width: 100%;
+        padding-bottom: 26px;
+
+        ul {
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          li {
+            width: 296px;
+            height: 284px;
+            background-color: #fff;
+            transition: 0.3s;
+            &:hover {
+              box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            }
+            > a {
+              display: block;
+              width: 100%;
+              position: relative;
+              text-align: center;
+              img {
+                width: 100%;
+                margin-bottom: 30px;
+                height: 180px;
+              }
+              span.playm {
+                position: absolute;
+                left: 21px;
+                top: 146px;
+                z-index: 10;
+                width: 32px;
+                height: 20px;
+                border: 2px solid #fff;
+                border-radius: 16px;
+                text-align: center;
+                transition: 0.3s;
+                i {
+                  color: #fff;
+                  font-size: 30px;
+                  line-height: 20px;
+                }
+                &:hover {
+                  background-color: #ff6700;
+                  border-color: #ff6700;
+                }
+              }
+              h3.title {
+                color: #333;
+              }
+              p.desc {
+                color: #b0b0b0;
+                font-size: 12px;
+              }
+            }
+          }
+        }
       }
     }
+  }
+}
+
+// 页脚
+> footer {
+  div.mi-footer {
+    width: 100%;
+    height: 332px;
+    background-color: #fff;
+    // 服务
+    ul.service {
+      width: 100%;
+      padding: 27px 0;
+      border-bottom: 1px solid #e0e0e0;
+      display: flex;
+      li {
+        width: 243px;
+        height: 25px;
+        line-height: 25px;
+        text-align: center;
+        border-left: 1px solid #e0e0e0;
+        &:first-child {
+          border-left: none;
+        }
+        a {
+          color: #616161;
+          font-size: 16px;
+          i::before {
+            font-size: 24px;
+            line-height: 24px;
+            margin-right: 6px;
+            vertical-align: -4px;
+          }
+        }
+      }
+    }
+  }
+  // 各种信息
+  div.mi-info {
+    width: 100%;
+    height: 246px;
+    background-color: #fafafa;
   }
 }

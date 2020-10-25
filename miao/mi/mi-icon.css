@@ -22,3 +22,21 @@
 .mi-icon-circle-arrow-right::before {
   content: "\E615";
 }
+.mi-icon-play::before {
+  content: "\E601";
+}
+.mi-icon-tool::before {
+  content: "\E634";
+}
+.mi-icon-cir7::before {
+  content: "\E635";
+}
+.mi-icon-cir15::before {
+  content: "\E636";
+}
+.mi-icon-gift::before {
+  content: "\E638";
+}
+.mi-icon-add::before {
+  content: "\E637";
+}
