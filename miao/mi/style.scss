@@ -8,6 +8,7 @@ ul {
 }
 body {
   min-width: 1226px;
+  position: relative;
 }
 /* 页面主题宽度 */
 .wrap-v1 {
@@ -1470,6 +1471,31 @@ div.products-bg {
       height: 19px;
       margin: 30px auto 0;
       background: url("./image/slogan2020.png") no-repeat center 0;
+    }
+  }
+}
+> aside {
+  width: 84px;
+  height: 456px;
+  position: fixed;
+  right: 1px;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+  background-color: #fff;
+
+  li {
+    width: 82px;
+    height: 90px;
+    border: 1px solid #f5f5f5;
+    text-align: center;
+    a {
+      color: #757575;
+    }
+    &:hover {
+      a {
+        color: #ff6700;
+      }
     }
   }
 }
