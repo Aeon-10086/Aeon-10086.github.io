@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   font: 14px Helvetica Neue, Helvetica, Arial, Microsoft Yahei, sans-serif;
+  // 官方字体
 }
 ul {
   list-style: none;
@@ -19,7 +20,7 @@ body {
 a {
   text-decoration: none;
 }
-// 高度塌陷修复
+// 开启元素BFC
 .clearfix {
   &::before,
   &::after {
@@ -398,12 +399,13 @@ main {
 div.top-bg {
   margin-bottom: 26px;
   display: flow-root;
+  position: relative;
   section.top {
-    position: relative;
+    // position: relative;
     > header {
       margin: 20px 0;
       height: 55px;
-      position: relative;
+      // position: relative;
       > a.mi-logo {
         position: relative;
         overflow: hidden;
@@ -430,21 +432,36 @@ div.top-bg {
         height: 100%;
         vertical-align: top;
         &.main-h-nav {
+          // position: relative;
+          // z-index: 200;
           ul {
             height: 100%;
-            line-height: 55px;
+            // position: relative;
+            // z-index: 200;
           }
           li {
             display: inline-block;
+            line-height: 55px;
             padding: 0 8px;
+            // position: relative;
+            // z-index: 200;
             a {
               color: #333;
-              &:hover {
+            }
+            div.inner-pro-list {
+              z-index: 200;
+              position: absolute;
+              height: 229px;
+              width: 100%;
+              left: 0;
+              top: 95px;
+              background-color: white;
+              border-top: 1px solid #e0e0e0;
+            }
+            &:hover {
+              a {
                 color: #ff6700;
               }
-            }
-            ul.inner-pro-list {
-              display: none;
             }
           }
         }
@@ -1475,151 +1492,241 @@ div.products-bg {
   }
 }
 
-// 侧边导航栏
+// 侧边导航栏通用样式
 aside.aside-navbar {
   z-index: 300;
+  position: fixed;
+  li {
+    width: 25px;
+    height: 40px;
+    border: 1px solid #f5f5f5;
+    background-color: #fff;
+    text-align: center;
+    position: relative;
+    a {
+      display: block;
+      width: 100%;
+      height: 100%;
+      color: #757575;
+      transition: 0.2s;
+      div.image {
+        width: 20px;
+        height: 20px;
+        padding-top: 10px;
+        position: relative;
+        text-align: center;
+        margin: 0 auto 8px;
+        img {
+          width: 20px;
+          height: 20px;
+          position: absolute;
+          top: 10px;
+          left: 0;
+          margin: 0 auto;
+          transition: 0.2s;
+          &:last-child {
+            opacity: 0;
+          }
+        }
+      }
+    }
+
+    &:last-child {
+      margin-top: 15px;
+    }
+    &:first-child {
+      a {
+        div.qr {
+          box-sizing: border-box;
+          padding: 14px;
+          width: 130px;
+          height: 190px;
+          background-color: #fff;
+          position: absolute;
+          display: none;
+          top: 0;
+          right: calc(100% + 16px);
+          img {
+            width: 100px;
+            height: 100px;
+            margin: 6px auto 0;
+          }
+          span {
+            display: block;
+            width: 82px;
+            margin: 14px auto 0;
+            color: #757575;
+            text-align: center;
+          }
+        }
+      }
+      &:hover {
+        &::before {
+          content: "";
+          position: absolute;
+          border: 10px solid white;
+          border-color: transparent transparent transparent #fff;
+          top: 50%;
+          left: -16px;
+          transform: translateY(-50%);
+        }
+        a {
+          div.qr {
+            display: block;
+          }
+        }
+      }
+    }
+    &:hover {
+      a {
+        color: #ff6700;
+        div > img:last-child {
+          opacity: 1;
+        }
+      }
+    }
+  }
 }
+// 视口窄于最小宽度时，侧边快捷栏的样式
 @media (max-width: 1300px) {
   > aside.aside-navbar {
-    position: fixed;
     right: 0;
     bottom: 40px;
-    height: 210px;
+    height: 264px;
     width: 27px;
-    background-color: #fff;
     li {
-      width: 25px;
-      height: 40px;
-      border: 1px solid #f5f5f5;
-      text-align: center;
-      a {
-        div {
-          width: 20px;
-          height: 20px;
-          position: relative;
-          padding-top: 10px;
-          text-align: center;
-          margin: 0 auto 8px;
-          img {
-            width: 20px;
-            height: 20px;
+      &:not(:first-child) {
+        a {
+          > span {
+            display: none;
             position: absolute;
-            top: 10px;
-            left: 0;
-            margin: 0 auto;
-            transition: 0.2s;
-            &:last-child {
-              opacity: 0;
+            height: 28px;
+            line-height: 28px;
+            background-color: #fff;
+            white-space: nowrap;
+            top: 50%;
+            left: -14px;
+            padding: 0 8px;
+            transform: translate(-100%, -50%);
+            &::before {
+              content: "";
+              position: absolute;
+              top: 50%;
+              right: -12px;
+              border: 6px solid white;
+              transform: translateY(-50%);
+              border-color: transparent transparent transparent white;
             }
           }
         }
-        span {
-          display: none;
+      }
+
+      &:first-child {
+        a {
+          span {
+            display: none;
+          }
+        }
+        &:hover {
+          &::before {
+            border-width: 6px;
+          }
         }
       }
       &:hover {
         a {
-          color: #ff6700;
-          div > img:last-child {
-            opacity: 1;
+          span {
+            display: block;
+            color: #757575;
           }
         }
       }
     }
   }
 }
+// 尚未到底最小宽度时，侧边快捷栏样式
 @media (min-width: 1300px) and (max-width: 1460px) {
   > aside.aside-navbar {
-    position: fixed;
     bottom: 40px;
     left: 50%;
-    height: 210px;
+    height: 264px;
     width: 27px;
     margin-left: 614px;
-    background-color: #fff;
     li {
-      width: 25px;
-      height: 40px;
-      border: 1px solid #f5f5f5;
-      text-align: center;
-      a {
-        div {
-          width: 20px;
-          height: 20px;
-          position: relative;
-          padding-top: 10px;
-          text-align: center;
-          margin: 0 auto 8px;
-          img {
-            width: 20px;
-            height: 20px;
+      &:not(:first-child) {
+        a {
+          > span {
+            display: none;
             position: absolute;
-            top: 10px;
-            left: 0;
-            margin: 0 auto;
-            transition: 0.2s;
-            &:last-child {
-              opacity: 0;
+            height: 28px;
+            line-height: 28px;
+            background-color: #fff;
+            white-space: nowrap;
+            top: 50%;
+            left: -14px;
+            padding: 0 8px;
+            transform: translate(-100%, -50%);
+            &::before {
+              content: "";
+              position: absolute;
+              top: 50%;
+              right: -12px;
+              border: 6px solid white;
+              transform: translateY(-50%);
+              border-color: transparent transparent transparent white;
             }
           }
         }
-        span {
-          display: none;
+      }
+
+      &:first-child {
+        a {
+          span {
+            display: none;
+          }
+        }
+        &:hover {
+          &::before {
+            border-width: 6px;
+          }
         }
       }
       &:hover {
         a {
-          color: #ff6700;
-          div > img:last-child {
-            opacity: 1;
+          span {
+            display: block;
+            color: #757575;
           }
         }
       }
     }
   }
 }
+//宽屏状态时，侧边快捷栏样式
 @media (min-width: 1460px) {
   > aside.aside-navbar {
     width: 84px;
-    height: 456px;
-    position: fixed;
+    height: 564px;
     right: 1px;
     bottom: 70px;
-    background-color: #fff;
 
     li {
       width: 82px;
       height: 90px;
-      border: 1px solid #f5f5f5;
-      text-align: center;
       a {
-        color: #757575;
-        transition: 0.2s;
-        div {
+        div.image {
           width: 30px;
           height: 30px;
-          position: relative;
           padding-top: 20px;
           margin: 0 auto 10px;
           img {
             width: 30px;
             height: 30px;
-            position: absolute;
             top: 20px;
-            left: 0;
-            transition: 0.2s;
-            &:last-child {
-              opacity: 0;
-            }
           }
         }
-      }
-      &:hover {
-        a {
-          color: #ff6700;
-          div > img:last-child {
-            opacity: 1;
-          }
+        > span {
+          display: inline;
         }
       }
     }
