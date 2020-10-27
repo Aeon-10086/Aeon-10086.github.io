@@ -372,6 +372,7 @@ body > header {
             a {
               color: #ff6700;
             }
+            // 如果高度不确定可以通过更改 max-height 来实现动画效果
             div.sc-menu {
               height: 100px;
               font-size: 12px;
@@ -442,14 +443,13 @@ div.top-bg {
             li {
               display: inline-block;
               line-height: 55px;
-              padding: 0 8px;
+              padding: 0 8px 20px;
               // position: relative;
               // z-index: 200;
               a {
                 color: #333;
               }
               > div.inner-pro-list {
-                z-index: 200;
                 opacity: 0;
               }
               &:hover {
@@ -593,7 +593,7 @@ div.top-bg {
           font-size: 12px;
           line-height: 30px;
           display: none;
-          z-index: 50;
+          z-index: 500;
           li {
             cursor: pointer;
             padding: 0 15px;
