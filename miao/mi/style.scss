@@ -433,50 +433,33 @@ div.top-bg {
         height: 100%;
         vertical-align: top;
         &.main-h-nav {
-          // position: relative;
-          // z-index: 200;
           > ul {
             height: 100%;
             display: inline-block;
-            // position: relative;
-            // z-index: 200;
             li {
               display: inline-block;
               line-height: 55px;
               padding: 0 8px 20px;
-              // position: relative;
-              // z-index: 200;
               a {
                 color: #333;
-              }
-              > div.inner-pro-list {
-                opacity: 0;
               }
               &:hover {
                 a {
                   color: #ff6700;
                 }
                 > div.inner-pro-list {
-                  z-index: 300;
-                  opacity: 1;
+                  z-index: 200;
+                  transition: height 0.3s, z-index 0s;
                 }
               }
             }
           }
           ul.ex-list {
-            ~ div.inner-pro-list {
-              transition: 0.5s;
-              background-color: #fff;
-            }
             &:hover {
-              ~ div.inner-pro-list {
-                height: 229px;
-                box-shadow: 0px 22px 15px -30px #000;
-              }
-              li > div {
+              li > div.inner-pro-list {
                 height: 229px;
                 border-color: #e0e0e0;
-                // transition: height 0.5s;
+                box-shadow: 0px 22px 12px -30px #aaa;
               }
             }
           }
@@ -488,7 +471,7 @@ div.top-bg {
             width: 100%;
             left: 0;
             top: 95px;
-            transition: height 0.5s;
+            transition: height 0.5s, z-index 3s, border 0s 0.4s;
             background-color: #fff;
             border-top: 1px solid transparent;
             overflow: hidden;
@@ -548,6 +531,7 @@ div.top-bg {
           border: 1px solid #e0e0e0;
           box-sizing: border-box;
           padding: 10px;
+          transition: 0.3s;
           &[type="text"] {
             width: 245px;
             position: relative;
@@ -577,8 +561,15 @@ div.top-bg {
             vertical-align: top;
             &:hover {
               background-color: #ff6700;
+              border-color: #ff6700;
               color: white;
             }
+          }
+        }
+        &:hover > input {
+          border-color: #b0b0b0;
+          &[type="text"] {
+            border-right-color: transparent;
           }
         }
         ul {
