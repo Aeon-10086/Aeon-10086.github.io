@@ -361,115 +361,116 @@ main {
               color: rgba(0, 0, 0, 0.5);
               text-decoration: line-through;
 
-            &::before {
-              content: "￥";
+              &::before {
+                content: "￥";
+              }
+            }
+            div.buybtn {
+              width: 2rem;
+              background-color: #ea625b;
+              border-radius: 0.05rem;
+              color: white;
+              padding: 0.14rem 0;
+              font-weight: 700;
+              font-size: 0.24rem;
+              margin: 0 auto;
             }
           }
-          div.buybtn {
-            width: 2rem;
-            background-color: #ea625b;
-            border-radius: 0.05rem;
-            color: white;
-            padding: 0.14rem 0;
-            font-weight: 700;
-            font-size: 0.24rem;
-            margin: 0 auto;
-          }
         }
       }
     }
   }
-}
 
-/* 底部导航栏 */
-footer {
-  height: 0.62rem;
-  width: 100%;
-  font-size: 0.26rem;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  background-color: white;
-  box-shadow: 0 -1px 5px 0px #ccc;
+  /* 底部导航栏 */
+  footer {
+    height: 0.62rem;
+    width: 100%;
+    font-size: 0.26rem;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: white;
+    box-shadow: 0 -1px 5px 0px #ccc;
 
-  input {
-    display: none;
-    &:nth-child(1):checked ~ ul > li:nth-child(1) {
-      img.checked {
-        display: block;
-      }
-      img.not-checked {
-        display: none;
-      }
-      label {
-        color: #ff6700;
-      }
-    }
-    &:nth-child(2):checked ~ ul > li:nth-child(2) {
-      img.checked {
-        display: block;
-      }
-      img.not-checked {
-        display: none;
-      }
-      label {
-        color: #ff6700;
-      }
-    }
-    &:nth-child(3):checked ~ ul > li:nth-child(3) {
-      img.checked {
-        display: block;
-      }
-      img.not-checked {
-        display: none;
-      }
-      label {
-        color: #ff6700;
-      }
-    }
-    &:nth-child(4):checked ~ ul > li:nth-child(4) {
-      img.checked {
-        display: block;
-      }
-      img.not-checked {
-        display: none;
-      }
-      label {
-        color: #ff6700;
-      }
-    }
-    &:nth-child(5):checked ~ ul > li:nth-child(5) {
-      img.checked {
-        display: block;
-      }
-      img.not-checked {
-        display: none;
-      }
-      label {
-        color: #ff6700;
-      }
-    }
-  }
-  > ul {
-    height: 100%;
-    display: flex;
-    li {
-      text-align: center;
-      flex: 1;
-      color: #c6c6c6;
-      div.img-wraper {
-        position: relative;
-        width: 0.4rem;
-        height: 0.4rem;
-        margin: 0.04rem auto;
-        img {
-          position: absolute;
-          display: block;
-          height: 100%;
-          width: 100%;
-        }
+    input {
+      display: none;
+      &:nth-child(1):checked ~ ul > li:nth-child(1) {
         img.checked {
+          display: block;
+        }
+        img.not-checked {
           display: none;
+        }
+        label {
+          color: #ff6700;
+        }
+      }
+      &:nth-child(2):checked ~ ul > li:nth-child(2) {
+        img.checked {
+          display: block;
+        }
+        img.not-checked {
+          display: none;
+        }
+        label {
+          color: #ff6700;
+        }
+      }
+      &:nth-child(3):checked ~ ul > li:nth-child(3) {
+        img.checked {
+          display: block;
+        }
+        img.not-checked {
+          display: none;
+        }
+        label {
+          color: #ff6700;
+        }
+      }
+      &:nth-child(4):checked ~ ul > li:nth-child(4) {
+        img.checked {
+          display: block;
+        }
+        img.not-checked {
+          display: none;
+        }
+        label {
+          color: #ff6700;
+        }
+      }
+      &:nth-child(5):checked ~ ul > li:nth-child(5) {
+        img.checked {
+          display: block;
+        }
+        img.not-checked {
+          display: none;
+        }
+        label {
+          color: #ff6700;
+        }
+      }
+    }
+    > ul {
+      height: 100%;
+      display: flex;
+      li {
+        text-align: center;
+        flex: 1;
+        color: #c6c6c6;
+        div.img-wraper {
+          position: relative;
+          width: 0.4rem;
+          height: 0.4rem;
+          margin: 0.04rem auto;
+          img {
+            position: absolute;
+            display: block;
+            height: 100%;
+            width: 100%;
+          }
+          img.checked {
+            display: none;
+          }
         }
       }
     }
