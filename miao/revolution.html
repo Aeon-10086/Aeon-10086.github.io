@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Revolution</title>
+  <style>
+    @keyframes father{
+      from{
+        transform: rotateZ(0);
+      }
+      to{
+        transform: rotateZ(360deg);
+      }
+    }
+    @keyframes child{
+      from{
+        transform: rotateZ(360deg);
+      }
+      to{
+        transform: rotateZ(0deg);
+      }
+    }
+    section{
+      width: 400px;
+      height: 400px;
+      margin: 200px auto;
+      transition: 5s;
+      animation: father 5s infinite linear;
+    }
+    div{
+      width: 50px;
+      height: 50px;
+      background:url("./image/icon-star.png");
+      background-size: 100%;
+      animation: child 5s linear infinite;
+    }
+  </style>
+</head>
+<body>
+  <section>
+    <div></div>
+  </section>
+</body>
+</html>
