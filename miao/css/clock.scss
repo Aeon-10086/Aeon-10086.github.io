@@ -1,0 +1,89 @@
+@keyframes second{
+  to{
+    transform: rotate(360deg) translateY(-30%);
+  }
+}
+@keyframes minute{
+  to{
+    transform: rotate(360deg) translateY(-30%);
+  }
+}
+@keyframes hour{
+  to{
+    transform: rotate(360deg) translateY(-30%);
+  }
+}
+*{
+  box-sizing: border-box;
+  font-size:0;
+}
+section{
+  width: 500px;
+  height: 500px;
+  margin: 0 auto;
+  position: relative;
+}
+div,span{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  margin: auto;
+}
+.plane{
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  border: 3px solid rgba(66,66,66,0.2);
+  background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+  .scale span{
+    position: absolute;
+    display: inline-block;
+    height: 10px;
+    width: 2px;
+    border-radius: 50%;background-image: linear-gradient(to right, #434343 0%, black 100%);
+    &:nth-child(5n + 1){
+      height: 20px;
+      width: 5px;
+    }
+  }
+  .center{
+    width: 20px;
+    height: 20px;
+    background-color: black;
+    border-radius: 50%;
+    z-index: 10;
+  }
+  .pointer{
+    .hour{
+      height: 90px;
+      width: 5px;
+      border-radius: 40%;
+      background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
+      transform: rotate(30deg) translateY(-30%);
+      animation: hour 43200s linear infinite;
+    }
+    .minute{
+      height: 120px;
+      width: 4px;
+      border-radius: 40%;
+      background-image: linear-gradient(60deg, #64b3f4 0%, #c2e59c 100%);
+      transform: rotate(0deg) translateY(-30%);
+      animation: second 3600s linear infinite;
+    }
+    .second{
+      height: 135px;
+      width: 2px;
+      background-image: linear-gradient(to right, #f83600 0%, #f9d423 100%);
+      border-radius: 50%;
+      transform: rotate(0deg) translateY(-30%);
+      animation: second 60s steps(60) infinite;
+    }
+  }
+}
+@for $i from 1 through 60{
+  .scale span:nth-child(#{$i}){
+      transform: rotate(6deg * ($i - 1)) translateY(-132px);
+  }
+}
