@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<meta charset="utf-8" />
+<!-- ch0103 -->
+<script id="ch0103/01" type="q1">
+  // 求和 A + B
+  var num1 = Number(prompt("Please input A:"));
+  var num2 = Number(prompt("Please input B:"));
+  console.log(num1 + num2);
+</script>
+<script id="ch0103/02" type="q2">
+  // 计算 (a+b)*c
+  var num1 = Number(prompt("Please input a"));
+  var num2 = Number(prompt("Please input b"));
+  var num3 = Number(prompt("Please input c"));
+  console.log((num1 + num2) * num3);
+</script>
+<script id="ch0103/03" type="q3">
+  //计算 (a+b)/c
+  var num1 = Number(prompt("Please input a"));
+  var num2 = Number(prompt("Please input b"));
+  var num3 = Number(prompt("Please input c"));
+  console.log((num1 + num2) / num3);
+</script>
+<script id="ch0103/04" type="q4">
+  // 带余除法
+  var num1 = Number(prompt("请输入 被除数:"));
+  var num2 = Number(prompt("请输入 除数:"));
+  console.log(parseInt(num1 / num2));
+  console.log(num1 % num2);
+</script>
+<script id="ch0103/05" type="q5">
+  // 计算分数的浮点数值
+  var num1 = Number(prompt("请输入 分子:"));
+  var num2 = Number(prompt("请输入 分母:"));
+  console.log((num1 / num2).toFixed(9));
+</script>
+<script id="ch0103/06" type="q6">
+  // 甲流疫情死亡率
+  var num1 = Number(prompt("请输入 确诊数:"));
+  var num2 = Number(prompt("请输入 死亡数:"));
+  console.log((num2 / num1).toFixed(5) * 100 + "%");
+</script>
+<script id="ch0103/07" type="q7">
+  // 计算多项式 f(x) = a*x*x*x + b*x*x + c*x + d
+  var x = Number(prompt("请输入 x:"));
+  var a = Number(prompt("请输入 a:"));
+  var b = Number(prompt("请输入 b:"));
+  var c = Number(prompt("请输入 c:"));
+  var d = Number(prompt("请输入 d:"));
+  var fx = a * x * x * x + b * x * x + c * x + d;
+  console.log(fx.toFixed(7));
+</script>
+<script id="ch0103/08" type="q8">
+  // 温度转换表达式 C = 5 * (F - 32) / 9
+  var f = Number(prompt("请输入华氏度:"));
+  if (f < -459.67) {
+    f = Number(prompt("输入无效，请重新输入华氏度(>= -459.67):"));
+  }
+  var c = (5 * (f - 32)) / 9;
+  console.log(c.toFixed(5));
+</script>
+<script id="ch0103/09" type="q9">
+  // 与圆相关的计算
+  var r = Number(prompt("请输入圆的半径："));
+  if (r <= 0 || r > 10000) {
+    r = Number(prompt("请重新输入圆的半径(0 < r <= 10,000)："));
+  }
+  console.log((2 * r).toFixed(4));
+  console.log((2 * r * Math.PI).toFixed(4));
+  console.log((r * r * Math.PI).toFixed(4));
+</script>
+<script id="ch0103/10" type="q10">
+  // 计算并联电路的阻值 R = 1/(1/r1 + 1/r2)
+  var r1 = Number(prompt("请输入电阻1的大小:"));
+  var r2 = Number(prompt("请输入电阻2的大小:"));
+  console.log((1 / (1 / r1 + 1 / r2)).toFixed(2));
+</script>
+<script id="ch0103/11" type="q11">
+  // 计算浮点数相除的余数
+  var num1 = Number(prompt("请输入浮点数a:"));
+  var num2 = Number(prompt("请输入浮点数b:"));
+  console.log((num1 - parseInt(num1 / num2) * num2).toFixed(4));
+</script>
+<script id="ch0103/12" type="q12">
+  // 计算球的体积 V = 4/3 * pi * r * r * r,pi = 3.14
+  var r = Number(prompt("请输入球的半径r:"));
+  if (r < 0 || r > 100) {
+    r = Number(prompt("请重新输入球的半径(0 < r <= 100):"));
+  }
+  console.log(((4 / 3) * 3.14 * r ** 3).toFixed(2));
+</script>
+<script id="ch0103/13" type="q13">
+  // 反向输出一个三位数
+  var n = Number(prompt("请输入一个三位数:"));
+  if (n < 100 || n > 999) {
+    n = Number(prompt("请重新输入一个有效的三位数:"));
+  }
+  console.log((n % 10) + "" + (parseInt(n / 10) % 10) + parseInt(n / 100));
+</script>
+<script id="ch0103/14" type="q14">
+  // 大象喝水，20L解渴，筒深 hcm,底面半径rcm,h,r,为整数，pi = 3.14159 求桶数
+  var h = Number(prompt("请桶深h(整数，单位cm):"));
+  var r = Number(prompt("请底面半径r(整数，单位cm):"));
+  var wv = (3.14159 * h * r * r) / 1000;
+  var n =
+    20 / wv > parseInt(20 / wv) ? parseInt(20 / wv) + 1 : parseInt(20 / wv);
+  console.log(n);
+</script>
+<script id="ch0103/15" type="q15">
+  // 苹果和虫子，x小时吃掉一个苹果，一共n个苹果，y小时后剩下几个
+  var n = Number(prompt("请输入一箱一共有多少个苹果(整数):"));
+  var x = Number(prompt("请输入虫子一小时吃掉多少个苹果(整数):"));
+  var y = Number(prompt("请输入经过了多少个小时(整数):"));
+  if (y > n * x) {
+    y = Number(prompt("请重新输入经过了多少个小时(整数):"));
+  }
+  var apple = parseInt(y / x) + 1;
+  console.log(n - apple > 0 ? n - apple : 0);
+</script>
+<script id="ch0103/16" type="q16">
+  // 计算线段长度
+  var xa = Number(prompt("请输入A的x坐标:"));
+  var ya = Number(prompt("请输入A的y坐标:"));
+  var xb = Number(prompt("请输入B的x坐标:"));
+  var yb = Number(prompt("请输入B的y坐标:"));
+  var l = Math.sqrt((xa - xb) ** 2 + (ya - yb) ** 2).toFixed(3);
+  console.log(l);
+</script>
+<script id="ch0103/17" type="q17">
+  // 计算三角形面积
+  var xa = Number(prompt("请输入A的x坐标:"));
+  var ya = Number(prompt("请输入A的y坐标:"));
+  var xb = Number(prompt("请输入B的x坐标:"));
+  var yb = Number(prompt("请输入B的y坐标:"));
+  var xc = Number(prompt("请输入C的x坐标:"));
+  var yc = Number(prompt("请输入C的y坐标:"));
+  var lab = Math.sqrt((xa - xb) ** 2 + (ya - yb) ** 2);
+  var lac = Math.sqrt((xa - xc) ** 2 + (ya - yc) ** 2);
+  var lbc = Math.sqrt((xc - xb) ** 2 + (yc - yb) ** 2);
+  var s = (lab + lac + lbc) / 2;
+  var area = Math.sqrt(s * (s - lab) * (s - lac) * (s - lbc)).toFixed(2);
+  console.log(area);
+</script>
+<script id="ch0103/18" type="q18">
+  // 计算等差数列末项计算
+  var a1 = Number(prompt("请输入a1:"));
+  var a2 = Number(prompt("请输入a2:"));
+  var n = Number(prompt("请输入n:"));
+  var a = a2 - a1;
+  var an = a1 + a * (n - 1);
+  console.log(an);
+</script>
+<script id="ch0103/19" type="q19">
+  // 计算 A * B
+  var num1 = Number(prompt("Please input A:"));
+  var num2 = Number(prompt("Please input B:"));
+  console.log(num1 * num2);
+</script>
+<script id="ch0103/20" type="q20">
+  // 计算 2 的 n 次方
+  var n = Number(prompt("请输入n:"));
+  if (n < 0 || n >= 31) {
+    n = Number(prompt("请输入n(0 <= n < 31):"));
+  }
+  console.log(2 ** n);
+</script>
+
+<!-- ch0104 -->
+<script id="ch0104/01" type="q1">
+  // 判断数正负
+  var n = Number(prompt("请输入一个数字:"));
+  if (n == 0) {
+    console.log("zero");
+  } else if (n < 0) {
+    console.log("negative");
+  } else {
+    console.log("positive");
+  }
+</script>
+<script id="ch0104/02" type="q2">
+  // 输出绝对值
+  var n = Number(prompt("请输入一个数字:"));
+  console.log(Math.abs(n).toFixed(2));
+</script>
+<script id="ch0104/03" type="q3">
+  // 判断奇偶数
+  var n = Number(prompt("请输入一个正整数:"));
+  if (n <= 0) {
+    n = Number(prompt("请重新输入一个正整数:"));
+  } else if (n % 2 == 0) {
+    console.log("even");
+  } else {
+    console.log("odd");
+  }
+</script>
+<script id="ch0104/04" type="q4">
+  // 奇偶ASCII值判断
+  var str = prompt("请输入一个字符:");
+  if (str.charCodeAt() % 2 == 0) {
+    console.log("NO");
+  } else if (str.charCodeAt() % 2 == 1) {
+    console.log("YES");
+  }
+</script>
+<script id="ch0104/05" type="q5">
+  // 整数大小比较
+  var n1 = Number(prompt("请输入数字1:"));
+  var n2 = Number(prompt("请输入数字2:"));
+  if (n1 > n2) {
+    console.log(">");
+  } else if ((n1 = n2)) {
+    console.log("=");
+  } else {
+    console.log("<");
+  }
+</script>
+<script id="ch0104/06" type="q6">
+  // 判断是否为两位数
+  var n = Number(prompt("请输入一个数字:"));
+  if (n > 9 && n < 100) {
+    console.log(1);
+  } else {
+    console.log(0);
+  }
+</script>
+<script id="ch0104/07" type="q7">
+  // 判断是否可以兑奖
+  var luck = Number(prompt("请输入一个幸运数量:"));
+  var enc = Number(prompt("请输入一个鼓励数量:"));
+  if (luck >= 10 || enc >= 20) {
+    console.log(1);
+  } else {
+    console.log(0);
+  }
+</script>
+<script id="ch0104/08" type="q8">
+  // 判断一个数字能否同时被3和5整除
+  var n = Number(prompt("请输入一个数字:"));
+  if (n % 3 === 0 && n % 5 === 0) {
+    console.log("YES");
+  } else {
+    console.log("NO");
+  }
+</script>
+<script id="ch0104/09" type="q9">
+  // 判断能否被3,5,7整除
+  var n = Number(prompt("请输入一个数字:"));
+  if (n % 3 === 0 && n % 5 === 0 && n % 7 === 0) {
+    console.log("3 5 7");
+  } else if (n % 15 == 0) {
+    console.log("3 5");
+  } else if (n % 21 == 0) {
+    console.log("3 7");
+  } else if (n % 35 == 0) {
+    console.log("5 7");
+  } else if (n % 3 == 0) {
+    console.log(3);
+  } else if (n % 5 == 0) {
+    console.log(5);
+  } else if (n % 7 == 0) {
+    console.log(7);
+  } else {
+    console.log("n");
+  }
+</script>
+<script id="ch0104/10" type="q10">
+  // 判断仅有一门课不及格的学生
+  var ch = Number(prompt("请输入语文成绩:"));
+  var math = Number(prompt("请输入数学成绩:"));
+  if (Math.min(ch, math) < 60 && Math.max(ch, math) >= 60) {
+    console.log(1);
+  } else {
+    console.log(0);
+  }
+</script>
+<script id="ch0104/11" type="q11">
+  //判断晶晶是否可以赴约
+  var day = Number(prompt("请输入日期(1-7):"));
+  if (day % 2 == 0 || day == 7) {
+    console.log("YES");
+  } else {
+    console.log("NO");
+  }
+</script>
+<script id="ch0104/12" type="q12">
+  // 判断骑车与走路
+  var n = Number(prompt("请输入一个距离(m):"));
+  if (n / 3 + 50 < n / 1.2) {
+    console.log("Bike");
+  } else if (n / 3 + 50 == n / 1.2) {
+    console.log("All");
+  } else {
+    console.log("Walk");
+  }
+</script>
+<script id="ch0104/13" type="q13">
+  // 分段函数
+  var x = Number(prompt("请输入一个数字:"));
+  if (x >= 0 && x < 20) {
+    if (x >= 0 && x < 5) {
+      console.log((-x + 2.5).toFixed(3));
+    } else if (x < 10) {
+      console.log((2 - 1.5 * (x - 3) ** 2).toFixed(3));
+    } else {
+      console.log((x / 2 - 1.5).toFixed(3));
+    }
+  }
+</script>
+<script id="ch0104/14" type="q14">
+  // 计算邮资
+  var n = Number(prompt("请输入邮件重量:"));
+  var flag = prompt("请输入是否加急(y/n):");
+  var fee = 8;
+  if (n > 1000) {
+    fee = fee + (parseInt((n - 1000) / 500) + 1) * 4;
+  }
+  if (flag == "y") {
+    fee = fee + 5;
+  }
+  console.log(fee);
+</script>
+
+<script id="ch0104/15" type="q15">
+  // 最大数输出
+  var n1 = Number(prompt("请输入数字1:"));
+  var n2 = Number(prompt("请输入数字2:"));
+  var n3 = Number(prompt("请输入数字3:"));
+  console.log(Math.max(n1, n2, n3));
+</script>
+<script id="ch0104/16" type="q16">
+  // 三角形判断
+  var n1 = Number(prompt("请输入数字1:"));
+  var n2 = Number(prompt("请输入数字2:"));
+  var n3 = Number(prompt("请输入数字3:"));
+  var sum = n1 + n2 + n3;
+  if (sum > Math.max(n1, n2, n3) * 2) {
+    console.log("yes");
+  } else {
+    console.log("no");
+  }
+</script>
+<script id="ch0104/17" type="q17">
+  // 判断闰年
+  var year = Number(prompt("请输入年份:"));
+  if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
+    console.log("Y");
+  } else {
+    console.log("N");
+  }
+</script>
+<script id="ch0104/18" type="q18">
+  // 判断点和正方形的关系
+  var x = Number(prompt("请输入x坐标:"));
+  var y = Number(prompt("请输入y坐标:"));
+  if (x <= 1 && x >= -1 && y <= 1 && y >= -1) {
+    console.log("yes");
+  } else {
+    console.log("no");
+  }
+</script>
+<script id="ch0104/19" type="q19">
+  // 简单计算器
+  var n1 = Number(prompt("请输入数字1:"));
+  var n2 = Number(prompt("请输入数字2:"));
+  var o = prompt("请输入运算符:");
+  if (o == "+") {
+    console.log(n1 + n2);
+  } else if (o == "-") {
+    console.log(n1 - n2);
+  } else if (o == "*") {
+    console.log(n1 * n2);
+  } else if (o == "/") {
+    console.log(n1 / n2);
+  } else {
+    console.log("Invalid operator!");
+  }
+</script>
+<script id="ch0104/20" type="q21">
+  // 一元二次方程的根
+  var a = +prompt("please input a:");
+  var b = +prompt("please input b:");
+  var c = +prompt("please input c:");
+  var delta = b * b - 4 * a * c;
+  if (delta > 0) {
+    var x1 = (-b + Math.sqrt(delta)) / (2 * a);
+    var x2 = (-b - Math.sqrt(delta)) / (2 * a);
+    console.log(
+      "x1=" + Math.max(x1, x2).toFixed(5) + ";x2=" + Math.min(x1, x2).toFixed(5)
+    );
+  } else if (delta == 0) {
+    var x = -b / (2 * a);
+    console.log("x1=x2=" + x.toFixed(5));
+  } else {
+    var x1 =
+      (-b / (2 * a)).toFixed(5) +
+      "+" +
+      ((Math.sqrt(-delta) / (2 * a)).toFixed(5) + "i");
+    var x2 =
+      (-b / (2 * a)).toFixed(5) +
+      "-" +
+      ((Math.sqrt(-delta) / (2 * a)).toFixed(5) + "i");
+    console.log("x1=" + x1 + ";x2=" + x2);
+  }
+</script>
+<script id="ch0104/21" type="q21">
+  // 苹果和虫子，x小时吃掉一个苹果，一共n个苹果，y小时后剩下几个
+  var n = Number(prompt("请输入一箱一共有多少个苹果(整数):"));
+  var x = Number(prompt("请输入虫子一小时吃掉多少个苹果(整数):"));
+  var y = Number(prompt("请输入经过了多少个小时(整数):"));
+  if (y > n * x) {
+    y = Number(prompt("请重新输入经过了多少个小时(整数):"));
+  }
+  var apple = parseInt(y / x) + 1;
+  console.log(n - apple > 0 ? n - apple : 0);
+</script>
