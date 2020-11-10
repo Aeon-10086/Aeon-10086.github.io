@@ -19,7 +19,7 @@
   var num1 = Number(prompt("Please input a"));
   var num2 = Number(prompt("Please input b"));
   var num3 = Number(prompt("Please input c"));
-  console.log((num1 + num2) / num3);
+  console.log(parseInt((num1 + num2) / num3));
 </script>
 <script id="ch0103/04" type="q4">
   // 带余除法
@@ -59,15 +59,15 @@
   var c = (5 * (f - 32)) / 9;
   console.log(c.toFixed(5));
 </script>
-<script id="ch0103/09" type="q9">
+<script id="ch0103/09" type="">
   // 与圆相关的计算
   var r = Number(prompt("请输入圆的半径："));
   if (r <= 0 || r > 10000) {
     r = Number(prompt("请重新输入圆的半径(0 < r <= 10,000)："));
   }
   console.log((2 * r).toFixed(4));
-  console.log((2 * r * Math.PI).toFixed(4));
-  console.log((r * r * Math.PI).toFixed(4));
+  console.log((2 * r * 3.14159).toFixed(4));
+  console.log((r * r * 3.14159).toFixed(4));
 </script>
 <script id="ch0103/10" type="q10">
   // 计算并联电路的阻值 R = 1/(1/r1 + 1/r2)
