@@ -713,14 +713,45 @@
     }
   }
 </script>
-<script id="ch0105/26" type="">
-  // 求
+<script id="ch0105/26" type="norun">
+  // 统计满足条件的4位数个数
+  var n = Number(prompt("请输入四位数的个数："));
+  var time = 0;
+  for (let i = 0; i < n; i++) {
+    var num = Number(prompt("请输入四位数："));
+    var u = num % 10;
+    var ten = ((num - u) / 10) % 10;
+    var hun = Math.floor(num / 100) % 10;
+    var th = Math.floor(num / 1000) % 10;
+    if (u - ten - hun - th > 0) {
+      time = time + 1;
+    }
+  }
+  console.log(time);
 </script>
-<script id="ch0105/27" type="">
-  // 求
+<script id="ch0105/27" type="norun">
+  // 级数求和
+  var k = Number(prompt("请输入一个整数："));
+  var sn = 0;
+  var i = 0;
+  while (sn <= k) {
+    i = i + 1;
+    sn = sn + 1 / i;
+  }
+  console.log(i);
 </script>
 <script id="ch0105/28" type="">
-  // 求
+  // 分离整数的各个位数
+  var n = Number(prompt("请输入一个整数："));
+  var x = 0,
+    temp = n;
+  while (temp > 0) {
+    temp = Math.floor(temp / 10);
+    x = x + 1;
+  }
+  for (let i = 0; i < x; i++) {
+    console.log(Math.floor(n / Math.pow(10, i)) % 10);
+  }
 </script>
 <script id="ch0105/29" type="">
   // 求
