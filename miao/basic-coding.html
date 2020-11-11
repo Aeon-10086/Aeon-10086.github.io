@@ -708,6 +708,8 @@
       for (let c = 1; c <= 4; c++) {
         if (49 * a + 7 * b + c === 81 * c + 9 * b + a) {
           console.log(49 * a + 7 * b + c);
+          console.log(a + "" + b + c);
+          console.log(c + "" + b + a);
         }
       }
     }
@@ -740,7 +742,7 @@
   }
   console.log(i);
 </script>
-<script id="ch0105/28" type="">
+<script id="ch0105/28" type="norun">
   // 分离整数的各个位数
   var n = Number(prompt("请输入一个整数："));
   var x = 0,
@@ -753,8 +755,27 @@
     console.log(Math.floor(n / Math.pow(10, i)) % 10);
   }
 </script>
-<script id="ch0105/29" type="">
-  // 求
+<script id="ch0105/29" type="norun">
+  // 数字反转
+  var n = Number(prompt("请输入一个整数："));
+
+  var x = 0,
+    temp = Math.abs(n);
+  while (temp > 0) {
+    temp = Math.floor(temp / 10);
+    x = x + 1;
+  }
+  for (let i = 0; i < x; i++) {
+    temp =
+      temp +
+      (Math.floor(Math.abs(n) / Math.pow(10, i)) % 10) *
+        Math.pow(10, x - 1 - i);
+  }
+  if (n >= 0) {
+    console.log(temp);
+  } else {
+    console.log(-temp);
+  }
 </script>
 <script id="ch0105/30" type="">
   // 求
