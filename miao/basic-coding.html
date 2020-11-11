@@ -518,7 +518,7 @@
   }
   console.log(sum);
 </script>
-<script id="ch0105/11" type="">
+<script id="ch0105/11" type="norun">
   // 求整数的个数
   var n = Number(prompt("请输入整数的个数:"));
   var oneSum = 0;
@@ -536,47 +536,182 @@
   }
   console.log(oneSum, fiveSum, tenSum);
 </script>
-<script id="ch0105/12" type="">
-  // 求
+<script id="ch0105/12" type="norun">
+  // 求与指定数字相同的数的个数
+  var n = Number(prompt("请输入整数序列的长度："));
+  var flag = Number(prompt("请输入参考数字："));
+  var sum = 0;
+  for (let i = 0; i < n; i++) {
+    var num = Number(prompt(`请输入整数序列中第${i + 1}个整数：`));
+    if (num == flag) {
+      sum = sum + 1;
+    }
+  }
+  console.log(sum);
 </script>
-<script id="ch0105/13" type="">
-  // 求
+<script id="ch0105/13" type="norun">
+  // 乘方计算
+  var a = Number(prompt("请输入底数："));
+  var n = Number(prompt("请输入幂："));
+  console.log(Math.pow(a, n));
 </script>
-<script id="ch0105/14" type="">
-  // 求
+<script id="ch0105/14" type="norun">
+  // 人口增长问题
+  var x = Number(prompt("请输入人口基数："));
+  var n = Number(prompt("请输入年数："));
+  for (let i = 0; i < n; i++) {
+    x = x + x * 0.001;
+  }
+  console.log(x.toFixed(4));
 </script>
-<script id="ch0105/15" type="">
-  // 求
+<script id="ch0105/15" type="norun">
+  // 求银行利息
+  var r = Number(prompt("请输入年利率(%):"));
+  var m = Number(prompt("请输入投资总值:"));
+  var y = Number(prompt("请输入投资年数:"));
+  for (let i = 0; i < y; i++) {
+    m = m * (1 + r / 100);
+  }
+  console.log(Math.floor(m));
 </script>
-<script id="ch0105/16" type="">
-  // 求
+<script id="ch0105/16" type="norun">
+  // 买房子
+  var n = Number(prompt("请输入第一年年薪："));
+  var k = Number(prompt("请输入房价增长百分比："));
+  var y = 1;
+  var sum = n;
+  var price = 200;
+  while (sum < price) {
+    y = y + 1;
+    sum = sum + n;
+    price = price * (1 + k / 100);
+  }
+  if (y <= 20) {
+    console.log(y);
+  } else {
+    console.log("Impossible");
+  }
 </script>
-<script id="ch0105/17" type="">
-  // 求
+<script id="ch0105/17" type="norun">
+  // 求斐波那契数列
+  var k = Number(prompt("请输入所求数的位置："));
+  var num1 = 1;
+  var num2 = 1;
+  var num = 0;
+  if (k < 3) {
+    console.log(num1);
+  } else {
+    for (let i = 3; i <= k; i++) {
+      num = num1 + num2;
+      num1 = num2;
+      num2 = num;
+    }
+    console.log(num);
+  }
 </script>
-<script id="ch0105/18" type="">
-  // 求
+<script id="ch0105/18" type="norun">
+  // 鸡尾酒疗法
+  var n = Number(prompt("请输入临床对照试验的总组数："));
+  var refTotal = Number(prompt("请输入鸡尾酒疗法的临床试验总病例数："));
+  var refEff = Number(prompt("请输入鸡尾酒疗法的临床试验有效病例数："));
+  var refR = refEff / refTotal;
+  for (let i = 0; i < n - 1; i++) {
+    var proTotal = Number(prompt("请输入改进法的临床试验总病例数："));
+    var proEff = Number(prompt("请输入改进法的临床试验有效病例数："));
+    var pR = proEff / proTotal;
+    if (pR - refR > 0.05) {
+      console.log("better");
+    } else if (refR - pR > 0.05) {
+      console.log("worse");
+    } else {
+      console.log("same");
+    }
+  }
 </script>
-<script id="ch0105/19" type="">
-  // 求
+<script id="ch0105/19" type="norun">
+  // 求救援所需要的总时间
+  var roofNum = Number(prompt("请输入等待救援的屋顶数目："));
+  var totalTime = 0;
+  for (let i = 0; i < roofNum; i++) {
+    var x = Number(prompt(`请输入第${i + 1}个屋顶的x坐标`));
+    var y = Number(prompt(`请输入第${i + 1}个屋顶的y坐标`));
+    var n = Number(prompt("请输入等待救援的人数："));
+    totalTime = totalTime + (Math.sqrt(x * x + y * y) / 25 + 1.5 * n);
+  }
+  console.log(Math.ceil(totalTime));
 </script>
-<script id="ch0105/20" type="">
-  // 求
+<script id="ch0105/20" type="norun">
+  // *****球弹跳高度的计算
+  var h = Number(prompt("请输入球的起始高度："));
+  var d = h;
+  for (let i = 0; i < 10; i++) {
+    h = h / 2;
+    if (i < 9) {
+      d = d + h * 2;
+    }
+  }
+  console.log(d.toFixed(4), h.toFixed(7));
 </script>
-<script id="ch0105/21" type="">
-  // 求
+<script id="ch0105/21" type="norun">
+  // 角谷猜想
+  var n = Number(prompt("请输入一个正整数:"));
+  while (n != 1) {
+    if (n % 2 === 0) {
+      console.log(`${n}/2=${n / 2}`);
+      n = n / 2;
+    } else {
+      console.log(`${n}*3+1=${n * 3 + 1}`);
+      n = n * 3 + 1;
+    }
+  }
+  console.log("End");
 </script>
 <script id="ch0105/22" type="">
-  // 求
+  // 津津零花钱的管理
 </script>
-<script id="ch0105/23" type="">
-  // 求
+<script id="ch0105/23" type="norun">
+  // 药房管理
+  var total = Number(prompt("请输入今天开始的药品总量："));
+  var n = Number(prompt("请输入今天取药的人数："));
+  var i = 1,
+    k = 0;
+  while (i <= n) {
+    var m = Number(prompt("请输入病人所希望取走的药品数:"));
+    if (m < total) {
+      total = total - m;
+    } else {
+      k = k + 1;
+    }
+    i = i + 1;
+  }
+  console.log(k);
 </script>
-<script id="ch0105/24" type="">
-  // 求
+<script id="ch0105/24" type="norun">
+  // 正常血压
+  var n = Number(prompt("请输入测量次数："));
+  var t = 0;
+  for (let i = 0; i < n; i++) {
+    var sbp = Number(prompt("请输入收缩压："));
+    var dbp = Number(prompt("请输入舒张压："));
+    if (sbp >= 90 && sbp <= 140 && dbp >= 60 && dbp <= 90) {
+      t = t + 1;
+    } else {
+      t = 0;
+    }
+  }
+  console.log(t);
 </script>
-<script id="ch0105/25" type="">
-  // 求
+<script id="ch0105/25" type="norun">
+  // 求特殊自然数
+  for (let a = 1; a <= 6; a++) {
+    for (let b = 0; b <= 6; b++) {
+      for (let c = 1; c <= 4; c++) {
+        if (49 * a + 7 * b + c === 81 * c + 9 * b + a) {
+          console.log(49 * a + 7 * b + c);
+        }
+      }
+    }
+  }
 </script>
 <script id="ch0105/26" type="">
   // 求
