@@ -439,7 +439,7 @@
   }
   console.log((sum / n).toFixed(4));
 </script>
-<script id="ch0105/04" type="">
+<script id="ch0105/04" type="norun">
   // 求整数的和与均值
   var n = Number(prompt("请输入整数的总数量:"));
   var sum = 0;
@@ -448,26 +448,93 @@
   }
   console.log(sum, (sum / n).toFixed(5));
 </script>
-<script id="ch0105/05" type="">
-  // 求
+<script id="ch0105/05" type="norun">
+  // 求最高成绩
+  var n = Number(prompt("请输入学生人数:"));
+  var max = 0;
+  for (let i = 0; i < n; i++) {
+    max = Math.max(max, Number(prompt(`请输入第${i + 1}个学生的成绩`)));
+  }
+  console.log(max);
 </script>
-<script id="ch0105/06" type="">
-  // 求
+<script id="ch0105/06" type="norun">
+  // 求最大跨度
+  var n = Number(prompt("请输入序列的个数:"));
+  var max = 0;
+  var min = 0;
+  var num = 0;
+  for (let i = 0; i < n; i++) {
+    num = Number(prompt(`请输入第${i + 1}个序列数`));
+    min = Math.min(min, num);
+    max = Math.max(max, num);
+  }
+  console.log(max - min);
 </script>
-<script id="ch0105/07" type="">
-  // 求
+<script id="ch0105/07" type="norun">
+  // 奥运奖牌计数
+  var n = Number(prompt("请输入参赛的天数:"));
+  var gold = 0; //金牌
+  var silver = 0; //银牌
+  var copper = 0; //铜牌
+  for (let i = 0; i < n; i++) {
+    gold = gold + Number(prompt(`请输入第${i + 1}天的金牌数:`));
+    silver = silver + Number(prompt(`请输入第${i + 1}天的银牌数:`));
+    copper = copper + Number(prompt(`请输入第${i + 1}天的铜牌数:`));
+  }
+  console.log(gold, silver, copper, gold + silver + copper);
 </script>
-<script id="ch0105/08" type="">
-  // 求
+<script id="ch0105/08" type="norun">
+  // 求未知内角的度数
+  var n = Number(prompt("请输入多边形的边数:"));
+  var angles = (n - 2) * 180;
+  var unknow = 0;
+  for (let i = 1; i < n; i++) {
+    unknow = angles - Number(prompt(`请输入已知的第${i}个内角:`));
+    angles = unknow;
+  }
+  console.log(unknow);
 </script>
-<script id="ch0105/09" type="">
-  // 求
+<script id="ch0105/09" type="norun">
+  // 奇数求和
+  var m = Number(prompt("请输入第一个非负整数:"));
+  var n = Number(prompt("请输入第二个非负整数(大于第一个):"));
+  var sum = 0;
+  for (let i = m; i <= n; i++) {
+    if (i % 2 == 1) {
+      sum = sum + i;
+    }
+  }
+  console.log(sum);
 </script>
-<script id="ch0105/10" type="">
-  // 求
+<script id="ch0105/10" type="norun">
+  // 求满足条件的累加
+  var m = Number(prompt("请输入第一个正整数:"));
+  var n = Number(prompt("请输入第二个正整数(大于第一个):"));
+  var sum = 0;
+  for (let i = m; i <= n; i++) {
+    if (i % 17 == 0) {
+      sum = sum + i;
+    }
+  }
+  console.log(sum);
 </script>
 <script id="ch0105/11" type="">
-  // 求
+  // 求整数的个数
+  var n = Number(prompt("请输入整数的个数:"));
+  var oneSum = 0;
+  var fiveSum = 0;
+  var tenSum = 0;
+  for (let i = 0; i < n; i++) {
+    var num = Number(prompt(`请输入第${i + 1}个整数(1<num<=10):`));
+    if (num == 1) {
+      oneSum = oneSum + 1;
+    } else if (num == 5) {
+      fiveSum = fiveSum + 1;
+    } else if (num == 10) {
+      tenSum = tenSum + 1;
+    }
+  }
+  console.log(oneSum, fiveSum, tenSum);
 </script>
 <script id="ch0105/12" type="">
   // 求
