@@ -670,18 +670,24 @@
   // 津津零花钱的管理
   var sumInts = 0;
   var sumChanges = 0;
+  var flag = 0;
+  var total = 0;
   for (let i = 1; i <= 12; i++) {
     var budget = Number(prompt(`请输入第${i}个月的预算：`));
     var n = Math.floor((300 + sumChanges - budget) / 100);
     n = n > 0 ? n : 0;
     sumInts = sumInts + 100 * n;
     sumChanges = sumChanges + (300 - budget - 100 * n);
-    if (sumChanges < 0) {
-      console.log(-i);
+    if (sumChanges < 0 && flag == 0) {
+      flag = -i;
     } else if (i == 12 && sumChanges >= 0) {
-      var total = sumInts * 1.2 + sumChanges;
-      console.log(total);
+      total = sumInts * 1.2 + sumChanges;
     }
+  }
+  if (flag < 0) {
+    console.log(flag);
+  } else {
+    console.log(total);
   }
 </script>
 <script id="ch0105/23" type="norun">
@@ -996,14 +1002,12 @@
 </script>
 <script id="ch0105/45" type="norun">
   // 求金币数
-  // var n = Number(prompt("请输入一个天数："));
-  var n = 6;
+  var n = Number(prompt("请输入一个天数："));
   var sum = 0;
-  var i = 1,
-    j = 1;
-  debugger;
-  while (i <= n) {
-    while(j <)
+  var d = 1;
+  for (let i = 1; i <= 6; i = i + d) {
+    sum += d * d;
+    d++;
   }
   console.log(sum);
 </script>
