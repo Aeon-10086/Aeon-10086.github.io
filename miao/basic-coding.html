@@ -666,8 +666,23 @@
   }
   console.log("End");
 </script>
-<script id="ch0105/22" type="">
+<script id="ch0105/22" type="norun">
   // 津津零花钱的管理
+  var sumInts = 0;
+  var sumChanges = 0;
+  for (let i = 1; i <= 12; i++) {
+    var budget = Number(prompt(`请输入第${i}个月的预算：`));
+    var n = Math.floor((300 + sumChanges - budget) / 100);
+    n = n > 0 ? n : 0;
+    sumInts = sumInts + 100 * n;
+    sumChanges = sumChanges + (300 - budget - 100 * n);
+    if (sumChanges < 0) {
+      console.log(-i);
+    } else if (i == 12 && sumChanges >= 0) {
+      var total = sumInts * 1.2 + sumChanges;
+      console.log(total);
+    }
+  }
 </script>
 <script id="ch0105/23" type="norun">
   // 药房管理
@@ -807,6 +822,7 @@
   // 开关灯
   var n = Number(prompt("请输入灯数："));
   var m = Number(prompt("请输入人数："));
+  var str = "";
   for (let i = 1; i <= n; i++) {
     var flag = i;
     for (let j = 2; j <= m; j++) {
@@ -815,9 +831,11 @@
       }
     }
     if (flag > 0) {
-      console.log(flag);
+      // console.log(flag);
+      str = str + flag + ",";
     }
   }
+  console.log(str.substr(0, str.length - 1));
 </script>
 <script id="ch0105/32" type="norun">
   // 求分数序列的和
@@ -976,12 +994,16 @@
   }
   console.log(x);
 </script>
-<script id="ch0105/45" type="">
+<script id="ch0105/45" type="norun">
   // 求金币数
-  var n = Number(prompt("请输入一个天数："));
-  var i = 1;
+  // var n = Number(prompt("请输入一个天数："));
+  var n = 6;
   var sum = 0;
-  while (i < n) {
-    sum = sum + i * i;
+  var i = 1,
+    j = 1;
+  debugger;
+  while (i <= n) {
+    while(j <)
   }
+  console.log(sum);
 </script>
