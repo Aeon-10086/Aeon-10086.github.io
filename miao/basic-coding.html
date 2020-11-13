@@ -966,6 +966,19 @@
 </script>
 <script id="ch0105/38" type="">
   // 计算多项式的导函数
+  var total = Number(prompt("请输入多项式的组数："));
+  for (let i = 0; i < total; i++) {
+    var n = Number(prompt("请输入多项式的最高次幂："));
+    for (let j = n; j >= 0; j--) {
+      var c = Number(prompt(`请输入C${j}：`));
+      if (n == 0) {
+        console.log(0);
+      }
+      if (j !== 0) {
+        console.log(c * j);
+      }
+    }
+  }
 </script>
 <script id="ch0105/39" type="norun">
   // 求与7无关的数
@@ -1007,7 +1020,7 @@
   }
   console.log(sum);
 </script>
-<script id="ch0105/42" type="">
+<script id="ch0105/42" type="norun">
   // 画矩形
   var h = Number(prompt("请输入一个矩形的高："));
   var w = Number(prompt("请输入一个矩形的宽："));

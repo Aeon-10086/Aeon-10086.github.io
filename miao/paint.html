@@ -155,28 +155,127 @@
     }
 
     // 12.画一个空心的圆
-    for (let i = 300; i <= 400; i++) {
+    /* for (let i = 300; i <= 400; i++) {
       for (let j = 150; j <= 250; j++) {
         let r = Math.pow(i - 350, 2) + Math.pow(j - 200, 2);
         if (r <= 1600 && r >= 1520) {
           dot(i, j);
         }
       }
+    } */
+    var r = 20;
+    var x = 0;
+    var y = r;
+    var rs = r * r;
+    while (x <= y) {
+      dot(x + 270, y + 270, "black");
+      dot(y + 270, x + 270, "black");
+      dot(x + 270, -y + 270, "black");
+      dot(-y + 270, x + 270, "black");
+      dot(-x + 270, y + 270, "black");
+      dot(y + 270, -x + 270, "black");
+      dot(-x + 270, -y + 270, "black");
+      dot(-y + 270, -x + 270, "black");
+
+      x++;
+      var y1 = y;
+      var d1 = x * x + y1 * y1;
+
+      var y2 = y - 1;
+      var d2 = x * x + y2 * y2;
+      if (Math.abs(d1 - rs) < Math.abs(d2 - rs)) {
+        y = y1;
+      } else {
+        y = y2;
+      }
     }
+    /*
+      方法一：
+        将圆八等分，每一份根据x与y的关系确定 x^2 + y^2 = r^2;
+        var r = 150;
+        var x = 0;
+        do{
+          var y = Math.sqrt(r*r - x*x);
+          dot(x,y,"black");
+          dot(-x,y,"black");
+          dot(x,-y,"black");
+          dot(-x,-y,"black");
+          dot(y,x,"black");
+          dot(-y,x,"black");
+          dot(y,-x,"black");
+          dot(-y,-x,"black");
+          x++;
+        }while(x < y)
+      方法二：
+        由于对于当前点来说，下一个点要么水平要么y方向改变1
+        因此，可以判断当前点到圆心的距离与半径的关系，取与半径更接近的值作为最终的y值
+        var r = 100;
+        var x = 0;
+        var y = r;
+        var rs = r * r;
+        while(x <=y){
+          dot(x + 270, y + 270, "black");
+          dot(y + 270, x + 270, "black");
+          dot(x + 270, -y + 270, "black");
+          dot(-y + 270, x + 270, "black");
+          dot(-x + 270, y + 270, "black");
+          dot(y + 270, -x + 270, "black");
+          dot(-x + 270, -y + 270, "black");
+          dot(-y + 270, -x + 270, "black");
+          x++;
+          var y1 = y;
+          var d1 = x * x + y1 * y1;
+
+          var y2 = y - 1;
+          var d2 = x * x + y2 * y2;
+          if(Math.abs(d1-rs) < Math.abs(d2 - rs)){
+            y = y1;
+          }else{
+            y = y2;
+          }
+        }
+    */
     // 13.画一个实心的圆
-    for (let i = 300; i <= 400; i++) {
+    /* for (let i = 300; i <= 400; i++) {
       for (let j = 50; j <= 150; j++) {
         if (Math.pow(i - 350, 2) + Math.pow(j - 100, 2) <= 1600) {
           dot(i, j);
         }
       }
+    } */
+    var r = 20;
+    var x = 0;
+    var y = r;
+    var rs = r * r;
+    while (x <= y) {
+      for (let i = 0; i <= x; i++) {
+        for (let j = 0; j <= y; j++) {
+          dot(i + 200, j + 200, "black");
+          dot(i + 200, -j + 200, "black");
+          dot(-i + 200, -j + 200, "black");
+          dot(-i + 200, j + 200, "black");
+          dot(-j + 200, i + 200, "black");
+          dot(-j + 200, -i + 200, "black");
+          dot(j + 200, i + 200, "black");
+          dot(j + 200, -i + 200, "black");
+        }
+      }
+      x++;
+      var y1 = y;
+      var d1 = x * x + y1 * y1;
+
+      var y2 = y - 1;
+      var d2 = x * x + y2 * y2;
+      if (Math.abs(d1 - rs) < Math.abs(d2 - rs)) {
+        y = y1;
+      } else {
+        y = y2;
+      }
     }
     // 14.画一个大小合适的sin(x)的图像
     for (let x = 0; x <= 300; x = x + 1) {
-      if (x % 3 == 0 && x % 2 == 0) {
-        var y = Math.sin(x) * 50 + 200;
-        dot(x, y, "black");
-      }
+      var y = Math.sin(x / 30) * 30;
+      dot(x, y + 220, "black");
     }
   </script>
 </html>
