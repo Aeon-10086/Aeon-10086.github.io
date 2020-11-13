@@ -78,24 +78,46 @@
         dot(i + j, 40, "tomato");
       }
     }
-    // 5.画一条45度的斜线
-    for (let i = 30; i <= 90; i++) {
-      for (let j = 50; j <= 90; j++) {
-        if (i == j) {
-          dot(i, j, "black");
-        }
+    // 求余方法
+    for (let i = 0; i <= 250; i++) {
+      if (x % 5 < 3) {
+        dot(x, 45, "cyan");
       }
     }
+    // 5.画一条45度的斜线
+    for (let i = 30; i <= 90; i++) {
+      dot(i, i, "black");
+    }
     // 6.画一条30度的斜线（选做）
+    // 分析：对于接近水平方向的斜线，其相同x位置上不会出现多个不同y值的坐标点，此时应该使用x作为变量
+    // 同理，对于接近竖直方向的斜线，其相同y位置上不会出现多个不同x值的坐标点，此时应该使用y作为变量
     // 虚假的30度的线
-    for (let i = 0; i <= 150; i++) {
-      for (let j = 0; j <= 120; j++) {
+    for (let i = 0; i <= 250; i++) {
+      /* for (let j = 0; j <= 120; j++) {
         let temp = Math.pow(j, 2) - (Math.pow(i, 2) + Math.pow(j, 2)) / 4;
         if (temp < 1 && temp > -100 && j > 50 && i > 70) {
           dot(i, j, "brown");
         }
-      }
+      } */
+      var j = i / Math.sqrt(3);
+      dot(i, j, "brown");
     }
+    /*
+      由于Math.sqrt(3)是浮点运算，比较消耗性能
+      还可以通过斜率画线，以水平方向过原点的直线为例
+      var dx = 7;//直线上某一点的x坐标
+      var dy = 3;//直线上某一点的y坐标
+      var y = 0;
+      var indey = 0;//水平方向每画一个点，dy的重复次数
+      for(let x = 0; x < 400; x++){
+        dot(x,y,"black");
+        indey += dy;//x + 1，indey 增加 dy
+        if(indey > dx){//当 indey 大于 dx 时，换行，即y+1
+          y++;
+          indey -= dx;//重置 indey 的值(- dx)
+        }
+      }
+    */
     // 7.在四个角画分别画一条45度的斜线以让画面看起来像一个相框
     for (let i = 0; i < 50; i++) {
       for (let j = 50; j > 0; j--) {
@@ -110,7 +132,7 @@
     // 8.画一条跨越画布左上角和右下角的对角线
     for (let i = 0; i <= 400; i++) {
       for (let j = 0; j <= 300; j++) {
-        if (3 * i == 4 * j) {
+        if (3 * i - 4 * j > -3 && 3 * i - 4 * j < 3) {
           dot(i, j, "#f0f");
         }
       }
@@ -153,7 +175,7 @@
     for (let x = 0; x <= 300; x = x + 1) {
       if (x % 3 == 0 && x % 2 == 0) {
         var y = Math.sin(x) * 50 + 200;
-        dot(x, y, "red");
+        dot(x, y, "black");
       }
     }
   </script>

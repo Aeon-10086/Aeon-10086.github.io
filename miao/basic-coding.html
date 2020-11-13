@@ -656,13 +656,11 @@
   // *****球弹跳高度的计算
   var h = Number(prompt("请输入球的起始高度："));
   var d = h;
-  for (let i = 0; i < 10; i++) {
+  for (let i = 1; i < 10; i++) {
     h = h / 2;
-    if (i < 9) {
-      d = d + h * 2;
-    }
+    d = d + h * 2;
   }
-  console.log(d.toFixed(4), h.toFixed(7));
+  console.log(d.toFixed(4), (h / 2).toFixed(7));
 </script>
 <script id="ch0105/21" type="norun">
   // 角谷猜想
@@ -701,21 +699,43 @@
   } else {
     console.log(total);
   }
+  /*
+    var money = 0;
+    var stock = 0;
+    var flag = false;
+    for(let i = 1; i <= 12; i++){
+      money += 300;
+      var budget = Number(prompt());
+      if(money < budget){
+        console.log(-i);
+        flag = true;
+        break;
+      }
+      money = money - budget;
+      if(money >= 100){
+        var left = money % 100;
+        stock += money -left;
+        money = left;
+      }
+    }
+    if(!flag){
+      console.log(sum * 1.2 + money);
+    }
+  */
 </script>
 <script id="ch0105/23" type="norun">
   // 药房管理
+  //stock 库存
   var total = Number(prompt("请输入今天开始的药品总量："));
   var n = Number(prompt("请输入今天取药的人数："));
-  var i = 1,
-    k = 0;
-  while (i <= n) {
+  var k = 0;
+  for(let i = 0; i < n;  i++){
     var m = Number(prompt("请输入病人所希望取走的药品数:"));
     if (m < total) {
       total = total - m;
     } else {
       k = k + 1;
     }
-    i = i + 1;
   }
   console.log(k);
 </script>
@@ -723,11 +743,15 @@
   // 正常血压
   var n = Number(prompt("请输入测量次数："));
   var t = 0;
+  var max = 0;
   for (let i = 0; i < n; i++) {
     var sbp = Number(prompt("请输入收缩压："));
     var dbp = Number(prompt("请输入舒张压："));
     if (sbp >= 90 && sbp <= 140 && dbp >= 60 && dbp <= 90) {
       t = t + 1;
+      if(t > max){//记录最大值
+        max = t;
+      }
     } else {
       t = 0;
     }
@@ -747,6 +771,18 @@
       }
     }
   }
+  /* for (let i = 1; i <= 999; i++) {
+    var a7 = i % 7; //7进制的个位数
+    var b7 = ((i - a7) / 7) % 7; //7进制的七位数
+    var c7 = ((i - a7 - b7 * 7) / 49) % 7; //7进制的四九位数
+    var a9 = i % 9; //7进制的个位数
+    var b9 = ((i - a9) / 9) % 9; //7进制的九位数
+    var c9 = ((i - a9 - b9 * 9) / 81) % 9; //7进制的八一位数
+    if (a7 == c9 && b7 == b9 && c7 == a9) {
+      console.log(i, "" + c7 + b7 + a7, "" + c9 + b9 + a9);
+      break;
+    }
+  } */
 </script>
 <script id="ch0105/26" type="norun">
   // 统计满足条件的4位数个数
@@ -911,8 +947,22 @@
   }
   console.log(sum.toFixed(2));
 </script>
-<script id="ch0105/37" type="">
+<script id="ch0105/37" type="norun">
   // 雇佣兵
+  var m = parseInt(Number(prompt("请输入体力最大值：")));
+  var n = parseInt(Number(prompt("请输入战斗力：")));
+  var x = parseInt(Number(prompt("请输入拥有的能源元素：")));
+  var i = 0;
+  while (x >= 0) {
+    i++;
+    if (i * n >= m) {
+      var b = parseInt(m / n);
+      n += b;
+      x -= i;
+      i = 0;
+    }
+  }
+  console.log(n);
 </script>
 <script id="ch0105/38" type="">
   // 计算多项式的导函数
@@ -957,12 +1007,13 @@
   }
   console.log(sum);
 </script>
-<script id="ch0105/42" type="norun">
+<script id="ch0105/42" type="">
   // 画矩形
   var h = Number(prompt("请输入一个矩形的高："));
   var w = Number(prompt("请输入一个矩形的宽："));
   var str = prompt("请输入用于画矩形的符号：");
   var flag = Number(prompt("请输入是否使用实心(1/0)："));
+  var totalStr = "";
   for (let i = 0; i < h; i++) {
     var pStr = str;
     for (let j = 0; j < w - 2; j++) {
@@ -972,8 +1023,9 @@
         pStr = pStr + " ";
       }
     }
-    console.log(pStr + str);
+    totalStr += pStr + str + "\n";
   }
+  console.log(totalStr);
 </script>
 <script id="ch0105/43" type="norun">
   // 质因数分解
