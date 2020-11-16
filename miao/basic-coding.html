@@ -206,10 +206,10 @@
     }
   }
 </script>
-<script id="itob" type="norun">
+<script id="itob" type="">
   // itob: 不使用隐式类型转换将一个数字转换为字符串
   var itob = function (n) {
-    return "" + n;
+    return n.toString();
   };
   var n = Number(prompt("请输入数字："));
   console.log(itob(n));
@@ -1348,19 +1348,29 @@
   }
   console.log(sum);
   /*
-  var n = Number(prompt("请输入一个天数："));
-  var coin = 1;
-  var day = 0;
-  var count = 1;
-  for(let i = 1; i <= n; i++){
-    sum += coin;
-    day++;
-    if(day === count){
-      coin++;
-      count++;
-      day = 0;
+  方法一：
+    var n = Number(prompt("请输入一个天数："));
+    var coin = 1;//某天给的金币数量
+    var day = 0;//这种金币已经给了多少天了
+    var count = 1;//当前金币需要连续给多少天
+    var sum = 0;
+    for(let i = 1; i <= n; i++){
+      sum += coin;
+      day++;
+      if(day === count){
+        coin++;
+        count++;
+        day = 0;
+      }
     }
-  }
-  console.log(sum);
+    console.log(sum);
+  方法二：
+    自然数的前n项平方和
+    var n = Number(prompt("请输入一个天数："));
+    var delta = Math.sqrt(1 + 4 * 2 * d);
+    var d = Math.floor((-1 + delta) / 2);
+    var restDay = n - d * (d + 1) / 2;
+    var result = d * (d + 1) * (2 * d + 1) / 6 + restDay * (d + 1);
+    console.log(result);
   */
 </script>
