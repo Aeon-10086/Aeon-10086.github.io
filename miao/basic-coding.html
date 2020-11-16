@@ -70,17 +70,43 @@
     }
   }
 </script>
-<script id="palindrom" type="norun">
-  // palindrom: 写函数求阶乘
+<script id="palindrom" type="">
+  // palindrom: 判断回文数
   var palindrom = function (n) {
-    let sum = 1;
-    for (let i = 1; i <= n; i++) {
-      sum *= i;
-    }
-    return sum;
+    let c = 0;
+    let temp = n;
+    do {
+      c++;
+      temp = Math.floor(temp / 10);
+    } while (temp > 0);
+    let sum = (n % 10) * Math.pow(10, --c);
+    temp = n;
+    do {
+      c--;
+      temp = Math.floor(temp / 10);
+      sum += Math.pow(10, c) * (temp % 10);
+    } while (temp > 0);
+    return sum === n ? "YES" : "NO";
   };
+  var n = Number(prompt("请输入数字："));
+  console.log(palindrom(n));
 </script>
-<script id="weekday" type="norun"></script>
+<script id="weekday" type="norun">
+  // ***不会*** weekday: 给定年和月，计算这个月的第一天是星期几
+  var y = Number(prompt("请输入年份："));
+  var m = Number(prompt("请输入月份："));
+  switch (m) {
+    case 1:
+      m = 13;
+      break;
+    case 2:
+      m = 14;
+      break;
+  }
+  var w = (1 + 2 * m + (3 * (m + 1)) / 5 + y + y / 4 - y / 100 + y / 400) % 7;
+  console.log(w);
+  console.log(Math.round(w));
+</script>
 <script id="complete-number" type="norun">
   // complete-number: 写一个函数求一个数是否为完全数（它的因子之和等于它自己）
   var completeNumber = function (n) {
@@ -177,7 +203,7 @@
   var n = Number(prompt("请输入数字："));
   console.log(itob(n));
 </script>
-<script id="lcf&lcm" type="">
+<script id="lcf&lcm" type="norun">
   // lcf: 写函数求出两个数的最大公约数
   var lcf = function (m, n) {
     let t = m % n;
