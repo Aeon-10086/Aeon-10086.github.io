@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <meta charset="utf-8" />
 <!-- 单项题 -->
-<script id="sqrt" type="">
+<script id="sqrt" type="norun">
   // sqrt: 求一个正数的平方根
   var sqrt = function (n) {
     return Math.sqrt(n);
   };
+  var n = Number(prompt("请输入数字："));
+  console.log(sqrt(n).toFixed(3));
 </script>
-<script id="narcissistic" type="">
+<script id="narcissistic" type="norun">
   // narcissistic: 写一个函数判断一个数是否为水仙花数
   var narcissistic = function (n) {
     if (n < 100) {
@@ -31,16 +33,44 @@
     }
     return false;
   };
+  var n = Number(prompt("请输入数字："));
+  if (narcissistic(n)) {
+    console.log("YES");
+  } else {
+    console.log("NO");
+  }
 </script>
-<script id="narcissistics" type="">
-  // narcissistics: 输出10000以内的所有水仙花数
-  for (let i = 100; i < 10000; i++) {
+<script id="narcissistics" type="norun">
+  // narcissistics: 输出1000以内的所有水仙花数
+  var narcissistic = function (n) {
+    if (n < 100) {
+      return false;
+    }
+    let x = 0;
+    let temp = n;
+    let d = n % 10;
+    do {
+      temp = Math.floor(temp / 10);
+      x++;
+    } while (temp > 0);
+    let sum = Math.pow(d, x);
+    temp = n;
+    while (temp > 0) {
+      sum += Math.pow(Math.floor(temp / 10) % 10, x);
+      temp = Math.floor(temp / 10);
+    }
+    if (sum === n) {
+      return true;
+    }
+    return false;
+  };
+  for (let i = 100; i < 1000; i++) {
     if (narcissistic(i)) {
       console.log(i);
     }
   }
 </script>
-<script id="palindrom" type="">
+<script id="palindrom" type="norun">
   // palindrom: 写函数求阶乘
   var palindrom = function (n) {
     let sum = 1;
@@ -50,8 +80,8 @@
     return sum;
   };
 </script>
-<script id="weekday" type=""></script>
-<script id="complete-number" type="">
+<script id="weekday" type="norun"></script>
+<script id="complete-number" type="norun">
   // complete-number: 写一个函数求一个数是否为完全数（它的因子之和等于它自己）
   var completeNumber = function (n) {
     let sum = 0;
@@ -65,16 +95,34 @@
     }
     return false;
   };
+  var n = Number(prompt("请输入数字："));
+  if (completeNumber(n)) {
+    console.log("YES");
+  } else {
+    console.log("NO");
+  }
 </script>
-<script id="complete-numbers" type="">
+<script id="complete-numbers" type="norun">
   // complete-numbers: 输出1000以内的所有完数
+  var completeNumber = function (n) {
+    let sum = 0;
+    for (let i = 1; i <= n / 2; i++) {
+      if (n % i == 0) {
+        sum += i;
+      }
+    }
+    if (sum == n && n != 0) {
+      return true;
+    }
+    return false;
+  };
   for (let i = 0; i <= 1000; i++) {
     if (completeNumber(i)) {
       console.log(i);
     }
   }
 </script>
-<script id="prime" type="">
+<script id="prime" type="norun">
   // prime: 判断素数
   var prime = function (n) {
     var sqrt_n = Math.sqrt(n);
@@ -91,22 +139,45 @@
     }
     return true;
   };
+  var n = Number(prompt("请输入数字："));
+  if (prime(n)) {
+    console.log("YES");
+  } else {
+    console.log("NO");
+  }
 </script>
-<script id="primes" type="">
-  // primes: 输出1000以内的素数
-  for (let i = 1; i <= 1000; i++) {
+<script id="primes" type="norun">
+  // primes: 输出100以内的素数
+  var prime = function (n) {
+    var sqrt_n = Math.sqrt(n);
+    if (n == 2 || n == 3) {
+      return true;
+    }
+    if ((n % 6 != 1 && n % 6 !== 5) || n == 1) {
+      return false;
+    }
+    for (let i = 2; i <= sqrt_n; i++) {
+      if (n % i == 0) {
+        return false;
+      }
+    }
+    return true;
+  };
+  for (let i = 1; i <= 100; i++) {
     if (prime(i)) {
       console.log(i);
     }
   }
 </script>
-<script id="itob" type="">
+<script id="itob" type="norun">
   // itob: 不使用隐式类型转换将一个数字转换为字符串
   var itob = function (n) {
     return "" + n;
   };
+  var n = Number(prompt("请输入数字："));
+  console.log(itob(n));
 </script>
-<script id="lcf" type="">
+<script id="lcf&lcm" type="">
   // lcf: 写函数求出两个数的最大公约数
   var lcf = function (m, n) {
     let t = m % n;
@@ -117,8 +188,6 @@
     }
     return m;
   };
-</script>
-<script id="lcm" type="">
   // lcm: 写函数求出两个数的最小公倍数
   var lcm = function (m, n) {
     let t = m % n;
@@ -131,6 +200,10 @@
     }
     return (m * n) / a;
   };
+  var m = Number(prompt("请输入数字："));
+  var n = Number(prompt("请输入数字："));
+  console.log(lcm(m, n));
+  console.log(lcf(m, n));
 </script>
 <!-- ch0103 -->
 <script id="ch0103/01" type="norun">
@@ -1096,7 +1169,7 @@
   }
   console.log(n);
 </script>
-<script id="ch0105/38" type="">
+<script id="ch0105/38" type="norun">
   // 计算多项式的导函数
   var total = Number(prompt("请输入多项式的组数："));
   for (let i = 0; i < total; i++) {
@@ -1173,7 +1246,7 @@
   }
   console.log(totalStr);
 </script>
-<script id="ch0105/43" type="">
+<script id="ch0105/43" type="norun">
   // 质因数分解
   /*
     分析范围1-n的因子，必然在 1-n/2 之间，必然在 Math.sqrt(n)
