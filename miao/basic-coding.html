@@ -1,5 +1,137 @@
 <!DOCTYPE html>
 <meta charset="utf-8" />
+<!-- 单项题 -->
+<script id="sqrt" type="">
+  // sqrt: 求一个正数的平方根
+  var sqrt = function (n) {
+    return Math.sqrt(n);
+  };
+</script>
+<script id="narcissistic" type="">
+  // narcissistic: 写一个函数判断一个数是否为水仙花数
+  var narcissistic = function (n) {
+    if (n < 100) {
+      return false;
+    }
+    let x = 0;
+    let temp = n;
+    let d = n % 10;
+    do {
+      temp = Math.floor(temp / 10);
+      x++;
+    } while (temp > 0);
+    let sum = Math.pow(d, x);
+    temp = n;
+    while (temp > 0) {
+      sum += Math.pow(Math.floor(temp / 10) % 10, x);
+      temp = Math.floor(temp / 10);
+    }
+    if (sum === n) {
+      return true;
+    }
+    return false;
+  };
+</script>
+<script id="narcissistics" type="">
+  // narcissistics: 输出10000以内的所有水仙花数
+  for (let i = 100; i < 10000; i++) {
+    if (narcissistic(i)) {
+      console.log(i);
+    }
+  }
+</script>
+<script id="palindrom" type="">
+  // palindrom: 写函数求阶乘
+  var palindrom = function (n) {
+    let sum = 1;
+    for (let i = 1; i <= n; i++) {
+      sum *= i;
+    }
+    return sum;
+  };
+</script>
+<script id="weekday" type=""></script>
+<script id="complete-number" type="">
+  // complete-number: 写一个函数求一个数是否为完全数（它的因子之和等于它自己）
+  var completeNumber = function (n) {
+    let sum = 0;
+    for (let i = 1; i <= n / 2; i++) {
+      if (n % i == 0) {
+        sum += i;
+      }
+    }
+    if (sum == n && n != 0) {
+      return true;
+    }
+    return false;
+  };
+</script>
+<script id="complete-numbers" type="">
+  // complete-numbers: 输出1000以内的所有完数
+  for (let i = 0; i <= 1000; i++) {
+    if (completeNumber(i)) {
+      console.log(i);
+    }
+  }
+</script>
+<script id="prime" type="">
+  // prime: 判断素数
+  var prime = function (n) {
+    var sqrt_n = Math.sqrt(n);
+    if (n == 2 || n == 3) {
+      return true;
+    }
+    if ((n % 6 != 1 && n % 6 !== 5) || n == 1) {
+      return false;
+    }
+    for (let i = 2; i <= sqrt_n; i++) {
+      if (n % i == 0) {
+        return false;
+      }
+    }
+    return true;
+  };
+</script>
+<script id="primes" type="">
+  // primes: 输出1000以内的素数
+  for (let i = 1; i <= 1000; i++) {
+    if (prime(i)) {
+      console.log(i);
+    }
+  }
+</script>
+<script id="itob" type="">
+  // itob: 不使用隐式类型转换将一个数字转换为字符串
+  var itob = function (n) {
+    return "" + n;
+  };
+</script>
+<script id="lcf" type="">
+  // lcf: 写函数求出两个数的最大公约数
+  var lcf = function (m, n) {
+    let t = m % n;
+    while (n != 0) {
+      m = n;
+      n = t;
+      t = m % n;
+    }
+    return m;
+  };
+</script>
+<script id="lcm" type="">
+  // lcm: 写函数求出两个数的最小公倍数
+  var lcm = function (m, n) {
+    let t = m % n;
+    let a = m;
+    let b = n;
+    while (b != 0) {
+      a = b;
+      b = t;
+      t = a % b;
+    }
+    return (m * n) / a;
+  };
+</script>
 <!-- ch0103 -->
 <script id="ch0103/01" type="norun">
   // 求和 A + B
@@ -1041,8 +1173,25 @@
   }
   console.log(totalStr);
 </script>
-<script id="ch0105/43" type="norun">
+<script id="ch0105/43" type="">
   // 质因数分解
+  /*
+    分析范围1-n的因子，必然在 1-n/2 之间，必然在 Math.sqrt(n)
+    素数两性定理，大于3的所有素数都分布在 6n + 1 和 6n - 1列
+    var n = Number(prompt());
+    var isPrime = true;
+    var sqrt_n = Math.sqrt(n);
+    if(n == 2 || n == 3 || n % 6 == 1 || n % 6 == 5){
+      for(let j = 2; j <= sqrt_n; j++){
+        if(i%j == 0){
+          isPrime = false;
+          break;
+        }
+      }
+    }else{
+      isPrime = false;
+    }
+  */
   var n = Number(prompt("请输入一个正整数："));
   var flag = 0;
   for (let x = 1; x <= n; x++) {
@@ -1083,9 +1232,25 @@
   var n = Number(prompt("请输入一个天数："));
   var sum = 0;
   var d = 1;
-  for (let i = 1; i <= 6; i = i + d) {
+  for (let i = 1; i <= n; i = i + d) {
     sum += d * d;
     d++;
   }
   console.log(sum);
+  /*
+  var n = Number(prompt("请输入一个天数："));
+  var coin = 1;
+  var day = 0;
+  var count = 1;
+  for(let i = 1; i <= n; i++){
+    sum += coin;
+    day++;
+    if(day === count){
+      coin++;
+      count++;
+      day = 0;
+    }
+  }
+  console.log(sum);
+  */
 </script>
