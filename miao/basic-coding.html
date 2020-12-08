@@ -2,7 +2,7 @@
 <meta charset="utf-8" />
 <!-- 单项题 -->
 <script id="sqrt" type="norun">
-  // sqrt: 求一个正数的平方根
+  // sqrt: 求一个正数的平方根（不可以用 Math.sqrt()）
   var sqrt = function (n) {
     return Math.sqrt(n);
   };
@@ -72,7 +72,7 @@
 </script>
 <script id="palindrom" type="norun">
   // palindrom: 判断回文数
-  var palindrom = function (n) {
+  /* var palindrom = function (n) {
     let c = 0;
     let temp = n;
     do {
@@ -86,12 +86,43 @@
       temp = Math.floor(temp / 10);
       sum += Math.pow(10, c) * (temp % 10);
     } while (temp > 0);
-    return sum === n ? "YES" : "NO";
-  };
+    return sum === n ? true : false;
+  }; */
+  /* function palindrom(n) {
+    let m = n;
+    var revert = 0;
+    while (m > 0) {
+      var digit = m % 10;
+      revert = revert * 10 + digit;
+      m = (m - digit) / 10;
+    }
+    return revert == n;
+  } */
+  function palindrom(n) {
+    let w = 0;
+    let temp = n;
+    do {
+      w++;
+      temp = Math.floor(temp / 10);
+    } while (temp > 0);
+    for (let i = 0; i < (w - 1) / 2; i++) {
+      let j = w - i - 1;
+      let di = Math.floor(n / Math.pow(10, i)) % 10;
+      let dj = Math.floor(n / Math.pow(10, j)) % 10;
+      if (di !== dj) {
+        return false;
+      }
+    }
+    return true;
+  }
   var n = Number(prompt("请输入数字："));
-  console.log(palindrom(n));
+  if (palindrom(n)) {
+    console.log("YES");
+  } else {
+    console.log("NO");
+  }
 </script>
-<script id="factorial" type="">
+<script id="factorial" type="norun">
   var factorial = function (n) {
     let sum = 1;
     for (let i = 1; i <= n; i++) {
@@ -120,18 +151,35 @@
 </script>
 <script id="complete-number" type="norun">
   // complete-number: 写一个函数求一个数是否为完全数（它的因子之和等于它自己）
-  var completeNumber = function (n) {
-    let sum = 0;
-    for (let i = 1; i <= n / 2; i++) {
+  /* var completeNumber = function (n) {
+    let sum = 1;
+    for (let i = 2; i <= n / 2; i++) {
       if (n % i == 0) {
         sum += i;
       }
     }
-    if (sum == n && n != 0) {
-      return true;
+    return sum == n && n != 0;
+  }; */
+  function completeNumber(n) {
+    //由于，一个数的两个因子知道其中一个时，可以算出另外一个，因此遍历可以减半
+    let sum = 1;
+    for (let i = 2; i * i <= n; i++) {
+      if (n % i == 0) {
+        let j = n / i; //当因子为i时另一个因子的值
+        if (i == j) {
+          //此时，i = j = Math.sqrt(n),只需要其中一个即可
+          sum += i;
+        } else {
+          sum += i + j;
+        }
+        if (sum > n) {
+          //当sum > n直接返回false
+          return false;
+        }
+      }
     }
-    return false;
-  };
+    return sum == n && n != 0;
+  }
   var n = Number(prompt("请输入数字："));
   if (completeNumber(n)) {
     console.log("YES");
@@ -206,7 +254,7 @@
     }
   }
 </script>
-<script id="itob" type="">
+<script id="itob" type="norun">
   // itob: 不使用隐式类型转换将一个数字转换为字符串
   var itob = function (n) {
     return n.toString();
@@ -1291,16 +1339,16 @@
     var n = Number(prompt());
     var isPrime = true;
     var sqrt_n = Math.sqrt(n);
-    if(n == 2 || n == 3 || n % 6 == 1 || n % 6 == 5){
+    //if(n == 2 || n == 3 || n % 6 == 1 || n % 6 == 5){
       for(let j = 2; j <= sqrt_n; j++){
         if(i%j == 0){
           isPrime = false;
           break;
         }
       }
-    }else{
-      isPrime = false;
-    }
+    //}else{
+      //isPrime = false;
+   // }
   */
   var n = Number(prompt("请输入一个正整数："));
   var flag = 0;

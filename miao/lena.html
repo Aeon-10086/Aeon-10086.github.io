@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./JS/lena.js"></script>
+  </head>
+  <body>
+    <canvas width="1000" height="1000"></canvas>
+  </body>
+  <script>
+    var canvas = document.querySelector("canvas");
+    canvas.style.imageRendering = "pixelated";
+    var ctx = canvas.getContext("2d");
+
+    function dot(x, y, color = "black") {
+      x = x | 0;
+      y = y | 0;
+      ctx.fillStyle = color;
+      ctx.fillRect(x, y, 1, 1);
+    }
+
+    function line(x1, y1, x2, y2) {
+      ctx.strokeStyle = "black";
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.stroke();
+    }
+    for (let i = 0; i < lena.length; i++) {
+      for (let j = 0; j < lena[0].length; j++) {
+        dot(j, i, `rgb(${lena[i][j][0]},${lena[i][j][1]},${lena[i][j][2]})`);
+      }
+    }
+  </script>
+</html>
