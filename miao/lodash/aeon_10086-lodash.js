@@ -127,6 +127,24 @@ var aeon_10086 = (function () {
     ary = [...res];
     return ary;
   }
+  function dropRightWhile(ary, predicate) {
+    let i = 0;
+    for (; i < ary.length; i++) {
+      if (predicate(ary[i], i, ary)) {
+        break;
+      }
+    }
+    return ary.slice(0, i);
+  }
+  function dropWhile(ary, predicate) {
+    let i = 0;
+    for (; i < ary.length; i++) {
+      if (!predicate(ary[i], i, ary)) {
+        break;
+      }
+    }
+    return ary.slice(i);
+  }
   //填充
   function fill(ary, val, start = 0, end = ary.length) {
     for (let i = start; i < end; i++) {
@@ -209,12 +227,16 @@ var aeon_10086 = (function () {
     });
     return flattenDepth(res, depth - 1);
   }
-  function formPairs(ary) {
+  function fromPairs(ary) {
     let res = {};
     for (let i = 0; i < ary.length; i++) {
       res[ary[i][0]] = ary[i][1];
     }
     return res;
+  }
+  function nth(ary, n = 0) {
+    if (n < 0) return ary[ary.length + n];
+    return ary[n];
   }
   function head(ary) {
     if (ary.length < 1) return;
@@ -245,32 +267,27 @@ var aeon_10086 = (function () {
     }
     return ary;
   }
-  //待改进
   function sortedIndex(ary, val) {
     let n = ary.length;
     if (val <= ary[0]) {
-      ary.unshift(val);
-      return ary;
+      return 0;
     }
     if (val > ary[n - 1]) {
-      ary.push(ary);
-      return ary;
+      return n;
     }
     let l = 0;
     let r = n - 1;
     while (r - l > 1) {
       let m = Math.floor((r + l) / 2);
       if (val == ary[m]) {
-        ary.splice(m, 0, val);
-        return ary;
+        return m;
       } else if (ary[m] > val) {
         r = m;
       } else {
         l = m;
       }
     }
-    ary.splice(r, 0, val);
-    return ary;
+    return r;
   }
   function every(ary, callback) {
     for (let i = 0; i < ary.length; i++) {
@@ -383,6 +400,47 @@ var aeon_10086 = (function () {
     }
     return res;
   }
+  function eq(val, other) {
+    return val === other;
+  }
+  function gt(val, other) {
+    return val > other;
+  }
+  function gte(val, other) {
+    return val >= other;
+  }
+  function lt(val, other) {
+    return val < other;
+  }
+  function lte(val, other) {
+    return val <= other;
+  }
+  function castArray(val = []) {
+    if (val === undefined) return [undefined];
+    if (val === null) return [null];
+    if (Array.isArray(val)) return val;
+    return [val];
+  }
+  function clone(value) {
+    return value;
+  }
+  function remove(ary, predicate) {
+    for (let i = 0; i < ary.length; i++) {
+      if (predicate(ary[i], i, ary)) {
+        ary.splice(i, 1);
+        i--;
+      }
+    }
+    return ary;
+  }
+  function pull(ary, ...vals) {
+    remove(ary, (item) => vals.includes(item));
+    return ary;
+  }
+  function pullAll(ary, vals) {
+    remove(ary, (item) => vals.includes(item));
+    return ary;
+  }
   //工具函数
   function DeepComparsion(obj1, obj2) {
     for (key in obj1) {
@@ -432,7 +490,7 @@ var aeon_10086 = (function () {
     flatten,
     flattenDeep,
     flattenDepth,
-    formPairs,
+    fromPairs,
     head,
     indexOf,
     initial,
@@ -448,7 +506,20 @@ var aeon_10086 = (function () {
     sum,
     sumBy,
     toArray,
+    lt,
+    lte,
+    eq,
+    gt,
+    gte,
+    castArray,
+    clone,
+    dropRightWhile,
+    dropWhile,
+    nth,
+    remove,
+    pull,
+    pullAll,
   };
 })();
-const TESTRES = aeon_10086.toArray(null);
+const TESTRES = aeon_10086.pullAll([1, 2, 3, 1, 2, 3], [1, 2]);
 console.log(TESTRES);
