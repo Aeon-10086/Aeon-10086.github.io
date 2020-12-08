@@ -92,7 +92,7 @@ var aeon_10086 = (function () {
   function join(ary, str) {
     let res = "";
     for (let i = 0; i < ary.length - 1; i++) {
-      res += ary[i] + str;
+      res = res + ary[i] + str;
     }
     res += ary[ary.length - 1];
     return res;
@@ -170,7 +170,14 @@ var aeon_10086 = (function () {
     return -1;
   }
   function flatten(ary) {
-    let res = [...ary];
+    let res = [];
+    for (let item of ary) {
+      if (Array.isArray(item)) {
+        res.push(...item);
+      } else {
+        res.push(item);
+      }
+    }
     return res;
   }
   function flattenDeep(ary) {
@@ -202,6 +209,180 @@ var aeon_10086 = (function () {
     });
     return flattenDepth(res, depth - 1);
   }
+  function formPairs(ary) {
+    let res = {};
+    for (let i = 0; i < ary.length; i++) {
+      res[ary[i][0]] = ary[i][1];
+    }
+    return res;
+  }
+  function head(ary) {
+    if (ary.length < 1) return;
+    return ary[0];
+  }
+  function indexOf(ary, val, fromIndex = 0) {
+    for (let i = fromIndex; i < ary.length; i++) {
+      if (ary[i] === val) return i;
+    }
+    return -1;
+  }
+  function initial(ary) {
+    if (ary.length < 2) return [];
+    let res = [...ary];
+    res.pop();
+    return res;
+  }
+  function reverse(ary) {
+    if (ary.length < 2) return ary;
+    let l = 0;
+    let right = ary.length - 1;
+    while (l < right) {
+      let temp = ary[l];
+      ary[l] = ary[right];
+      ary[right] = temp;
+      l++;
+      right--;
+    }
+    return ary;
+  }
+  //待改进
+  function sortedIndex(ary, val) {
+    let n = ary.length;
+    if (val <= ary[0]) {
+      ary.unshift(val);
+      return ary;
+    }
+    if (val > ary[n - 1]) {
+      ary.push(ary);
+      return ary;
+    }
+    let l = 0;
+    let r = n - 1;
+    while (r - l > 1) {
+      let m = Math.floor((r + l) / 2);
+      if (val == ary[m]) {
+        ary.splice(m, 0, val);
+        return ary;
+      } else if (ary[m] > val) {
+        r = m;
+      } else {
+        l = m;
+      }
+    }
+    ary.splice(r, 0, val);
+    return ary;
+  }
+  function every(ary, callback) {
+    for (let i = 0; i < ary.length; i++) {
+      if (!callback(ary[i])) return false;
+    }
+    return true;
+  }
+  function filter(ary, callback) {
+    let res = [];
+    for (let item of ary) {
+      if (callback(item)) res.push(item);
+    }
+    return res;
+  }
+  function find(ary, predicate, fromIndex = 0) {
+    for (let i = fromIndex; i < ary.length; i++) {
+      if (predicate(ary[i], i, ary)) return ary[i];
+    }
+    return;
+  }
+  function max(ary) {
+    if (ary.length < 1) return undefined;
+    let max = -Infinity;
+    for (let item of ary) {
+      if (max < item) {
+        max = item;
+      }
+    }
+    return max;
+  }
+  function maxBy(ary, callback) {
+    if (ary.length < 1) return undefined;
+    let max = -Infinity;
+    let res;
+    if (typeof callback == "function") {
+      for (let item of ary) {
+        if (max < callback(item)) {
+          max = callback(item);
+          res = item;
+        }
+      }
+    } else {
+      for (let item of ary) {
+        if (max < item[callback]) {
+          max = item[callback];
+          res = item;
+        }
+      }
+    }
+
+    return res;
+  }
+  function min(ary) {
+    if (ary.length < 1) return undefined;
+    let min = Infinity;
+    for (let item of ary) {
+      if (min > item) {
+        min = item;
+      }
+    }
+    return min;
+  }
+  function minBy(ary, callback) {
+    if (ary.length < 1) return undefined;
+    let min = Infinity;
+    let res;
+    if (typeof callback == "function") {
+      for (let item of ary) {
+        if (min > callback(item)) {
+          min = callback(item);
+          res = item;
+        }
+      }
+    } else {
+      for (let item of ary) {
+        if (min > item[callback]) {
+          min = item[callback];
+          res = item;
+        }
+      }
+    }
+    return res;
+  }
+  function sum(ary) {
+    let sum = ary.reduce((prev, item) => prev + item, 0);
+    return sum;
+  }
+  function sumBy(ary, callback) {
+    let sum = 0;
+    if (typeof callback == "function") {
+      for (let item of ary) {
+        sum += callback(item);
+      }
+    } else {
+      for (let item of ary) {
+        sum += item[callback];
+      }
+    }
+    return sum;
+  }
+  function toArray(val) {
+    if (typeof val == "string") {
+      return val.split("");
+    }
+    let res = [];
+    if (typeof val == "object") {
+      for (let key in val) {
+        res.push(val[key]);
+      }
+    }
+    return res;
+  }
   //工具函数
   function DeepComparsion(obj1, obj2) {
     for (key in obj1) {
@@ -232,6 +413,7 @@ var aeon_10086 = (function () {
     }
     return true;
   }
+
   return {
     chunk,
     compact,
@@ -250,7 +432,23 @@ var aeon_10086 = (function () {
     flatten,
     flattenDeep,
     flattenDepth,
+    formPairs,
+    head,
+    indexOf,
+    initial,
+    reverse,
+    sortedIndex,
+    every,
+    filter,
+    find,
+    max,
+    maxBy,
+    min,
+    minBy,
+    sum,
+    sumBy,
+    toArray,
   };
 })();
-const TESTRES = aeon_10086.flattenDepth([1, [2, [3, [4]], 5]], 2);
+const TESTRES = aeon_10086.toArray(null);
 console.log(TESTRES);
