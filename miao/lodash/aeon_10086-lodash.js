@@ -128,11 +128,79 @@ var aeon_10086 = (function () {
     return ary;
   }
   //填充
-  function fill(ary, val,start = 0, end = ary.length){
-    for(let i = start, i < end; i++){
+  function fill(ary, val, start = 0, end = ary.length) {
+    for (let i = start; i < end; i++) {
       ary[i] = val;
     }
     return ary;
+  }
+  // 查找第一个符合条件的元素的索引值
+  function findIndex(ary, predicate, fromIndex = 0) {
+    for (let i = fromIndex; i < ary.length; i++) {
+      if (ary[i] === predicate) {
+        return i;
+      } else if (typeof predicate === "function" && predicate(ary[i])) {
+        return i;
+      } else if (
+        typeof predicate === "object" &&
+        DeepComparsion(ary[i], predicate)
+      ) {
+        return i;
+      } else if (ary[i][predicate]) {
+        return i;
+      }
+    }
+    return -1;
+  }
+  function findLastIndex(ary, predicate, fromIndex = ary.length - 1) {
+    for (let i = fromIndex; i >= 0; i--) {
+      if (ary[i] === predicate) {
+        return i;
+      } else if (typeof predicate === "function" && predicate(ary[i])) {
+        return i;
+      } else if (
+        typeof predicate === "object" &&
+        DeepComparsion(ary[i], predicate)
+      ) {
+        return i;
+      } else if (ary[i][predicate]) {
+        return i;
+      }
+    }
+    return -1;
+  }
+  function flatten(ary) {
+    let res = [...ary];
+    return res;
+  }
+  function flattenDeep(ary) {
+    let res = [];
+    function fd(ary) {
+      if (!Array.isArray(ary)) {
+        return ary;
+      }
+      ary.forEach((item) => {
+        if (Array.isArray(item)) {
+          fd(item);
+        } else {
+          res.push(item);
+        }
+      });
+    }
+    fd(ary);
+    return res;
+  }
+  function flattenDepth(ary, depth = 1) {
+    if (depth === 0) return ary;
+    let res = [];
+    ary.forEach((item) => {
+      if (Array.isArray(item)) {
+        res = res.concat(item);
+      } else {
+        res.push(item);
+      }
+    });
+    return flattenDepth(res, depth - 1);
   }
   //工具函数
   function DeepComparsion(obj1, obj2) {
@@ -176,7 +244,13 @@ var aeon_10086 = (function () {
     lastIndexOf,
     drop,
     dropRight,
+    fill,
+    findIndex,
+    findLastIndex,
+    flatten,
+    flattenDeep,
+    flattenDepth,
   };
 })();
-const TESTRES = aeon_10086.dropRight([1, 32, 5, 23, 3], 0);
+const TESTRES = aeon_10086.flattenDepth([1, [2, [3, [4]], 5]], 2);
 console.log(TESTRES);
