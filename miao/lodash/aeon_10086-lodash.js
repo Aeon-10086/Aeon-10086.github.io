@@ -59,7 +59,18 @@ var aeon_10086 = (function () {
         }
       }
     }
-
+    if (typeof callback == "string") {
+      for (let item1 of ary) {
+        let flag = true;
+        for (let item2 of args) {
+          if (item1[callback] == item2[callback]) {
+            flag = false;
+            break;
+          }
+        }
+        if (flag) res.push(item1);
+      }
+    }
     return res;
   }
   //比较 ary 和 args 中的函数
@@ -521,5 +532,5 @@ var aeon_10086 = (function () {
     pullAll,
   };
 })();
-const TESTRES = aeon_10086.pullAll([1, 2, 3, 1, 2, 3], [1, 2]);
+const TESTRES = aeon_10086.differenceBy([{ x: 2 }, { x: 1 }], [{ x: 1 }], "x");
 console.log(TESTRES);
