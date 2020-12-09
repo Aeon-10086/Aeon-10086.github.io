@@ -325,23 +325,14 @@ var aeon_10086 = (function () {
     return ary;
   }
   function sortedIndex(ary, val) {
-    let n = ary.length;
-    if (val <= ary[0]) {
-      return 0;
-    }
-    if (val > ary[n - 1]) {
-      return n;
-    }
     let l = 0;
-    let r = n - 1;
-    while (r - l > 1) {
+    let r = ary.length;
+    while (l < r) {
       let m = Math.floor((r + l) / 2);
-      if (val == ary[m]) {
-        return m;
-      } else if (ary[m] > val) {
-        r = m;
+      if (ary[m] < val) {
+        l = m + 1;
       } else {
-        l = m;
+        r = m;
       }
     }
     return r;
@@ -458,6 +449,9 @@ var aeon_10086 = (function () {
     return res;
   }
   function eq(val, other) {
+    if (Number.isNaN(val) && Number.isNaN(other)) {
+      return true;
+    }
     return val === other;
   }
   function gt(val, other) {
@@ -472,7 +466,7 @@ var aeon_10086 = (function () {
   function lte(val, other) {
     return val <= other;
   }
-  function castArray(val = []) {
+  function castArray(val) {
     if (val === undefined) return [undefined];
     if (val === null) return [null];
     if (Array.isArray(val)) return val;
@@ -578,10 +572,5 @@ var aeon_10086 = (function () {
     pullAll,
   };
 })();
-var users = [
-  { user: "barney", active: false },
-  { user: "fred", active: false },
-  { user: "pebbles", active: true },
-];
-const TESTRES = aeon_10086.dropWhile(users, "active");
+const TESTRES = aeon_10086.castArray(undefined);
 console.log(TESTRES);
