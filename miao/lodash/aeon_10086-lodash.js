@@ -46,30 +46,36 @@ var aeon_10086 = (function () {
     return res;
   }
   // 待完善
-  function differenceBy(ary, args = [], callback) {
+  function differenceBy(ary, ...args) {
     let res = [];
+    let iteratee = args[args.length - 1];
     // 当传入的值为函数时
-    if (typeof callback == "function") {
+    args = flattenDeep(args);
+    if (typeof iteratee == "function") {
+      iteratee = args.pop();
       for (let i = 0; i < args.length; i++) {
-        args[i] = callback(args[i]);
+        args[i] = iteratee(args[i]);
       }
       for (let i = 0; i < ary.length; i++) {
-        if (args.indexOf(callback(ary[i])) == -1) {
+        if (args.indexOf(iteratee(ary[i])) == -1) {
           res.push(ary[i]);
         }
       }
-    }
-    if (typeof callback == "string") {
+    } else if (typeof iteratee == "string") {
+      iteratee = args.pop();
+      console.log(iteratee);
       for (let item1 of ary) {
         let flag = true;
         for (let item2 of args) {
-          if (item1[callback] == item2[callback]) {
+          if (item1[iteratee] == item2[iteratee]) {
             flag = false;
             break;
           }
         }
         if (flag) res.push(item1);
       }
+    } else {
+      res = difference(ary, ...args);
     }
     return res;
   }
@@ -140,18 +146,58 @@ var aeon_10086 = (function () {
   }
   function dropRightWhile(ary, predicate) {
     let i = 0;
-    for (; i < ary.length; i++) {
-      if (predicate(ary[i], i, ary)) {
-        break;
+    if (typeof predicate == "function") {
+      for (; i < ary.length; i++) {
+        if (predicate(ary[i], i, ary)) {
+          break;
+        }
+      }
+    } else if (Array.isArray(predicate)) {
+      for (; i < ary.length; i++) {
+        if (ary[i][predicate[0]] == predicate[1]) {
+          break;
+        }
+      }
+    } else if (typeof predicate == "object") {
+      for (; i < ary.length; i++) {
+        if (DeepComparsion(ary[i], predicate)) {
+          break;
+        }
+      }
+    } else if (typeof predicate == "string") {
+      for (; i < ary.length; i++) {
+        if (ary[i][predicate] == undefined) {
+          break;
+        }
       }
     }
     return ary.slice(0, i);
   }
   function dropWhile(ary, predicate) {
     let i = 0;
-    for (; i < ary.length; i++) {
-      if (!predicate(ary[i], i, ary)) {
-        break;
+    if (typeof predicate == "function") {
+      for (; i < ary.length; i++) {
+        if (!predicate(ary[i], i, ary)) {
+          break;
+        }
+      }
+    } else if (Array.isArray(predicate)) {
+      for (; i < ary.length; i++) {
+        if (ary[i][predicate[0]] !== predicate[1]) {
+          break;
+        }
+      }
+    } else if (typeof predicate == "object") {
+      for (; i < ary.length; i++) {
+        if (!DeepComparsion(ary[i], predicate)) {
+          break;
+        }
+      }
+    } else if (typeof predicate == "string") {
+      for (; i < ary.length; i++) {
+        if (ary[i][predicate] !== undefined) {
+          break;
+        }
       }
     }
     return ary.slice(i);
@@ -532,5 +578,10 @@ var aeon_10086 = (function () {
     pullAll,
   };
 })();
-const TESTRES = aeon_10086.differenceBy([{ x: 2 }, { x: 1 }], [{ x: 1 }], "x");
+var users = [
+  { user: "barney", active: false },
+  { user: "fred", active: false },
+  { user: "pebbles", active: true },
+];
+const TESTRES = aeon_10086.dropWhile(users, "active");
 console.log(TESTRES);
