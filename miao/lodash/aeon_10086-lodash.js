@@ -217,6 +217,11 @@ var aeon_10086 = (function () {
       } else if (typeof predicate === "function" && predicate(ary[i])) {
         return i;
       } else if (
+        Array.isArray(predicate) &&
+        ary[i][predicate[0]] == predicate[1]
+      ) {
+        return i;
+      } else if (
         typeof predicate === "object" &&
         DeepComparsion(ary[i], predicate)
       ) {
@@ -232,6 +237,11 @@ var aeon_10086 = (function () {
       if (ary[i] === predicate) {
         return i;
       } else if (typeof predicate === "function" && predicate(ary[i])) {
+        return i;
+      } else if (
+        Array.isArray(predicate) &&
+        ary[i][predicate[0]] == predicate[1]
+      ) {
         return i;
       } else if (
         typeof predicate === "object" &&
@@ -337,9 +347,24 @@ var aeon_10086 = (function () {
     }
     return r;
   }
-  function every(ary, callback) {
+  function every(ary, predicate) {
     for (let i = 0; i < ary.length; i++) {
-      if (!callback(ary[i])) return false;
+      if (typeof predicate === "function" && !predicate(ary[i])) {
+        return false;
+      } else if (
+        Array.isArray(predicate) &&
+        ary[i][predicate[0]] != predicate[1]
+      ) {
+        return false;
+      } else if (
+        !Array.isArray(predicate) &&
+        typeof predicate === "object" &&
+        !DeepComparsion(ary[i], predicate)
+      ) {
+        return false;
+      } else if (!ary[i][predicate]) {
+        return false;
+      }
     }
     return true;
   }
@@ -467,9 +492,9 @@ var aeon_10086 = (function () {
     return val <= other;
   }
   function castArray(val) {
+    if (Array.isArray(val)) return val;
     if (val === undefined) return [undefined];
     if (val === null) return [null];
-    if (Array.isArray(val)) return val;
     return [val];
   }
   function clone(value) {
@@ -572,5 +597,9 @@ var aeon_10086 = (function () {
     pullAll,
   };
 })();
-const TESTRES = aeon_10086.castArray(undefined);
+var users = [
+  { user: "barney", age: 36, active: false },
+  { user: "fred", age: 40, active: false },
+];
+const TESTRES = aeon_10086.every(users, ["active", false]);
 console.log(TESTRES);
