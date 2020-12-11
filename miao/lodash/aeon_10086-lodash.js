@@ -347,6 +347,101 @@ var aeon_10086 = (function () {
     }
     return r;
   }
+  function sortedIndexBy(ary, val, iteratee) {
+    if (typeof iteratee == "function") {
+      let aryCopy = ary.map((item) => iteratee(item));
+      let valCopy = iteratee(val);
+      return sortedIndex(aryCopy, valCopy);
+    }
+    if (typeof iteratee == "string") {
+      let aryCopy = ary.map((item) => item[iteratee]);
+      let valCopy = val[iteratee];
+      return sortedIndex(aryCopy, valCopy);
+    }
+  }
+  function sortedIndexOf(ary, val) {
+    let l = 0;
+    let r = ary.length;
+    while (l < r) {
+      let m = Math.floor((r + l) / 2);
+      if (ary[m] < val) {
+        l = m + 1;
+      } else {
+        r = m;
+      }
+    }
+    if (ary[r] === val) {
+      return r;
+    } else {
+      return -1;
+    }
+  }
+  function sortedLastIndex(ary, val) {
+    let l = 0;
+    let r = ary.length;
+    while (l < r) {
+      let m = Math.floor((r + l) / 2);
+      if (ary[m] > val) {
+        r = m;
+      } else {
+        l = m + 1;
+      }
+    }
+    return r;
+  }
+  function sortedLastIndexBy(ary, val, iteratee) {
+    if (typeof iteratee == "function") {
+      let aryCopy = ary.map((item) => iteratee(item));
+      let valCopy = iteratee(val);
+      return sortedLastIndex(aryCopy, valCopy);
+    }
+    if (typeof iteratee == "string") {
+      let aryCopy = ary.map((item) => item[iteratee]);
+      let valCopy = val[iteratee];
+      return sortedLastIndex(aryCopy, valCopy);
+    }
+  }
+  function sortedLastIndexOf(ary, val) {
+    let l = 0;
+    let r = ary.length;
+    while (l < r) {
+      let m = Math.floor((r + l) / 2);
+      if (ary[m] > val) {
+        r = m;
+      } else {
+        l = m + 1;
+      }
+    }
+    if (r > 0) r--;
+    if (ary[r] === val) {
+      return r;
+    } else {
+      return -1;
+    }
+  }
+  function sortedUniq(ary) {
+    let map = {};
+    let res = [];
+    for (let item of ary) {
+      if (!map[item]) {
+        map[item] = 1;
+        res.push(item);
+      }
+    }
+    return res;
+  }
+  function sortedUniqBy(ary, iteratee) {
+    let map = {};
+    let res = [];
+    for (let item of ary) {
+      let temp = iteratee(item);
+      if (!map[temp]) {
+        map[temp] = 1;
+        res.push(item);
+      }
+    }
+    return res;
+  }
   function every(ary, predicate) {
     for (let i = 0; i < ary.length; i++) {
       if (typeof predicate === "function" && !predicate(ary[i])) {
@@ -517,6 +612,109 @@ var aeon_10086 = (function () {
     remove(ary, (item) => vals.includes(item));
     return ary;
   }
+  function pullAllBy(ary, args, iteratee) {
+    args = args.map((item) => item[iteratee]);
+    remove(ary, (item) => args.includes(item[iteratee]));
+    return ary;
+  }
+  function pullAllWith(ary, args, iteratee) {
+    remove(ary, (item) => args.some((jtem) => DeepComparsion(item, jtem)));
+    return ary;
+  }
+  function pullAt(ary, ...args) {
+    let res = [];
+    let d = 0;
+    for (let i = 0; i < args.length; i++) {
+      res.push(...ary.splice(args[i] - d, 1));
+      d++;
+    }
+    return res;
+  }
+  function intersection(...args) {
+    let res = [];
+    args.sort((a, b) => b.length - a.length);
+    for (let i = 0; i < args[0].length; i++) {
+      let flag = true;
+      for (let j = 1; j < args.length; j++) {
+        if (args[j].indexOf(args[0][i]) == -1) {
+          flag = false;
+          break;
+        }
+      }
+      if (flag) res.push(args[0][i]);
+    }
+    return res;
+  }
+  function intersectionBy(...args) {
+    if (Array.isArray(args[args.length - 1])) {
+      console.log("array");
+      let res = [];
+      for (let i = 0; i < args[0].length; i++) {
+        let flag = true;
+        for (let j = 1; j < args.length; j++) {
+          if (args[j].indexOf(args[0][i]) == -1) {
+            flag = false;
+            break;
+          }
+        }
+        if (flag) res.push(args[0][i]);
+      }
+      return res;
+    } else {
+      let iteratee = args.pop();
+      if (typeof iteratee == "function") {
+        let res = [];
+        let temp = args.map((item) => item.map((i) => iteratee(i)));
+        for (let i = 0; i < args[0].length; i++) {
+          let flag = true;
+          for (let j = 1; j < temp.length; j++) {
+            if (temp[j].indexOf(iteratee(args[0][i])) == -1) {
+              flag = false;
+              break;
+            }
+          }
+          if (flag) res.push(args[0][i]);
+        }
+        return res;
+      } else if (typeof iteratee == "string") {
+        let res = [];
+        for (let item of args[0]) {
+          let curr = item[iteratee];
+          let flag = [];
+          for (let i = 1; i < args.length; i++) {
+            flag.push(args[i].some((item) => item[iteratee] == curr));
+          }
+          let indi = flag.every((item) => item);
+          if (indi) res.push(item);
+        }
+        return res;
+      }
+    }
+  }
+  function intersectionWith(...args) {
+    let iteratee = args[args.length - 1];
+    let res = [];
+    if (typeof iteratee == "function") {
+      iteratee = args.pop();
+      for (let item of args[0]) {
+        let flag = [];
+        for (let i = 1; i < args.length; i++) {
+          flag.push(args[i].some((ii) => iteratee(item, ii)));
+        }
+        let indi = flag.every((iii) => iii);
+        if (indi) res.push(item);
+      }
+    }
+    return res;
+  }
+  function tail(ary) {
+    if (!ary.length) return ary;
+    return ary.slice(1);
+  }
+  function take(ary, n = 1) {
+    if (!ary.length || !n) return [];
+    return ary.slice(0, n);
+  }
   //工具函数
   function DeepComparsion(obj1, obj2) {
     for (key in obj1) {
@@ -572,6 +770,13 @@ var aeon_10086 = (function () {
     initial,
     reverse,
     sortedIndex,
+    sortedIndexBy,
+    sortedIndexOf,
+    sortedLastIndex,
+    sortedLastIndexBy,
+    sortedLastIndexOf,
+    sortedUniq,
+    sortedUniqBy,
     every,
     filter,
     find,
@@ -595,11 +800,25 @@ var aeon_10086 = (function () {
     remove,
     pull,
     pullAll,
+    pullAllBy,
+    intersection,
+    intersectionBy,
+    intersectionWith,
+    pullAllWith,
+    pullAt,
+    tail,
+    take,
   };
 })();
-var users = [
-  { user: "barney", age: 36, active: false },
-  { user: "fred", age: 40, active: false },
-];
-const TESTRES = aeon_10086.every(users, ["active", false]);
+function DeepComparsion(obj1, obj2) {
+  for (key in obj1) {
+    if (typeof obj1[key] != "object" && typeof obj1[key] != "object") {
+      if (obj1[key] != obj2[key]) return false;
+    } else {
+      if (!DeepComparsion(obj1[key], obj2[key])) return false;
+    }
+  }
+  return true;
+}
+const TESTRES = aeon_10086.take([1, 2, 3], 5);
 console.log(TESTRES);
