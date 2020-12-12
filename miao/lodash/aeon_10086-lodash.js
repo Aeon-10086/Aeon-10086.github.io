@@ -48,26 +48,26 @@ var aeon_10086 = (function () {
   // 待完善
   function differenceBy(ary, ...args) {
     let res = [];
-    let iteratee = args[args.length - 1];
+    let predicate = args[args.length - 1];
     // 当传入的值为函数时
     args = flattenDeep(args);
-    if (typeof iteratee == "function") {
-      iteratee = args.pop();
+    if (typeof predicate == "function") {
+      predicate = args.pop();
       for (let i = 0; i < args.length; i++) {
-        args[i] = iteratee(args[i]);
+        args[i] = predicate(args[i]);
       }
       for (let i = 0; i < ary.length; i++) {
-        if (args.indexOf(iteratee(ary[i])) == -1) {
+        if (args.indexOf(predicate(ary[i])) == -1) {
           res.push(ary[i]);
         }
       }
-    } else if (typeof iteratee == "string") {
-      iteratee = args.pop();
-      console.log(iteratee);
+    } else if (typeof predicate == "string") {
+      predicate = args.pop();
+      console.log(predicate);
       for (let item1 of ary) {
         let flag = true;
         for (let item2 of args) {
-          if (item1[iteratee] == item2[iteratee]) {
+          if (item1[predicate] == item2[predicate]) {
             flag = false;
             break;
           }
@@ -80,7 +80,7 @@ var aeon_10086 = (function () {
     return res;
   }
   //比较 ary 和 args 中的函数
-  function differenceWith(ary, args = [], callback) {
+  function differenceWith(ary, args = [], predicate) {
     let res = [];
     /* for (let item of ary) {
       if (typeof item !== "object" && args.indexOf(item) == -1) {
@@ -99,7 +99,7 @@ var aeon_10086 = (function () {
     for (let item of ary) {
       let flag = true;
       for (let test of args) {
-        if (callback(item, test)) flag = false;
+        if (predicate(item, test)) flag = false;
       }
       if (flag) res.push(item);
     }
@@ -347,15 +347,15 @@ var aeon_10086 = (function () {
     }
     return r;
   }
-  function sortedIndexBy(ary, val, iteratee) {
-    if (typeof iteratee == "function") {
-      let aryCopy = ary.map((item) => iteratee(item));
-      let valCopy = iteratee(val);
+  function sortedIndexBy(ary, val, predicate) {
+    if (typeof predicate == "function") {
+      let aryCopy = ary.map((item) => predicate(item));
+      let valCopy = predicate(val);
       return sortedIndex(aryCopy, valCopy);
     }
-    if (typeof iteratee == "string") {
-      let aryCopy = ary.map((item) => item[iteratee]);
-      let valCopy = val[iteratee];
+    if (typeof predicate == "string") {
+      let aryCopy = ary.map((item) => item[predicate]);
+      let valCopy = val[predicate];
       return sortedIndex(aryCopy, valCopy);
     }
   }
@@ -389,15 +389,15 @@ var aeon_10086 = (function () {
     }
     return r;
   }
-  function sortedLastIndexBy(ary, val, iteratee) {
-    if (typeof iteratee == "function") {
-      let aryCopy = ary.map((item) => iteratee(item));
-      let valCopy = iteratee(val);
+  function sortedLastIndexBy(ary, val, predicate) {
+    if (typeof predicate == "function") {
+      let aryCopy = ary.map((item) => predicate(item));
+      let valCopy = predicate(val);
       return sortedLastIndex(aryCopy, valCopy);
     }
-    if (typeof iteratee == "string") {
-      let aryCopy = ary.map((item) => item[iteratee]);
-      let valCopy = val[iteratee];
+    if (typeof predicate == "string") {
+      let aryCopy = ary.map((item) => item[predicate]);
+      let valCopy = val[predicate];
       return sortedLastIndex(aryCopy, valCopy);
     }
   }
@@ -430,11 +430,11 @@ var aeon_10086 = (function () {
     }
     return res;
   }
-  function sortedUniqBy(ary, iteratee) {
+  function sortedUniqBy(ary, predicate) {
     let map = {};
     let res = [];
     for (let item of ary) {
-      let temp = iteratee(item);
+      let temp = predicate(item);
       if (!map[temp]) {
         map[temp] = 1;
         res.push(item);
@@ -443,38 +443,32 @@ var aeon_10086 = (function () {
     return res;
   }
   function every(ary, predicate) {
+    predicate = iteratee(predicate);
     for (let i = 0; i < ary.length; i++) {
-      if (typeof predicate === "function" && !predicate(ary[i])) {
-        return false;
-      } else if (
-        Array.isArray(predicate) &&
-        ary[i][predicate[0]] != predicate[1]
-      ) {
-        return false;
-      } else if (
-        !Array.isArray(predicate) &&
-        typeof predicate === "object" &&
-        !DeepComparsion(ary[i], predicate)
-      ) {
-        return false;
-      } else if (!ary[i][predicate]) {
+      if (!predicate(ary[i], i, ary)) {
         return false;
       }
     }
     return true;
   }
-  function filter(ary, callback) {
+  function filter(ary, predicate) {
+    predicate = iteratee(predicate);
     let res = [];
     for (let item of ary) {
-      if (callback(item)) res.push(item);
+      if (predicate(item)) res.push(item);
     }
     return res;
   }
   function find(ary, predicate, fromIndex = 0) {
+    predicate = iteratee(predicate);
     for (let i = fromIndex; i < ary.length; i++) {
       if (predicate(ary[i], i, ary)) return ary[i];
     }
     return;
+  }
+  function findLast(ary, predicate, fromIndex = ary.length - 1) {
+    predicate = iteratee(predicate);
+    for()
   }
   function max(ary) {
     if (ary.length < 1) return undefined;
@@ -486,21 +480,21 @@ var aeon_10086 = (function () {
     }
     return max;
   }
-  function maxBy(ary, callback) {
+  function maxBy(ary, predicate) {
     if (ary.length < 1) return undefined;
     let max = -Infinity;
     let res;
-    if (typeof callback == "function") {
+    if (typeof predicate == "function") {
       for (let item of ary) {
-        if (max < callback(item)) {
-          max = callback(item);
+        if (max < predicate(item)) {
+          max = predicate(item);
           res = item;
         }
       }
     } else {
       for (let item of ary) {
-        if (max < item[callback]) {
-          max = item[callback];
+        if (max < item[predicate]) {
+          max = item[predicate];
           res = item;
         }
       }
@@ -518,21 +512,21 @@ var aeon_10086 = (function () {
     }
     return min;
   }
-  function minBy(ary, callback) {
+  function minBy(ary, predicate) {
     if (ary.length < 1) return undefined;
     let min = Infinity;
     let res;
-    if (typeof callback == "function") {
+    if (typeof predicate == "function") {
       for (let item of ary) {
-        if (min > callback(item)) {
-          min = callback(item);
+        if (min > predicate(item)) {
+          min = predicate(item);
           res = item;
         }
       }
     } else {
       for (let item of ary) {
-        if (min > item[callback]) {
-          min = item[callback];
+        if (min > item[predicate]) {
+          min = item[predicate];
           res = item;
         }
       }
@@ -543,15 +537,15 @@ var aeon_10086 = (function () {
     let sum = ary.reduce((prev, item) => prev + item, 0);
     return sum;
   }
-  function sumBy(ary, callback) {
+  function sumBy(ary, predicate) {
     let sum = 0;
-    if (typeof callback == "function") {
+    if (typeof predicate == "function") {
       for (let item of ary) {
-        sum += callback(item);
+        sum += predicate(item);
       }
     } else {
       for (let item of ary) {
-        sum += item[callback];
+        sum += item[predicate];
       }
     }
     return sum;
@@ -612,12 +606,12 @@ var aeon_10086 = (function () {
     remove(ary, (item) => vals.includes(item));
     return ary;
   }
-  function pullAllBy(ary, args, iteratee) {
-    args = args.map((item) => item[iteratee]);
-    remove(ary, (item) => args.includes(item[iteratee]));
+  function pullAllBy(ary, args, predicate) {
+    args = args.map((item) => item[predicate]);
+    remove(ary, (item) => args.includes(item[predicate]));
     return ary;
   }
-  function pullAllWith(ary, args, iteratee) {
+  function pullAllWith(ary, args, predicate) {
     remove(ary, (item) => args.some((jtem) => DeepComparsion(item, jtem)));
     return ary;
   }
@@ -660,14 +654,14 @@ var aeon_10086 = (function () {
       }
       return res;
     } else {
-      let iteratee = args.pop();
-      if (typeof iteratee == "function") {
+      let predicate = args.pop();
+      if (typeof predicate == "function") {
         let res = [];
-        let temp = args.map((item) => item.map((i) => iteratee(i)));
+        let temp = args.map((item) => item.map((i) => predicate(i)));
         for (let i = 0; i < args[0].length; i++) {
           let flag = true;
           for (let j = 1; j < temp.length; j++) {
-            if (temp[j].indexOf(iteratee(args[0][i])) == -1) {
+            if (temp[j].indexOf(predicate(args[0][i])) == -1) {
               flag = false;
               break;
             }
@@ -675,13 +669,13 @@ var aeon_10086 = (function () {
           if (flag) res.push(args[0][i]);
         }
         return res;
-      } else if (typeof iteratee == "string") {
+      } else if (typeof predicate == "string") {
         let res = [];
         for (let item of args[0]) {
-          let curr = item[iteratee];
+          let curr = item[predicate];
           let flag = [];
           for (let i = 1; i < args.length; i++) {
-            flag.push(args[i].some((item) => item[iteratee] == curr));
+            flag.push(args[i].some((item) => item[predicate] == curr));
           }
           let indi = flag.every((item) => item);
           if (indi) res.push(item);
@@ -691,14 +685,14 @@ var aeon_10086 = (function () {
     }
   }
   function intersectionWith(...args) {
-    let iteratee = args[args.length - 1];
+    let predicate = args[args.length - 1];
     let res = [];
-    if (typeof iteratee == "function") {
-      iteratee = args.pop();
+    if (typeof predicate == "function") {
+      predicate = args.pop();
       for (let item of args[0]) {
         let flag = [];
         for (let i = 1; i < args.length; i++) {
-          flag.push(args[i].some((ii) => iteratee(item, ii)));
+          flag.push(args[i].some((ii) => predicate(item, ii)));
         }
         let indi = flag.every((iii) => iii);
         if (indi) res.push(item);
@@ -719,21 +713,21 @@ var aeon_10086 = (function () {
     n = ary.length - n > 0 ? ary.length - n : 0;
     return ary.slice(n);
   }
-  function takeRightWhile(ary, iteratee) {
+  function takeRightWhile(ary, predicate) {
     if (!ary.length) return [];
-    iteratee = handleIter(iteratee);
+    predicate = iteratee(predicate);
     let i = ary.length - 1;
     for (; i >= 0; i--) {
-      if (!iteratee(ary[i])) break;
+      if (!predicate(ary[i])) break;
     }
     return ary.slice(i + 1);
   }
-  function takeWhile(ary, iteratee) {
+  function takeWhile(ary, predicate) {
     if (!ary.length) return [];
-    iteratee = handleIter(iteratee);
+    predicate = iteratee(predicate);
     let i = 0;
     for (; i < ary.length; i++) {
-      if (!iteratee(ary[i])) {
+      if (!predicate(ary[i])) {
         break;
       }
     }
@@ -749,17 +743,17 @@ var aeon_10086 = (function () {
     return [...set.values()];
   }
   function unionBy(...args) {
-    let iteratee = args[args.length - 1];
-    if (Array.isArray(iteratee)) {
+    let predicate = args[args.length - 1];
+    if (Array.isArray(predicate)) {
       return union(...args);
     } else {
-      iteratee = handleIter(args.pop());
+      predicate = iteratee(args.pop());
       let set = new Set();
       let res = [];
       args.forEach((item) =>
         item.forEach((jtem) => {
-          if (!set.has(iteratee(jtem))) {
-            set.add(iteratee(jtem));
+          if (!set.has(predicate(jtem))) {
+            set.add(predicate(jtem));
             res.push(jtem);
           }
         })
@@ -768,13 +762,13 @@ var aeon_10086 = (function () {
     }
   }
   function unionWith(...args) {
-    let iteratee = args.pop();
+    let predicate = args.pop();
     let res = args[0];
     for (let i = 1; i < args.length; i++) {
       args[i].forEach((item) => {
         let flag = true;
         for (let jtem of res) {
-          if (iteratee(jtem, item)) {
+          if (predicate(jtem, item)) {
             flag = false;
           }
         }
@@ -792,12 +786,12 @@ var aeon_10086 = (function () {
     });
     return [...set.values()];
   }
-  function uniqBy(ary, iteratee) {
-    iteratee = handleIter(iteratee);
+  function uniqBy(ary, predicate) {
+    predicate = iteratee(predicate);
     let set = new Set();
     let res = [];
     ary.forEach((item) => {
-      let temp = iteratee(item);
+      let temp = predicate(item);
       if (!set.has(temp)) {
         set.add(temp);
         res.push(item);
@@ -805,14 +799,14 @@ var aeon_10086 = (function () {
     });
     return res;
   }
-  function uniqWith(ary, iteratee) {
+  function uniqWith(ary, predicate) {
     if (!ary.length) return [];
     let res = [ary[0]];
     for (let i = 1; i < ary.length; i++) {
       let temp = ary[i];
       let flag = true;
       for (let item of res) {
-        if (iteratee(item, temp)) {
+        if (predicate(item, temp)) {
           flag = false;
           break;
         }
@@ -833,9 +827,9 @@ var aeon_10086 = (function () {
     }
     return res;
   }
-  function unzipWith(ary, iteratee) {
+  function unzipWith(ary, predicate) {
     ary = unzip(ary);
-    let res = ary.map((item) => iteratee(...item));
+    let res = ary.map((item) => predicate(...item));
     return res;
   }
   function without(ary, ...args) {
@@ -862,11 +856,11 @@ var aeon_10086 = (function () {
   }
   function xorBy(...arys) {
     let map = new Map();
-    let iteratee = handleIter(arys.pop());
+    let predicate = iteratee(arys.pop());
     let res = [];
     arys = flatten(arys);
     arys.forEach((item) => {
-      let temp = iteratee(item);
+      let temp = predicate(item);
       if (map.has(temp)) {
         map.set(temp, map.get(temp) + 1);
       } else {
@@ -874,7 +868,7 @@ var aeon_10086 = (function () {
       }
     });
     for (let item of arys) {
-      let temp = iteratee(item);
+      let temp = predicate(item);
       if (map.get(temp) == 1) {
         res.push(item);
       }
@@ -882,13 +876,13 @@ var aeon_10086 = (function () {
     return res;
   }
   function xorWith(...arys) {
-    let iteratee = handleIter(arys.pop());
+    let predicate = iteratee(arys.pop());
     let res = [];
     arys = flatten(arys);
     for (let i = 0; i < arys.length; i++) {
       let flag = true;
       for (let j = 0; j < arys.length; j++) {
-        if (j !== i && iteratee(arys[i], arys[j])) {
+        if (j !== i && predicate(arys[i], arys[j])) {
           flag = false;
           break;
         }
@@ -917,10 +911,41 @@ var aeon_10086 = (function () {
     return res;
   }
   function zipWith(...args) {
-    let iteratee = args.pop();
+    let predicate = args.pop();
     args = zip(...args);
-    let res = args.map((item) => iteratee(...item));
+    let res = args.map((item) => predicate(...item));
     return res;
+  }
+  function countBy(collection, predicate) {
+    predicate = iteratee(predicate);
+    let map = {};
+    collection.forEach((item) => {
+      let temp = predicate(item);
+      if (map[temp]) {
+        map[temp] += 1;
+      } else {
+        map[temp] = 1;
+      }
+    });
+    return map;
+  }
+  function forEach(collection, predicate) {
+    if (Array.isArray(collection)) {
+      return collection.forEach(predicate);
+    }
+    if (typeof collection == "object") {
+      for (let key in collection) {
+        let temp = predicate(collection[key], key, collection);
+        if (temp == false) breakl;
+      }
+    }
+    return collection;
+  }
+  function forEachRight(collection, predicate) {
+    for (let i = collection.length - 1; i >= 0; i--) {
+      predicate(collection[i], i, collection);
+    }
+    return collection;
   }
   //工具函数
   /**
@@ -940,19 +965,19 @@ var aeon_10086 = (function () {
     return true;
   }
   /**
-   * 处理 iteratee 根据其类型返回一个函数
-   * @param {*} iteratee
+   * 处理 predicate 根据其类型返回一个函数
+   * @param {*} predicate
    * @return Function
    */
-  function handleIter(iteratee) {
-    if (Array.isArray(iteratee)) {
-      return (item) => item[iteratee[0]] == iteratee[1];
-    } else if (typeof iteratee == "function") {
-      return iteratee;
-    } else if (typeof iteratee == "object") {
-      return DeepComparsion.bind(null, iteratee);
-    } else if (typeof iteratee == "string") {
-      return (item) => item[iteratee];
+  function iteratee(predicate) {
+    if (Array.isArray(predicate)) {
+      return (item) => item[predicate[0]] == predicate[1];
+    } else if (typeof predicate == "function") {
+      return predicate;
+    } else if (typeof predicate == "object") {
+      return DeepComparsion.bind(null, predicate);
+    } else if (typeof predicate == "string") {
+      return (item) => item[predicate];
     }
   }
 
@@ -1072,6 +1097,9 @@ var aeon_10086 = (function () {
     zip,
     zipObject,
     zipWith,
+    countBy,
+    forEach,
+    forEachRight,
   };
 })();
 function DeepComparsion(obj1, obj2) {
@@ -1084,12 +1112,10 @@ function DeepComparsion(obj1, obj2) {
   }
   return true;
 }
-const TESTRES = aeon_10086.zipWith(
-  [1, 2],
-  [10, 20],
-  [100, 200],
-  function (a, b, c) {
-    return a + b + c;
-  }
-);
+var users = [
+  { user: "barney", age: 36, active: true },
+  { user: "fred", age: 40, active: false },
+  { user: "pebbles", age: 1, active: true },
+];
+const TESTRES = aeon_10086.find(users, "active");
 console.log(TESTRES);
