@@ -468,7 +468,10 @@ var aeon_10086 = (function () {
   }
   function findLast(ary, predicate, fromIndex = ary.length - 1) {
     predicate = iteratee(predicate);
-    for()
+    for (let i = fromIndex; i >= 0; i--) {
+      if (predicate(ary[i], i, ary)) return ary[i];
+    }
+    return;
   }
   function max(ary) {
     if (ary.length < 1) return undefined;
@@ -1051,6 +1054,7 @@ var aeon_10086 = (function () {
     every,
     filter,
     find,
+    findLast,
     max,
     maxBy,
     min,
@@ -1117,5 +1121,7 @@ var users = [
   { user: "fred", age: 40, active: false },
   { user: "pebbles", age: 1, active: true },
 ];
-const TESTRES = aeon_10086.find(users, "active");
+const TESTRES = aeon_10086.findLast([1, 2, 3, 4], function (n) {
+  return n % 2 == 1;
+});
 console.log(TESTRES);
