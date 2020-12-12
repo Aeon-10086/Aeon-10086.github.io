@@ -473,6 +473,27 @@ var aeon_10086 = (function () {
     }
     return;
   }
+  function flatMap(ary, predicate) {
+    let res = [];
+    for (let i = 0; i < ary.length; i++) {
+      res.push(predicate(ary[i], i, ary));
+    }
+    return flatten(res);
+  }
+  function flatMapDeep(ary, predicate) {
+    let res = [];
+    for (let i = 0; i < ary.length; i++) {
+      res.push(flattenDeep(predicate(ary[i], i, ary)));
+    }
+    return flatten(res);
+  }
+  function flatMapDepth(ary, predicate, n) {
+    let res = [];
+    for (let i = 0; i < ary.length; i++) {
+      res.push(flattenDepth(predicate(ary[i], i, ary), n));
+    }
+    return res;
+  }
   function max(ary) {
     if (ary.length < 1) return undefined;
     let max = -Infinity;
@@ -934,9 +955,8 @@ var aeon_10086 = (function () {
   }
   function forEach(collection, predicate) {
     if (Array.isArray(collection)) {
-      return collection.forEach(predicate);
-    }
-    if (typeof collection == "object") {
+      collection.forEach(predicate);
+    } else if (typeof collection == "object") {
       for (let key in collection) {
         let temp = predicate(collection[key], key, collection);
         if (temp == false) breakl;
@@ -950,6 +970,147 @@ var aeon_10086 = (function () {
     }
     return collection;
   }
+  function groupBy(collection, predicate) {
+    predicate = iteratee(predicate);
+    let map = {};
+    for (let item of collection) {
+      let temp = predicate(item);
+      if (map[temp]) {
+        map[temp].push(item);
+      } else {
+        map[temp] = [item];
+      }
+    }
+    return map;
+  }
+  function includes(collection, value, fromIndex = 0) {
+    let start = fromIndex >= 0 ? fromIndex : collection.length + fromIndex;
+    if (Array.isArray(collection)) {
+      if (fromIndex >= 0) {
+        for (let i = start; i < collection.length; i++) {
+          if (sameValueZero(collection[i], value)) return true;
+        }
+      } else {
+        for (let i = start; i >= 0; i--) {
+          if (sameValueZero(collection[i], value)) return true;
+        }
+      }
+    } else if (typeof collection == "object") {
+      for (let key in collection) {
+        if (sameValueZero(collection[key], value)) return true;
+      }
+    } else if (typeof collection == "string") {
+      return collection.includes(value, start);
+    }
+    return false;
+  }
+  function isArguments(value) {
+    if (Array.isArray(value)) return false;
+    return typeof value == "object" && "length" in value;
+  }
+  function isArray(value) {
+    return Array.isArray(value);
+  }
+  function isArrayBuffer(value) {
+    return value.constructor == ArrayBuffer;
+  }
+  function isArrayLike(value) {
+    if (typeof value == "function") return false;
+    return value["length"] >= 0 && value["length"] < Number.MAX_SAFE_INTEGER;
+  }
+  function isArrayLikeObject(value) {
+    return typeof value == "object" && isArrayLike(value);
+  }
+  function isBoolean(value) {
+    return value.constructor == Boolean;
+  }
+  function isDate(value) {
+    return value.constructor == Date;
+  }
+  function isElement(value) {
+    let regexp = /^\[object HTML\w+\]$/;
+    return regexp.test(Object.prototype.toString.call(value));
+  }
+  function isEmpty(value) {
+    if (isArray(value)) {
+      return value.length == 0;
+    }
+    if (typeof value == "object") {
+      let res = [];
+      for (let key in value) {
+        res.push(key);
+      }
+      if (res.length > 0) return false;
+    }
+    return true;
+  }
+  function isEqual(value, other) {
+    if (value == other) {
+      return true;
+    } else if (Array.isArray(value) && Array.isArray(other)) {
+      for (let item in value) {
+        let flag = true;
+        for (let jtem in other) {
+          if (
+            item == jtem ||
+            (typeof item == "object" && DeepComparsion(item, jtem))
+          ) {
+            flag = false;
+          }
+        }
+        if (flag) return false;
+      }
+      return true;
+    } else if (
+      !Array.isArray(value) &&
+      !Array.isArray(other) &&
+      typeof value == "object"
+    ) {
+      return DeepComparsion(value, other);
+    } else {
+      return Number.isNaN(value) && Number.isNaN(other);
+    }
+  }
+  function isEqualWith(value, other, customizer) {
+    for (let i = 0; i < value.length; i++) {
+      if (customizer(value[i], other[i]) === false) {
+        return false;
+      }
+    }
+    return true;
+  }
+  function isError(value) {
+    return typeof value == "object" && value.constructor == Error;
+  }
+  function isFinite(value) {
+    return typeof value == "number" && value != Infinity && value != -Infinity;
+  }
+  function isFunction(value) {
+    if (arguments.length == 0) return true;
+    if (value == undefined) return false;
+    return value.constructor == Function;
+  }
+  function isInteger(value) {
+    return isFinite(value) && Math.floor(value) === value;
+  }
+  function isLength(value) {
+    return isInteger(value) && value >= 0;
+  }
+  function isMap(value) {
+    return value.constructor == Map;
+  }
+  function isMatch(object, source) {
+    for (key in object) {
+      if (key in source) {
+        if (typeof object[key] != "object" && typeof object[key] != "object") {
+          if (object[key] != source[key]) return false;
+        } else {
+          if (!isMatch(object[key], source[key])) return false;
+        }
+      }
+    }
+    return true;
+  }
   //工具函数
   /**
    * 比较两个对象是否相同
@@ -958,6 +1119,15 @@ var aeon_10086 = (function () {
    * @return Boolean
    */
   function DeepComparsion(obj1, obj2) {
+    let key1 = [];
+    let key2 = [];
+    for (let key in obj1) {
+      key1.push(key);
+    }
+    for (let key in obj2) {
+      key2.push(key);
+    }
+    if (key1.length !== key2.length) return false;
     for (key in obj1) {
       if (typeof obj1[key] != "object" && typeof obj1[key] != "object") {
         if (obj1[key] != obj2[key]) return false;
@@ -999,25 +1169,6 @@ var aeon_10086 = (function () {
       (x === undefined ? x == y : false) ||
       (x === null ? x == y : false)
     );
-  }
-  function arraryComparsion(ary1, ary2) {
-    if (ary1.length !== ary2.length) return false;
-    for (let i = 0; i < ary1.length; i++) {
-      if (typeof ary1[i] !== typeof ary2[i]) return false;
-      if (
-        Array.isArray(ary1[i]) &&
-        Array.isArray(ary2[i]) &&
-        !arraryComparsion(ary1[i], ary2[i])
-      ) {
-        return false;
-      }
-      if (typeof ary1[i] === "object" && !DeepComparsion(ary1[i], ary2[i])) {
-        return false;
-      } else if (ary1[i] !== ary2[i]) {
-        return false;
-      }
-    }
-    return true;
   }
 
   return {
@@ -1104,6 +1255,29 @@ var aeon_10086 = (function () {
     countBy,
     forEach,
     forEachRight,
+    flatMap,
+    flatMapDeep,
+    flatMapDepth,
+    groupBy,
+    includes,
+    isArguments,
+    isArray,
+    isArrayBuffer,
+    isArrayLike,
+    isArrayLikeObject,
+    isBoolean,
+    isDate,
+    isElement,
+    isEmpty,
+    isEqual,
+    isEqualWith,
+    isError,
+    isFinite,
+    isFunction,
+    isInteger,
+    isLength,
+    isMap,
+    isMatch,
   };
 })();
 function DeepComparsion(obj1, obj2) {
@@ -1116,12 +1290,6 @@ function DeepComparsion(obj1, obj2) {
   }
   return true;
 }
-var users = [
-  { user: "barney", age: 36, active: true },
-  { user: "fred", age: 40, active: false },
-  { user: "pebbles", age: 1, active: true },
-];
-const TESTRES = aeon_10086.findLast([1, 2, 3, 4], function (n) {
-  return n % 2 == 1;
-});
+var object = { a: 1, b: 2 };
+const TESTRES = aeon_10086.isMatch(object, { b: 2 });
 console.log(TESTRES);
