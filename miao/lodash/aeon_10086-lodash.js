@@ -821,7 +821,114 @@ var aeon_10086 = (function () {
     }
     return res;
   }
+  function unzip(ary) {
+    let res = [];
+    for (let i = 0; i < ary[0].length; i++) {
+      res.push([]);
+    }
+    for (let i = 0; i < ary.length; i++) {
+      for (let j = 0; j < ary[i].length; j++) {
+        res[j][i] = ary[i][j];
+      }
+    }
+    return res;
+  }
+  function unzipWith(ary, iteratee) {
+    ary = unzip(ary);
+    let res = ary.map((item) => iteratee(...item));
+    return res;
+  }
+  function without(ary, ...args) {
+    let res = ary.filter((item) => !args.includes(item));
+    return res;
+  }
+  function xor(...arys) {
+    let map = new Map();
+    let res = [];
+    arys = flatten(arys);
+    arys.forEach((item) => {
+      if (map.has(item)) {
+        map.set(item, map.get(item) + 1);
+      } else {
+        map.set(item, 1);
+      }
+    });
+    for (let key of map.keys()) {
+      if (map.get(key) == 1) {
+        res.push(key);
+      }
+    }
+    return res;
+  }
+  function xorBy(...arys) {
+    let map = new Map();
+    let iteratee = handleIter(arys.pop());
+    let res = [];
+    arys = flatten(arys);
+    arys.forEach((item) => {
+      let temp = iteratee(item);
+      if (map.has(temp)) {
+        map.set(temp, map.get(temp) + 1);
+      } else {
+        map.set(temp, 1);
+      }
+    });
+    for (let item of arys) {
+      let temp = iteratee(item);
+      if (map.get(temp) == 1) {
+        res.push(item);
+      }
+    }
+    return res;
+  }
+  function xorWith(...arys) {
+    let iteratee = handleIter(arys.pop());
+    let res = [];
+    arys = flatten(arys);
+    for (let i = 0; i < arys.length; i++) {
+      let flag = true;
+      for (let j = 0; j < arys.length; j++) {
+        if (j !== i && iteratee(arys[i], arys[j])) {
+          flag = false;
+          break;
+        }
+      }
+      if (flag) res.push(arys[i]);
+    }
+    return res;
+  }
+  function zip(...arys) {
+    let res = [];
+    for (let i = 0; i < arys[0].length; i++) {
+      res.push([]);
+    }
+    for (let i = 0; i < arys.length; i++) {
+      for (let j = 0; j < arys[i].length; j++) {
+        res[j][i] = arys[i][j];
+      }
+    }
+    return res;
+  }
+  function zipObject(props, vals) {
+    let res = {};
+    for (let i = 0; i < props.length; i++) {
+      res[props[i]] = vals[i];
+    }
+    return res;
+  }
+  function zipWith(...args) {
+    let iteratee = args.pop();
+    args = zip(...args);
+    let res = args.map((item) => iteratee(...item));
+    return res;
+  }
   //工具函数
+  /**
+   * 比较两个对象是否相同
+   * @param obj1
+   * @param obj2
+   * @return Boolean
+   */
   function DeepComparsion(obj1, obj2) {
     for (key in obj1) {
       if (typeof obj1[key] != "object" && typeof obj1[key] != "object") {
@@ -832,6 +939,11 @@ var aeon_10086 = (function () {
     }
     return true;
   }
+  /**
+   * 处理 iteratee 根据其类型返回一个函数
+   * @param {*} iteratee
+   * @return Function
+   */
   function handleIter(iteratee) {
     if (Array.isArray(iteratee)) {
       return (item) => item[iteratee[0]] == iteratee[1];
@@ -842,6 +954,23 @@ var aeon_10086 = (function () {
     } else if (typeof iteratee == "string") {
       return (item) => item[iteratee];
     }
+  }
+
+  /**
+   * 比较两个值是否相等
+   * @param {*} x
+   * @param {*} y
+   * @return Boolean
+   */
+  function sameValueZero(x, y) {
+    if (x === y) {
+      return true;
+    }
+    return (
+      (Number.isNaN(x) && Number.isNaN(y)) ||
+      (x === undefined ? x == y : false) ||
+      (x === null ? x == y : false)
+    );
   }
   function arraryComparsion(ary1, ary2) {
     if (ary1.length !== ary2.length) return false;
@@ -934,6 +1063,15 @@ var aeon_10086 = (function () {
     uniq,
     uniqBy,
     uniqWith,
+    unzip,
+    unzipWith,
+    without,
+    xor,
+    xorBy,
+    xorWith,
+    zip,
+    zipObject,
+    zipWith,
   };
 })();
 function DeepComparsion(obj1, obj2) {
@@ -946,10 +1084,12 @@ function DeepComparsion(obj1, obj2) {
   }
   return true;
 }
-var objects = [
-  { x: 1, y: 2 },
-  { x: 2, y: 1 },
-  { x: 1, y: 2 },
-];
-const TESTRES = aeon_10086.uniqWith(objects, DeepComparsion);
+const TESTRES = aeon_10086.zipWith(
+  [1, 2],
+  [10, 20],
+  [100, 200],
+  function (a, b, c) {
+    return a + b + c;
+  }
+);
 console.log(TESTRES);
