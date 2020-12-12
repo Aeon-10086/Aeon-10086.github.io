@@ -647,7 +647,6 @@ var aeon_10086 = (function () {
   }
   function intersectionBy(...args) {
     if (Array.isArray(args[args.length - 1])) {
-      console.log("array");
       let res = [];
       for (let i = 0; i < args[0].length; i++) {
         let flag = true;
@@ -715,6 +714,113 @@ var aeon_10086 = (function () {
     if (!ary.length || !n) return [];
     return ary.slice(0, n);
   }
+  function takeRight(ary, n = 1) {
+    if (!ary.length || !n) return [];
+    n = ary.length - n > 0 ? ary.length - n : 0;
+    return ary.slice(n);
+  }
+  function takeRightWhile(ary, iteratee) {
+    if (!ary.length) return [];
+    iteratee = handleIter(iteratee);
+    let i = ary.length - 1;
+    for (; i >= 0; i--) {
+      if (!iteratee(ary[i])) break;
+    }
+    return ary.slice(i + 1);
+  }
+  function takeWhile(ary, iteratee) {
+    if (!ary.length) return [];
+    iteratee = handleIter(iteratee);
+    let i = 0;
+    for (; i < ary.length; i++) {
+      if (!iteratee(ary[i])) {
+        break;
+      }
+    }
+    return ary.slice(0, i);
+  }
+  function union(...args) {
+    let set = new Set();
+    args.forEach((item) =>
+      item.forEach((jtem) => {
+        set.add(jtem);
+      })
+    );
+    return [...set.values()];
+  }
+  function unionBy(...args) {
+    let iteratee = args[args.length - 1];
+    if (Array.isArray(iteratee)) {
+      return union(...args);
+    } else {
+      iteratee = handleIter(args.pop());
+      let set = new Set();
+      let res = [];
+      args.forEach((item) =>
+        item.forEach((jtem) => {
+          if (!set.has(iteratee(jtem))) {
+            set.add(iteratee(jtem));
+            res.push(jtem);
+          }
+        })
+      );
+      return res;
+    }
+  }
+  function unionWith(...args) {
+    let iteratee = args.pop();
+    let res = args[0];
+    for (let i = 1; i < args.length; i++) {
+      args[i].forEach((item) => {
+        let flag = true;
+        for (let jtem of res) {
+          if (iteratee(jtem, item)) {
+            flag = false;
+          }
+        }
+        if (flag) res.push(item);
+      });
+    }
+    return res;
+  }
+  function uniq(ary) {
+    let set = new Set();
+    ary.forEach((item) => {
+      if (!set.has(item)) {
+        set.add(item);
+      }
+    });
+    return [...set.values()];
+  }
+  function uniqBy(ary, iteratee) {
+    iteratee = handleIter(iteratee);
+    let set = new Set();
+    let res = [];
+    ary.forEach((item) => {
+      let temp = iteratee(item);
+      if (!set.has(temp)) {
+        set.add(temp);
+        res.push(item);
+      }
+    });
+    return res;
+  }
+  function uniqWith(ary, iteratee) {
+    if (!ary.length) return [];
+    let res = [ary[0]];
+    for (let i = 1; i < ary.length; i++) {
+      let temp = ary[i];
+      let flag = true;
+      for (let item of res) {
+        if (iteratee(item, temp)) {
+          flag = false;
+          break;
+        }
+      }
+      if (flag) res.push(temp);
+    }
+    return res;
+  }
   //工具函数
   function DeepComparsion(obj1, obj2) {
     for (key in obj1) {
@@ -725,6 +831,17 @@ var aeon_10086 = (function () {
       }
     }
     return true;
+  }
+  function handleIter(iteratee) {
+    if (Array.isArray(iteratee)) {
+      return (item) => item[iteratee[0]] == iteratee[1];
+    } else if (typeof iteratee == "function") {
+      return iteratee;
+    } else if (typeof iteratee == "object") {
+      return DeepComparsion.bind(null, iteratee);
+    } else if (typeof iteratee == "string") {
+      return (item) => item[iteratee];
+    }
   }
   function arraryComparsion(ary1, ary2) {
     if (ary1.length !== ary2.length) return false;
@@ -808,6 +925,15 @@ var aeon_10086 = (function () {
     pullAt,
     tail,
     take,
+    takeRight,
+    takeRightWhile,
+    takeWhile,
+    union,
+    unionBy,
+    unionWith,
+    uniq,
+    uniqBy,
+    uniqWith,
   };
 })();
 function DeepComparsion(obj1, obj2) {
@@ -820,5 +946,10 @@ function DeepComparsion(obj1, obj2) {
   }
   return true;
 }
-const TESTRES = aeon_10086.take([1, 2, 3], 5);
+var objects = [
+  { x: 1, y: 2 },
+  { x: 2, y: 1 },
+  { x: 1, y: 2 },
+];
+const TESTRES = aeon_10086.uniqWith(objects, DeepComparsion);
 console.log(TESTRES);
