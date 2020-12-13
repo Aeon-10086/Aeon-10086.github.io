@@ -1170,6 +1170,34 @@ var aeon_10086 = (function () {
   function isWeakSet(val) {
     return typeof val == "object" && val.constructor == WeakSet;
   }
+  function toFinite(val) {
+    val = parseFloat(val);
+    if (val >= Number.MIN_VALUE && val <= Number.MAX_VALUE) {
+      return val;
+    } else {
+      return val > 0 ? Number.MAX_VALUE : -Number.MAX_VALUE;
+    }
+  }
+  function toInteger(val) {
+    val = toFinite(val);
+    if (val > 0 && val < 1) {
+      return 0;
+    } else if (val == Number.MAX_VALUE) {
+      return Number.MAX_VALUE;
+    } else {
+      return parseInt(val);
+    }
+  }
+  function toLength(val) {
+    val = toInteger(val);
+    if (val < 0) return 0;
+    if (val > 4294967295) return 4294967295;
+    return val;
+  }
+  function toNumber(val) {
+    if (typeof val == "number") return val;
+    return Number(val);
+  }
   //工具函数
   /**
    * 比较两个对象是否相同
@@ -1374,6 +1402,10 @@ var aeon_10086 = (function () {
     isUndefined,
     isWeakMap,
     isWeakSet,
+    toFinite,
+    toInteger,
+    toLength,
+    toNumber,
   };
 })();
 function DeepComparsion(obj1, obj2) {
@@ -1386,5 +1418,5 @@ function DeepComparsion(obj1, obj2) {
   }
   return true;
 }
-const TESTRES = aeon_10086.isWeakSet(new Set());
+const TESTRES = aeon_10086.toNumber("3.2");
 console.log(TESTRES);
