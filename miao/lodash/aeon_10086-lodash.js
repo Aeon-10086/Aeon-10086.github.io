@@ -1101,16 +1101,74 @@ var aeon_10086 = (function () {
     return value.constructor == Map;
   }
   function isMatch(object, source) {
-    for (key in object) {
-      if (key in source) {
-        if (typeof object[key] != "object" && typeof object[key] != "object") {
-          if (object[key] != source[key]) return false;
-        } else {
-          if (!isMatch(object[key], source[key])) return false;
-        }
+    return hasSameAttr(object, source);
+  }
+  function isMatchWith(object, source, customizer) {
+    for (let key in object) {
+      if (customizer(object[key], source[key]) === false) {
+        return false;
       }
     }
     return true;
+  }
+  function isNaN(val) {
+    if (typeof val == "object") {
+      val = val.valueOf();
+    }
+    return val !== val;
+  }
+  function isNil(val) {
+    return val == undefined;
+  }
+  function isNull(val) {
+    return val === null;
+  }
+  function isNumber(val) {
+    return typeof val === "number";
+  }
+  function isObject(val) {
+    return (
+      (val !== null && typeof val === "object") || typeof val === "function"
+    );
+  }
+  function isObjectLike(val) {
+    return val !== null && typeof val === "object";
+  }
+  // 待进一步了解
+  function isPlainObject(val) {
+    let proto = Object.getPrototypeOf(val);
+    return proto === Object.prototype || proto === null;
+  }
+  function isRegExp(val) {
+    return typeof val == "object" && val.constructor == RegExp;
+  }
+  function isSafeInteger(val) {
+    return (
+      isNumber(val) &&
+      Math.abs(val) < Number.MAX_SAFE_INTEGER &&
+      Math.abs(val) > Number.MIN_VALUE
+    );
+  }
+  function isSet(val) {
+    return typeof val == "object" && val.constructor == Set;
+  }
+  function isString(val) {
+    return typeof val == "string";
+  }
+  function isSymbol(val) {
+    return typeof val == "symbol";
+  }
+  function isTypedArray(val) {
+    return typeof val == "object" && val.constructor == Uint8Array;
+  }
+  function isUndefined(val) {
+    return val === undefined;
+  }
+  function isWeakMap(val) {
+    return typeof val == "object" && val.constructor == WeakMap;
+  }
+  function isWeakSet(val) {
+    return typeof val == "object" && val.constructor == WeakSet;
   }
   //工具函数
   /**
@@ -1138,12 +1196,12 @@ var aeon_10086 = (function () {
     }
     return true;
   }
-  function haveSameAttr(obj1, obj2) {
+  function hasSameAttr(obj1, obj2) {
     for (key in obj1) {
       if (typeof obj1[key] != "object" && typeof obj1[key] != "object") {
-        if (obj1[key] != obj2[key]) return false;
+        if (key in obj2 && obj1[key] != obj2[key]) return false;
       } else {
-        if (!DeepComparsion(obj1[key], obj2[key])) return false;
+        if (!hasSameAttr(obj1[key], obj2[key])) return false;
       }
     }
     return true;
@@ -1170,7 +1228,7 @@ var aeon_10086 = (function () {
     } else if (typeof predicate == "function") {
       return predicate;
     } else if (typeof predicate == "object") {
-      return haveSameAttr.bind(null, predicate);
+      return hasSameAttr.bind(null, predicate);
     } else if (typeof predicate == "string") {
       return (item) => item[predicate];
     }
@@ -1299,6 +1357,23 @@ var aeon_10086 = (function () {
     isLength,
     isMap,
     isMatch,
+    isMatchWith,
+    isNaN,
+    isNil,
+    isNull,
+    isNumber,
+    isObject,
+    isObjectLike,
+    isPlainObject,
+    isRegExp,
+    isSafeInteger,
+    isSet,
+    isString,
+    isSymbol,
+    isTypedArray,
+    isUndefined,
+    isWeakMap,
+    isWeakSet,
   };
 })();
 function DeepComparsion(obj1, obj2) {
@@ -1311,6 +1386,5 @@ function DeepComparsion(obj1, obj2) {
   }
   return true;
 }
-var object = { a: 1, b: 2 };
-const TESTRES = aeon_10086.isBoolean(null);
+const TESTRES = aeon_10086.isWeakSet(new Set());
 console.log(TESTRES);
