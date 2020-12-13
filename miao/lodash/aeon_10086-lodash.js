@@ -452,7 +452,7 @@ var aeon_10086 = (function () {
     return true;
   }
   function filter(ary, predicate) {
-    predicate = iteratee(predicate);
+    predicate = handleFilterIteratee(predicate);
     let res = [];
     for (let item of ary) {
       if (predicate(item)) res.push(item);
@@ -460,7 +460,7 @@ var aeon_10086 = (function () {
     return res;
   }
   function find(ary, predicate, fromIndex = 0) {
-    predicate = iteratee(predicate);
+    predicate = handleFilterIteratee(predicate);
     for (let i = fromIndex; i < ary.length; i++) {
       if (predicate(ary[i], i, ary)) return ary[i];
     }
@@ -1022,6 +1022,7 @@ var aeon_10086 = (function () {
     return typeof value == "object" && isArrayLike(value);
   }
   function isBoolean(value) {
+    if (value == undefined) return false;
     return value.constructor == Boolean;
   }
   function isDate(value) {
@@ -1137,6 +1138,16 @@ var aeon_10086 = (function () {
     }
     return true;
   }
+  function haveSameAttr(obj1, obj2) {
+    for (key in obj1) {
+      if (typeof obj1[key] != "object" && typeof obj1[key] != "object") {
+        if (obj1[key] != obj2[key]) return false;
+      } else {
+        if (!DeepComparsion(obj1[key], obj2[key])) return false;
+      }
+    }
+    return true;
+  }
   /**
    * 处理 predicate 根据其类型返回一个函数
    * @param {*} predicate
@@ -1153,7 +1164,17 @@ var aeon_10086 = (function () {
       return (item) => item[predicate];
     }
   }
-
+  function handleFilterIteratee(predicate) {
+    if (Array.isArray(predicate)) {
+      return (item) => item[predicate[0]] == predicate[1];
+    } else if (typeof predicate == "function") {
+      return predicate;
+    } else if (typeof predicate == "object") {
+      return haveSameAttr.bind(null, predicate);
+    } else if (typeof predicate == "string") {
+      return (item) => item[predicate];
+    }
+  }
   /**
    * 比较两个值是否相等
    * @param {*} x
@@ -1291,5 +1312,5 @@ function DeepComparsion(obj1, obj2) {
   return true;
 }
 var object = { a: 1, b: 2 };
-const TESTRES = aeon_10086.isMatch(object, { b: 2 });
+const TESTRES = aeon_10086.isBoolean(null);
 console.log(TESTRES);
