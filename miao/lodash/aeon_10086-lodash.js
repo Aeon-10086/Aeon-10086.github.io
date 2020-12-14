@@ -640,6 +640,7 @@ var aeon_10086 = (function () {
     return ary;
   }
   function pullAt(ary, ...args) {
+    args = flatten(args);
     let res = [];
     let d = 0;
     for (let i = 0; i < args.length; i++) {
@@ -1418,5 +1419,5 @@ function DeepComparsion(obj1, obj2) {
   }
   return true;
 }
-const TESTRES = aeon_10086.toNumber("3.2");
+const TESTRES = aeon_10086.pullAt(["a", "b", "c", "d"], [1, 3]);
 console.log(TESTRES);
