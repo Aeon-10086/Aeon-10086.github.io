@@ -605,10 +605,12 @@ var aeon_10086 = (function () {
     return val <= other;
   }
   function castArray(val) {
-    if (Array.isArray(val)) return val;
-    if (val === undefined) return [undefined];
-    if (val === null) return [null];
-    return [val];
+    if (isArray(val)) return val;
+    let res = [];
+    for (let i = 0; i < arguments.length; i++) {
+      res.push(arguments[i]);
+    }
+    return res;
   }
   function clone(value) {
     return value;
@@ -1565,9 +1567,5 @@ function DeepComparsion(obj1, obj2) {
   }
   return true;
 }
-var users = [
-  { user: "barney", active: true },
-  { user: "fred", active: false },
-];
-const TESTRES = aeon_10086.some([null, 0, "yes", false], Boolean);
+const TESTRES = aeon_10086.castArray([null]);
 console.log(TESTRES);
