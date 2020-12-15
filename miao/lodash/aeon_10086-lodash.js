@@ -1010,10 +1010,11 @@ var aeon_10086 = (function () {
     return typeof value == "object" && "length" in value;
   }
   function isArray(value) {
-    return Array.isArray(value);
+    return getType(value) == "[object Array]";
   }
   function isArrayBuffer(value) {
-    return value.constructor == ArrayBuffer;
+    // ArrayBuffer
+    return getType(value) == "[object ArrayBuffer]";
   }
   function isArrayLike(value) {
     if (typeof value == "function") return false;
@@ -1199,6 +1200,134 @@ var aeon_10086 = (function () {
   function toNumber(val) {
     if (typeof val == "number") return val;
     return Number(val);
+  }
+  function invokeMap(collection, path, ...args) {
+    if (isString(path)) {
+      return collection.map((item) => item[path](...args));
+    } else if (isFunction(path)) {
+      return collection.map((item) => path.call(item, ...args));
+    }
+  }
+  function keyBy(collection, predicate) {
+    predicate = iteratee(predicate);
+    let res = {};
+    for (key in collection) {
+      let temp = collection[key];
+      res[predicate(temp)] = temp;
+    }
+    return res;
+  }
+  function map(collection, predicate) {
+    predicate = iteratee(predicate);
+    if (isArray(collection)) {
+      return collection.map((item) => predicate(item));
+    } else {
+      let res = [];
+      for (key in collection) {
+        let temp = collection[key];
+        res.push(predicate(temp));
+      }
+      return res;
+    }
+  }
+  // 未完成
+  function orderBy(collection, predicate, orders) {
+    let res = [];
+    predicate = predicate.map((item) => iteratee(item));
+    // for (let i = 0; i < predicate.length; i++) {
+    //   if (order[i] === "asc") {
+    //   }
+    // }
+  }
+  function partition(collection, predicate) {
+    let res = [[], []];
+    predicate = handleFilterIteratee(predicate);
+    for (let item of collection) {
+      if (predicate(item)) {
+        res[0].push(item);
+      } else {
+        res[1].push(item);
+      }
+    }
+    return res;
+  }
+  function reduce(collection, predicate, prime) {
+    if (prime === undefined) {
+      prime = isArray(collection) && collection.length > 0 ? 0 : {};
+    }
+    if (isArray(collection)) {
+      for (let i = 0; i < collection.length; i++) {
+        prime = predicate(prime, collection[i], i, collection);
+      }
+    } else {
+      for (let key in collection) {
+        prime = predicate(prime, collection[key], key, collection);
+      }
+    }
+    return prime;
+  }
+  function reduceRight(collection, predicate, prime) {
+    if (prime === undefined) {
+      prime = isArray(collection) && collection.length > 0 ? 0 : {};
+    }
+    if (isArray(collection)) {
+      for (let i = collection.length - 1; i >= 0; i--) {
+        prime = predicate(prime, collection[i], i, collection);
+      }
+    } else {
+      for (let key in collection) {
+        prime = predicate(prime, collection[key], key, collection);
+      }
+    }
+    return prime;
+  }
+  function reject(collection, predicate) {
+    predicate = handleFilterIteratee(predicate);
+    let res = collection.filter((item) => !predicate(item));
+    return res;
+  }
+  function sample(collection) {
+    let index = (Math.random() * collection.length) | 0;
+    return collection[index];
+  }
+  function sampleSize(collection, n = 1) {
+    if (n > collection.length) n = collection.length;
+    let randIndex = [];
+    let res = [];
+    for (let i = 0; i < n; i++) {
+      let temp = (Math.random() * collection.length) | 0;
+      while (randIndex.includes(temp)) {
+        temp = (Math.random() * collection.length) | 0;
+      }
+      randIndex.push(temp);
+    }
+    for (let item of randIndex) {
+      res.push(collection[item]);
+    }
+    return res;
+  }
+  function shuffle(collection) {
+    return sampleSize(collection, collection.length);
+  }
+  function size(collection) {
+    if (getType(collection) === "[object Object]") {
+      let count = 0;
+      for (key in collection) {
+        count++;
+      }
+      return count;
+    } else {
+      return collection.length;
+    }
+  }
+  function some(collection, predicate) {
+    predicate = iteratee(predicate);
+    for (let item of collection) {
+      if (predicate(item)) {
+        return true;
+      }
+    }
+    return false;
   }
   //工具函数
   function getType(val) {
@@ -1412,6 +1541,18 @@ var aeon_10086 = (function () {
     toInteger,
     toLength,
     toNumber,
+    invokeMap,
+    keyBy,
+    map,
+    partition,
+    reduce,
+    reduceRight,
+    reject,
+    sample,
+    sampleSize,
+    shuffle,
+    size,
+    some,
   };
 })();
 function DeepComparsion(obj1, obj2) {
@@ -1424,5 +1565,9 @@ function DeepComparsion(obj1, obj2) {
   }
   return true;
 }
-const TESTRES = aeon_10086.pullAt(["a", "b", "c", "d"], [1, 3]);
+var users = [
+  { user: "barney", active: true },
+  { user: "fred", active: false },
+];
+const TESTRES = aeon_10086.some([null, 0, "yes", false], Boolean);
 console.log(TESTRES);
