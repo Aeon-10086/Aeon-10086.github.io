@@ -1023,11 +1023,10 @@ var aeon_10086 = (function () {
     return typeof value == "object" && isArrayLike(value);
   }
   function isBoolean(value) {
-    if (value == undefined) return false;
-    return value.constructor == Boolean;
+    return getType(value) == "[object Boolean]";
   }
   function isDate(value) {
-    return value.constructor == Date;
+    return getType(value) == "[object Date]";
   }
   function isElement(value) {
     let regexp = /^\[object HTML\w+\]$/;
@@ -1090,7 +1089,7 @@ var aeon_10086 = (function () {
   function isFunction(value) {
     if (arguments.length == 0) return true;
     if (value == undefined) return false;
-    return value.constructor == Function;
+    return getType(value) == "[object Function]";
   }
   function isInteger(value) {
     return isFinite(value) && Math.floor(value) === value;
@@ -1098,8 +1097,8 @@ var aeon_10086 = (function () {
   function isLength(value) {
     return isInteger(value) && value >= 0;
   }
-  function isMap(value) {
-    return value.constructor == Map;
+  function isMap(val) {
+    return getType(val) == "[object Map]";
   }
   function isMatch(object, source) {
     return hasSameAttr(object, source);
@@ -1122,10 +1121,10 @@ var aeon_10086 = (function () {
     return val == undefined;
   }
   function isNull(val) {
-    return val === null;
+    return getType(val) == "[object Null]";
   }
   function isNumber(val) {
-    return typeof val === "number";
+    return getType(val) == "[object Number]";
   }
   function isObject(val) {
     return (
@@ -1141,7 +1140,8 @@ var aeon_10086 = (function () {
     return proto === Object.prototype || proto === null;
   }
   function isRegExp(val) {
-    return typeof val == "object" && val.constructor == RegExp;
+    //[object RegExp]
+    return getType(val) == "[object RegExp]";
   }
   function isSafeInteger(val) {
     return (
@@ -1151,25 +1151,26 @@ var aeon_10086 = (function () {
     );
   }
   function isSet(val) {
-    return typeof val == "object" && val.constructor == Set;
+    return getType(val) == "[object Set]";
   }
   function isString(val) {
-    return typeof val == "string";
+    return getType(val) == "[object String]";
   }
   function isSymbol(val) {
-    return typeof val == "symbol";
+    return getType(val) == "[object Symbol]";
   }
   function isTypedArray(val) {
-    return typeof val == "object" && val.constructor == Uint8Array;
+    //[object Uint8Array]
+    return getType(val) == "[object Uint8Array]";
   }
   function isUndefined(val) {
-    return val === undefined;
+    return getType(val) == "[object Undefined]";
   }
   function isWeakMap(val) {
-    return typeof val == "object" && val.constructor == WeakMap;
+    return getType(val) == "[object WeakMap]";
   }
   function isWeakSet(val) {
-    return typeof val == "object" && val.constructor == WeakSet;
+    return getType(val) == "[object WeakSet]";
   }
   function toFinite(val) {
     val = parseFloat(val);
@@ -1200,6 +1201,10 @@ var aeon_10086 = (function () {
     return Number(val);
   }
   //工具函数
+  function getType(val) {
+    return Object.prototype.toString.call(val);
+  }
+
   /**
    * 比较两个对象是否相同
    * @param obj1
