@@ -267,7 +267,7 @@ var aeon_10086 = (function () {
   }
   function flattenDeep(ary) {
     let res = [];
-    function fd(ary) {
+    /* function fd(ary) {
       if (!Array.isArray(ary)) {
         return ary;
       }
@@ -279,20 +279,37 @@ var aeon_10086 = (function () {
         }
       });
     }
-    fd(ary);
+    fd(ary); */
+    // 改良版
+    for (let i = 0; i < arrays.length; i++) {
+      if (isArray(arrays[i])) {
+        res.push(...flattenDeep(arrays[i]));
+      } else {
+        res.push(arrays[i]);
+      }
+    }
     return res;
   }
   function flattenDepth(ary, depth = 1) {
-    if (depth === 0) return ary;
+    if (depth === 0) return ary.slice();
     let res = [];
-    ary.forEach((item) => {
+    /* ary.forEach((item) => {
       if (Array.isArray(item)) {
         res = res.concat(item);
       } else {
         res.push(item);
       }
     });
-    return flattenDepth(res, depth - 1);
+    return flattenDepth(res, depth - 1); */
+    //改良版
+    for (let i = 0; i < ary.length; i++) {
+      if (isArray(ary[i])) {
+        res.push(...flattenDepth(ary[i], depth - 1));
+      } else {
+        res.push(ary[i]);
+      }
+    }
+    return res;
   }
   function fromPairs(ary) {
     let res = {};
@@ -1331,6 +1348,91 @@ var aeon_10086 = (function () {
     }
     return false;
   }
+  function defer(func, ...args) {
+    let timer = setTimeout(func, 0, ...args);
+    return timer;
+  }
+  function delay(func, wait, ...args) {
+    let timer = setTimeout(func, wait, ...args);
+    return timer;
+  }
+  function conformsTo(object, source) {
+    for (key in source) {
+      let predicate = source[key];
+      if (!predicate(object[key])) {
+        return false;
+      }
+    }
+    return true;
+  }
+  function toSafeInteger(value) {
+    value = toInteger(value);
+    if (value > Number.MAX_SAFE_INTEGER) {
+      value = Number.MAX_SAFE_INTEGER;
+    } else if (value < Number.MIN_SAFE_INTEGER) {
+      value = Number.MIN_SAFE_INTEGER;
+    }
+    return value;
+  }
+  function add(val1, val2) {
+    return val1 + val2;
+  }
+  function divide(val1, val2) {
+    return val1 / val2;
+  }
+  function mean(array) {
+    let sum = array.reduce((prev, item) => prev + item, 0);
+    return sum / array.length;
+  }
+  function meanBy(array, predicate) {
+    predicate = iteratee(predicate);
+    let sum = array.reduce((prev, item) => prev + predicate(item), 0);
+    return sum / array.length;
+  }
+  function multiply(val1, val2) {
+    return val1 * val2;
+  }
+  function subtract(val1, val2) {
+    return val1 - val2;
+  }
+  function clamp(number, lower, upper) {
+    if (number < lower) {
+      return lower;
+    } else if (number > upper) {
+      return upper;
+    }
+    return number;
+  }
+  function inRange(number, start, end = 0) {
+    if (start > end) {
+      [start, end] = [end, start];
+    }
+    if (number >= start && number < end) {
+      return true;
+    }
+    return false;
+  }
+  function random(...args) {
+    if (args.length === 1) {
+      return (Math.random() * args[0]) | 0;
+    } else {
+      if (typeof args[args.length - 1] === "boolean") {
+        let flag = args.pop();
+        start = args.length > 1 ? args[0] : 0;
+        end = args.length > 1 ? args[1] : args[0];
+        if (flag) {
+          return Math.random() * (end - start);
+        } else {
+          return (Math.random() * (end - start)) | 0;
+        }
+      } else {
+        start = args.length > 1 ? args[0] : 0;
+        end = args.length > 1 ? args[1] : args[0];
+        return (Math.random() * (end - start)) | 0;
+      }
+    }
+  }
+
   //工具函数
   function getType(val) {
     return Object.prototype.toString.call(val);
@@ -1555,6 +1657,19 @@ var aeon_10086 = (function () {
     shuffle,
     size,
     some,
+    defer,
+    delay,
+    conformsTo,
+    toSafeInteger,
+    add,
+    divide,
+    mean,
+    meanBy,
+    multiply,
+    subtract,
+    clamp,
+    inRange,
+    random,
   };
 })();
 function DeepComparsion(obj1, obj2) {
@@ -1567,5 +1682,6 @@ function DeepComparsion(obj1, obj2) {
   }
   return true;
 }
-const TESTRES = aeon_10086.castArray([null]);
+var objects = [{ n: 4 }, { n: 2 }, { n: 8 }, { n: 6 }];
+const TESTRES = aeon_10086.random(1.2, 5.2);
 console.log(TESTRES);
