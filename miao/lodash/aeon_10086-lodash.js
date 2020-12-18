@@ -281,11 +281,11 @@ var aeon_10086 = (function () {
     }
     fd(ary); */
     // 改良版
-    for (let i = 0; i < arrays.length; i++) {
-      if (isArray(arrays[i])) {
-        res.push(...flattenDeep(arrays[i]));
+    for (let i = 0; i < ary.length; i++) {
+      if (isArray(ary[i])) {
+        res.push(...flattenDeep(ary[i]));
       } else {
-        res.push(arrays[i]);
+        res.push(ary[i]);
       }
     }
     return res;
@@ -1432,7 +1432,130 @@ var aeon_10086 = (function () {
       }
     }
   }
-
+  function assign(object, ...source) {
+    source.forEach((item) => {
+      for (let key of Object.keys(item)) {
+        object[key] = item[key];
+      }
+    });
+    return object;
+  }
+  function assignIn(object, ...source) {
+    source.forEach((item) => {
+      for (let key in item) {
+        object[key] = item[key];
+      }
+    });
+    return object;
+  }
+  function defaults(object, ...source) {
+    source.forEach((item) => {
+      for (let key in item) {
+        if (!object[key]) object[key] = item[key];
+      }
+    });
+    return object;
+  }
+  function defaultsDeep(object, ...source) {
+    source.forEach((item) => {
+      for (let key in item) {
+        if (isObject(object[key])) {
+          defaultsDeep(object[key], item[key]);
+        } else {
+          if (!object[key]) object[key] = item[key];
+        }
+      }
+    });
+    return object;
+  }
+  function findKey(object, predicate) {
+    predicate = handleFilterIteratee(predicate);
+    for (let key of Object.keys(object)) {
+      if (predicate(object[key])) return key;
+    }
+    return;
+  }
+  function findLastKey(object, predicate) {
+    predicate = handleFilterIteratee(predicate);
+    for (let key of Object.keys(object).reverse()) {
+      if (predicate(object[key])) return key;
+    }
+    return;
+  }
+  function forIn(object, predicate) {
+    for (let key in object) {
+      let flag = predicate(object[key], key, object);
+      if (flag === false) break;
+    }
+    return object;
+  }
+  function forInRight(object, predicate) {
+    let temp = [];
+    for (let key in object) {
+      temp.push(key);
+    }
+    temp.reverse();
+    for (let key of temp) {
+      let flag = predicate(object[key], key, object);
+      if (flag === false) break;
+    }
+    return object;
+  }
+  function forOwn(object, predicate) {
+    for (let key of Object.keys(object)) {
+      let flag = predicate(object[key], key, object);
+      if (flag === false) break;
+    }
+    return object;
+  }
+  function forOwnRight(object, predicate) {
+    for (let key of Object.keys(object).reverse()) {
+      let flag = predicate(object[key], key, object);
+      if (flag === false) break;
+    }
+    return object;
+  }
+  function functions(object) {
+    let keys = Object.keys(object);
+    let res = [];
+    for (let key of keys) {
+      if (isFunction(object[key])) {
+        res.push(key);
+      }
+    }
+    return res;
+  }
+  function functionsIn(object) {
+    let res = [];
+    for (let key in object) {
+      if (isFunction(object[key])) {
+        res.push(key);
+      }
+    }
+    return res;
+  }
+  function invert(object) {
+    let obj = {};
+    let keys = Object.keys(object);
+    for (let key of keys) {
+      obj[object[key]] = key;
+    }
+    return obj;
+  }
+  function invertBy(object, predicate) {
+    let keys = Object.keys(object);
+    let obj = {};
+    for (let key of keys) {
+      let temp = object[key];
+      if (predicate) temp = predicate(temp);
+      if (obj[temp]) {
+        obj[temp].push(key);
+      } else {
+        obj[temp] = [key];
+      }
+    }
+    return obj;
+  }
   //工具函数
   function getType(val) {
     return Object.prototype.toString.call(val);
@@ -1670,6 +1793,20 @@ var aeon_10086 = (function () {
     clamp,
     inRange,
     random,
+    assign,
+    assignIn,
+    defaults,
+    defaultsDeep,
+    findKey,
+    findLastKey,
+    forIn,
+    forInRight,
+    forOwn,
+    forOwnRight,
+    functions,
+    functionsIn,
+    invert,
+    invertBy,
   };
 })();
 function DeepComparsion(obj1, obj2) {
@@ -1682,6 +1819,8 @@ function DeepComparsion(obj1, obj2) {
   }
   return true;
 }
-var objects = [{ n: 4 }, { n: 2 }, { n: 8 }, { n: 6 }];
-const TESTRES = aeon_10086.random(1.2, 5.2);
+var object = { a: 1, b: 2, c: 1 };
+const TESTRES = aeon_10086.invertBy(object, function (value) {
+  return "group" + value;
+});
 console.log(TESTRES);
