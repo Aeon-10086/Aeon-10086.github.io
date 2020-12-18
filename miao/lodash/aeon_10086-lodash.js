@@ -1556,6 +1556,123 @@ var aeon_10086 = (function () {
     }
     return obj;
   }
+  function keys(object) {
+    let keys = Object.keys(object);
+    let res = [];
+    for (let key of keys) {
+      res.push(key);
+    }
+    return res;
+  }
+  function keysIn(object) {
+    let res = [];
+    for (let key in object) {
+      res.push(key);
+    }
+    return res;
+  }
+  function mapKeys(object, predicate) {
+    let obj = {};
+    let keys = Object.keys(object);
+    for (let key of keys) {
+      let value = object[key];
+      let temp = predicate(value, key, object);
+      obj[temp] = value;
+    }
+    return obj;
+  }
+  function mapValues(object, predicate) {
+    predicate = iteratee(predicate);
+    let obj = {};
+    let keys = Object.keys(object);
+    for (let key of keys) {
+      let value = object[key];
+      value = predicate(value, key, object);
+      obj[key] = value;
+    }
+    return obj;
+  }
+  function merge(object, ...source) {
+    source.forEach((item) => {
+      for (let key in item) {
+        let value = item[key];
+        if (typeof value == "object") {
+          merge(object[key], value);
+        } else {
+          object[key] = value;
+        }
+      }
+    });
+    return object;
+  }
+  function mergeWith(object, ...source) {
+    if (!isFunction(source[source.length - 1])) return merge(object, ...source);
+    let customizer = source.pop();
+    source.forEach((item) => {
+      for (let key in item) {
+        object[key] = customizer(object[key], item[key], key, object, item, []);
+      }
+    });
+    return object;
+  }
+  function omit(object, ...props) {
+    props = flattenDeep(props);
+    let obj = {};
+    for (let key in object) {
+      if (!props.includes(key)) {
+        obj[key] = object[key];
+      }
+    }
+    return obj;
+  }
+  function omitBy(object, predicate) {
+    let obj = {};
+    for (let key in object) {
+      let value = object[key];
+      if (!predicate(value, key)) {
+        obj[key] = value;
+      }
+    }
+    return obj;
+  }
+  function pick(object, ...props) {
+    props = flattenDeep(props);
+    let obj = {};
+    for (let key of props) {
+      let value = object[key];
+      if (value) {
+        obj[key] = value;
+      }
+    }
+    return obj;
+  }
+  function pickBy(object, predicate) {
+    let obj = {};
+    for (let key in object) {
+      let value = object[key];
+      if (predicate(value, key)) {
+        obj[key] = value;
+      }
+    }
+    return obj;
+  }
+  function toPairs(object) {
+    if (isSet(object) || isMap(object)) {
+      return object.entries();
+    } else {
+      return Object.keys(object).map((key) => [key, object[key]]);
+    }
+  }
+  function toPairsIn(object) {
+    if (isSet(object) || isMap(object)) {
+      return object.entries();
+    }
+    let res = [];
+    for (let key in object) {
+      res.push([key, object[key]]);
+    }
+    return res;
+  }
   //工具函数
   function getType(val) {
     return Object.prototype.toString.call(val);
@@ -1807,6 +1924,18 @@ var aeon_10086 = (function () {
     functionsIn,
     invert,
     invertBy,
+    keys,
+    keysIn,
+    mapKeys,
+    mapValues,
+    merge,
+    mergeWith,
+    omit,
+    omitBy,
+    pick,
+    pickBy,
+    toPairs,
+    toPairsIn,
   };
 })();
 function DeepComparsion(obj1, obj2) {
@@ -1819,8 +1948,10 @@ function DeepComparsion(obj1, obj2) {
   }
   return true;
 }
-var object = { a: 1, b: 2, c: 1 };
-const TESTRES = aeon_10086.invertBy(object, function (value) {
-  return "group" + value;
-});
+function Foo() {
+  this.a = 1;
+  this.b = 2;
+}
+Foo.prototype.c = 3;
+const TESTRES = aeon_10086.toPairsIn(new Foo());
 console.log(TESTRES);
