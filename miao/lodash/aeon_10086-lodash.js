@@ -1237,14 +1237,25 @@ var aeon_10086 = (function () {
     return res;
   }
   function map(collection, predicate) {
+    if (typeof predicate == "string" && predicate.includes(".")) {
+      let tempArr = predicate.split(".");
+      predicate = function (collection) {
+        for (let key of tempArr) {
+          collection = collection[key];
+        }
+        return collection;
+      };
+    }
     predicate = iteratee(predicate);
     if (isArray(collection)) {
-      return collection.map((item) => predicate(item));
+      return collection.map((item, index, collection) =>
+        predicate(item, index, collection)
+      );
     } else {
       let res = [];
       for (key in collection) {
         let temp = collection[key];
-        res.push(predicate(temp));
+        res.push(predicate(temp, key, collection));
       }
       return res;
     }
@@ -1953,5 +1964,5 @@ function Foo() {
   this.b = 2;
 }
 Foo.prototype.c = 3;
-const TESTRES = aeon_10086.toPairsIn(new Foo());
+const TESTRES = aeon_10086.map([{ a: { b: 1 } }, { a: { b: 2 } }], "a.b");
 console.log(TESTRES);
