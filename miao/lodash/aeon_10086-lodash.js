@@ -1727,11 +1727,115 @@ var aeon_10086 = (function () {
     let res = getAttrByPath(object, path);
     path.pop();
     let prev = getAttrByPath(object, path);
-    res === undefined ? defaultValue : res;
+    res = res === undefined ? defaultValue : res;
     if (isFunction(res)) {
       return res.call(prev);
     }
     return res;
+  }
+  function set(object, path, value) {
+    path = handlePath(path);
+    let temp = object;
+    let i = 0;
+    for (; i < path.length - 1; i++) {
+      if (temp[path[i]] !== undefined) {
+        temp = temp[path[i]];
+      } else {
+        if (path[i + 1] * 1 == path[i + 1]) {
+          temp[path[i]] = [];
+        } else {
+          temp[path[i]] = {};
+        }
+        temp = temp[path[i]];
+      }
+    }
+    temp[path[path.length - 1]] = value;
+    return object;
+  }
+  function setWith(object, path, value, customizer) {
+    if (customizer === undefined) return set(object, path, updater);
+    path = handlePath(path);
+    let temp = object;
+    let i = 0;
+    for (; i < path.length - 1; i++) {
+      temp[path[i]] = customizer(temp[path[i]], path[i], temp);
+      temp = temp[path[i]];
+    }
+    temp[path[i]] = customizer(value, path[i], temp);
+    return object;
+  }
+  function transform(object, predicate, accumulator) {
+    accumulator = arguments.length > 2 ? accumulator : {};
+    let keys = Object.keys(object);
+    for (let i = 0; i < keys.length; i++) {
+      if (predicate(accumulator, object[keys[i]], keys[i], object) === false) {
+        break;
+      }
+    }
+    return accumulator;
+  }
+  function unset(object, path) {
+    path = handlePath(path);
+    let temp = object;
+    for (let i = 0; i < path.length - 1; i++) {
+      if (temp[path[i]] === undefined) return false;
+      temp = temp[path[i]];
+    }
+    if (temp[path[path.length - 1]] === undefined) return false;
+    delete temp[path[path.length - 1]];
+    return true;
+  }
+  function update(object, path, updater) {
+    path = handlePath(path);
+    let temp = object;
+    let i = 0;
+    for (; i < path.length - 1; i++) {
+      if (temp[path[i]] !== undefined) {
+        temp = temp[path[i]];
+      } else {
+        if (path[i + 1] * 1 == path[i + 1]) {
+          temp[path[i]] = [];
+        } else {
+          temp[path[i]] = {};
+        }
+        temp = temp[path[i]];
+      }
+    }
+    temp[path[i]] = updater(temp[path[i]]);
+    return object;
+  }
+  function updateWith(object, path, updater, customizer) {
+    if (customizer === undefined) return update(object, path, updater);
+    path = handlePath(path);
+    let temp = object;
+    let i = 0;
+    for (; i < path.length - 1; i++) {
+      temp[path[i]] = customizer(temp[path[i]], path[i], temp);
+      temp = temp[path[i]];
+    }
+    temp[path[i]] = customizer(updater(temp[path[i]]), path[i], temp);
+    return object;
+  }
+  function values(object) {
+    let res = [];
+    let keys = Object.keys(object);
+    for (let key of keys) {
+      res.push(object[key]);
+    }
+    return res;
+  }
+  function valuesIn(object) {
+    let res = [];
+    for (let key in object) {
+      res.push(object[key]);
+    }
+    return res;
+  }
+  function camelCase(str) {
+    return str
+      .toLowerCase()
+      .replace(/(?:^|[\s\W_])[a-zA-Z$]/g, (item) => item.toUpperCase())
+      .replace(/[^a-zA-Z$]/g, "");
   }
   //工具函数
   function getType(val) {
@@ -1753,6 +1857,7 @@ var aeon_10086 = (function () {
       return item.replace(/\]/g, "").split("[");
     });
     arr = aeon_10086.flattenDeep(arr);
+    while (arr[0] == "") arr.shift();
     return arr;
   }
   function getAttrByPath(object, path) {
@@ -2043,6 +2148,15 @@ var aeon_10086 = (function () {
     hasIn,
     invoke,
     result,
+    set,
+    transform,
+    unset,
+    update,
+    setWith,
+    updateWith,
+    values,
+    valuesIn,
+    camelCase,
   };
 })();
 function DeepComparsion(obj1, obj2) {
@@ -2055,23 +2169,11 @@ function DeepComparsion(obj1, obj2) {
   }
   return true;
 }
-var object = { a: [{ b: { c: 3 } }] };
-const TESTRES = aeon_10086.result(
-  {
-    a: [
-      {
-        b: {
-          c1: 3,
-          c2: function () {
-            return n;
-          },
-        },
-      },
-    ],
-  },
-  "a[0].b.c3",
-  function () {
-    return n;
-  }
-);
+function Foo() {
+  this.a = 1;
+  this.b = 2;
+}
+
+Foo.prototype.c = 3;
+const TESTRES = aeon_10086.camelCase("__FOO_BAR__");
 console.log(TESTRES);
