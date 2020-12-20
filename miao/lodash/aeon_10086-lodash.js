@@ -1264,10 +1264,6 @@ var aeon_10086 = (function () {
   function orderBy(collection, predicate, orders) {
     let res = [];
     predicate = predicate.map((item) => iteratee(item));
-    // for (let i = 0; i < predicate.length; i++) {
-    //   if (order[i] === "asc") {
-    //   }
-    // }
   }
   function partition(collection, predicate) {
     let res = [[], []];
@@ -1361,11 +1357,11 @@ var aeon_10086 = (function () {
   }
   function defer(func, ...args) {
     let timer = setTimeout(func, 0, ...args);
-    return timer;
+    return timer - 1;
   }
   function delay(func, wait, ...args) {
     let timer = setTimeout(func, wait, ...args);
-    return timer;
+    return timer - 1;
   }
   function conformsTo(object, source) {
     for (key in source) {
@@ -1684,11 +1680,89 @@ var aeon_10086 = (function () {
     }
     return res;
   }
+  function ceil(val, precision = 0) {
+    return handlePrecision(val, precision, Math.ceil);
+  }
+  function floor(val, precision = 0) {
+    return handlePrecision(val, precision, Math.floor);
+  }
+  function round(val, precision = 0) {
+    return handlePrecision(val, precision, Math.round);
+  }
+  function at(object, paths) {
+    paths = paths.map((path) => handlePath(path));
+    let res = [];
+    for (let path of paths) {
+      let temp = getAttrByPath(object, path);
+      res.push(temp);
+    }
+    return res;
+  }
+  function get(object, path, defaultValue) {
+    path = handlePath(path);
+    let res = getAttrByPath(object, path);
+    return res === undefined ? defaultValue : res;
+  }
+  function has(object, path) {
+    path = handlePath(path);
+    for (let item of path) {
+      if (!object.hasOwnProperty(item)) return false;
+      object = object[item];
+    }
+    return true;
+  }
+  function hasIn(object, path) {
+    path = handlePath(path);
+    let res = getAttrByPath(object, path);
+    return res !== undefined;
+  }
+  function invoke(object, path, ...args) {
+    path = handlePath(path);
+    let meth = path.pop();
+    let res = getAttrByPath(object, path);
+    return res[meth](...args);
+  }
+  function result(object, path, defaultValue) {
+    path = handlePath(path);
+    let res = getAttrByPath(object, path);
+    path.pop();
+    let prev = getAttrByPath(object, path);
+    res === undefined ? defaultValue : res;
+    if (isFunction(res)) {
+      return res.call(prev);
+    }
+    return res;
+  }
   //工具函数
   function getType(val) {
     return Object.prototype.toString.call(val);
   }
-
+  /**
+   * 处理路径字符串，返回一个数组
+   * @param {*} str
+   * @returns
+   */
+  function handlePath(path) {
+    let arr;
+    if (isArray(path)) {
+      arr = path;
+    } else {
+      arr = path.split(".");
+    }
+    arr = arr.map((item) => {
+      return item.replace(/\]/g, "").split("[");
+    });
+    arr = aeon_10086.flattenDeep(arr);
+    return arr;
+  }
+  function getAttrByPath(object, path) {
+    let temp = object;
+    for (let item of path) {
+      temp = temp[item];
+      if (temp == undefined) return temp;
+    }
+    return temp;
+  }
   /**
    * 比较两个对象是否相同
    * @param obj1
@@ -1750,6 +1824,19 @@ var aeon_10086 = (function () {
     } else if (typeof predicate == "string") {
       return (item) => item[predicate];
     }
+  }
+
+  /**
+   * 处理数字精度
+   * @param {number} val
+   * @param {number} percision
+   * @param {function} action
+   * @returns {number}
+   */
+  function handlePrecision(val, percision, action) {
+    let x = Math.pow(10, percision);
+    val *= x;
+    return action(val) / x;
   }
   /**
    * 比较两个值是否相等
@@ -1947,6 +2034,15 @@ var aeon_10086 = (function () {
     pickBy,
     toPairs,
     toPairsIn,
+    ceil,
+    floor,
+    round,
+    at,
+    get,
+    has,
+    hasIn,
+    invoke,
+    result,
   };
 })();
 function DeepComparsion(obj1, obj2) {
@@ -1959,10 +2055,23 @@ function DeepComparsion(obj1, obj2) {
   }
   return true;
 }
-function Foo() {
-  this.a = 1;
-  this.b = 2;
-}
-Foo.prototype.c = 3;
-const TESTRES = aeon_10086.map([{ a: { b: 1 } }, { a: { b: 2 } }], "a.b");
+var object = { a: [{ b: { c: 3 } }] };
+const TESTRES = aeon_10086.result(
+  {
+    a: [
+      {
+        b: {
+          c1: 3,
+          c2: function () {
+            return n;
+          },
+        },
+      },
+    ],
+  },
+  "a[0].b.c3",
+  function () {
+    return n;
+  }
+);
 console.log(TESTRES);
