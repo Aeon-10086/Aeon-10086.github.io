@@ -1831,11 +1831,42 @@ var aeon_10086 = (function () {
     }
     return res;
   }
-  function camelCase(str) {
+  function camelCase(str = "") {
     return str
       .toLowerCase()
-      .replace(/(?:^|[\s\W_])[a-zA-Z$]/g, (item) => item.toUpperCase())
-      .replace(/[^a-zA-Z$]/g, "");
+      .replace(/( \w)|(_\w)|(-\w)/g, (item) => item.toUpperCase())
+      .replace(/[\W|_]/g, "")
+      .replace(/^\w/, (item) => item.toLowerCase());
+  }
+  function capitalize(str = "") {
+    return str.toLowerCase().replace(/^\w/, (item) => item.toUpperCase());
+  }
+  function endsWith(str = "", target, position = str.length) {
+    return str[position - 1] == target;
+  }
+  function escape(str = "") {
+    return str.replace(/[\&\>\<\"\']/g, (item) => {
+      switch (item) {
+        case "&":
+          return "&amp;";
+        case "<":
+          return "&lt;";
+        case ">":
+          return "&gt";
+        case '"':
+          return "&quot;";
+        case "'":
+          return "&apos;";
+        case "`":
+          return "&grave;";
+        default:
+          return item;
+      }
+    });
+  }
+
+  function escapeRegExp(str = "") {
+    return str.replace(/\^\$\.\*\+\?\(\)\[\]\,\|/g, (item) => `\\${item}`);
   }
   //工具函数
   function getType(val) {
@@ -2157,6 +2188,10 @@ var aeon_10086 = (function () {
     values,
     valuesIn,
     camelCase,
+    capitalize,
+    endsWith,
+    escape,
+    escapeRegExp,
   };
 })();
 function DeepComparsion(obj1, obj2) {
@@ -2175,5 +2210,5 @@ function Foo() {
 }
 
 Foo.prototype.c = 3;
-const TESTRES = aeon_10086.camelCase("__FOO_BAR__");
+const TESTRES = aeon_10086.escapeRegExp("[lodash](https://lodash.com/)");
 console.log(TESTRES);
