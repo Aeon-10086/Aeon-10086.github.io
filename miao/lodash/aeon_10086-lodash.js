@@ -1834,7 +1834,7 @@ var aeon_10086 = (function () {
   function camelCase(str = "") {
     return str
       .toLowerCase()
-      .replace(/( \w)|(_\w)|(-\w)/g, (item) => item.toUpperCase())
+      .replace(/(\s\w)|(_\w)|(-\w)/g, (item) => item.toUpperCase())
       .replace(/[\W|_]/g, "")
       .replace(/^\w/, (item) => item.toLowerCase());
   }
@@ -1866,7 +1866,35 @@ var aeon_10086 = (function () {
   }
 
   function escapeRegExp(str = "") {
-    return str.replace(/\^\$\.\*\+\?\(\)\[\]\,\|/g, (item) => `\\${item}`);
+    return str.replace(/[\^\$\.\*\+\?\(\)\[\]\,\|]/g, (item) => `\\${item}`);
+  }
+  function kebabCase(str = "") {
+    let reg = /[a-z]+|[A-Z][a-z]+|[A-Z]+/g;
+    return str.match(reg).join("-").toLowerCase();
+  }
+  function lowerCase(str = "") {
+    let reg = /[a-z]+|[A-Z][a-z]+|[A-Z]+/g;
+    return str.match(reg).join(" ").toLowerCase();
+  }
+  function lowerFirst(str = "") {
+    return str.replace(/^\w/, (item) => item.toLowerCase());
+  }
+  function pad(str = "", length = 0, chars = " ") {
+    if (str.length >= length) return str;
+    let l = ((length - str.length) / chars.length / 2) | 0;
+    let r = length - str.length - l;
+    return chars.repeat(l).concat(str).concat(chars.repeat(r)).slice(0, length);
+  }
+  function padEnd(str = "", length = 0, chars = " ") {
+    if (str.length >= length) return str;
+    let padLen = Math.ceil((length - str.length) / chars.length);
+    return str.concat(chars.repeat(padLen)).slice(0, length);
+  }
+  function padStart(str = "", length = 0, chars = " ") {
+    if (str.length >= length) return str;
+    let padLen = Math.ceil((length - str.length) / chars.length);
+    let padStr = chars.repeat(padLen).slice(0, length - str.length);
+    return padStr + str;
   }
   //工具函数
   function getType(val) {
@@ -2192,6 +2220,12 @@ var aeon_10086 = (function () {
     endsWith,
     escape,
     escapeRegExp,
+    kebabCase,
+    lowerCase,
+    lowerFirst,
+    pad,
+    padEnd,
+    padStart,
   };
 })();
 function DeepComparsion(obj1, obj2) {
@@ -2210,5 +2244,5 @@ function Foo() {
 }
 
 Foo.prototype.c = 3;
-const TESTRES = aeon_10086.escapeRegExp("[lodash](https://lodash.com/)");
+const TESTRES = aeon_10086.padStart("abc", 6, "_-");
 console.log(TESTRES);
