@@ -1896,6 +1896,72 @@ var aeon_10086 = (function () {
     let padStr = chars.repeat(padLen).slice(0, length - str.length);
     return padStr + str;
   }
+  function parseInt(str, radix = 10) {
+    return Number.parseInt(str, radix);
+  }
+  function repeat(str = "", n = 1) {
+    let res = "";
+    for (let i = 0; i < n; i++) {
+      res += str;
+    }
+    return res;
+  }
+  function replace(str = "", pattern, replacement) {
+    return str.replace(pattern, replacement);
+  }
+  function snakeCase(str = "") {
+    let reg = /[a-z]+|[A-Z][a-z]+|[A-Z]+/g;
+    return str.match(reg).join("_").toLowerCase();
+  }
+  function split(str = "", separ, limit) {
+    return str.split(separ).slice(0, limit);
+  }
+  function startCase(str = "") {
+    let reg = /[a-z]+|[A-Z][a-z]+|[A-Z]+/g;
+    return str
+      .match(reg)
+      .map((item) => item.replace(/^\w/, (item) => item.toUpperCase()))
+      .join(" ");
+  }
+  function startsWith(str = "", target, position = 0) {
+    for (let i = 0; i < target.length; i++) {
+      if (str[i + position] !== target[i]) {
+        return false;
+      }
+    }
+    return true;
+  }
+  function toLower(str = "") {
+    return str.toLowerCase();
+  }
+  function toUpper(str = "") {
+    return str.toUpperCase();
+  }
+  function trim(str = "", chars = "\\s") {
+    let regStart = new RegExp(`^[${chars}]+`);
+    let regEnd = new RegExp(`[${chars}]+$`);
+    return str.replace(regStart, "").replace(regEnd, "");
+  }
+
+  function trimEnd(str = "", chars = "\\s") {
+    let reg = new RegExp(`[${chars}]+$`);
+    return str.replace(reg, "");
+  }
+
+  function trimStart(str = "", chars = "\\s") {
+    let reg = new RegExp(`^[${chars}]+`);
+    return str.replace(reg, "");
+  }
+
+  // 尝试中内容
+  function orderBy(collection, predicate, order) {
+    predicate = predicate.map((item) => iteratee(item));
+    let res = collection;
+    for (let i = order.length - 1; i >= 0; i--) {
+      res = mergeSort(res, order[i], predicate[i]);
+    }
+    return res;
+  }
   //工具函数
   function getType(val) {
     return Object.prototype.toString.call(val);
@@ -2018,7 +2084,35 @@ var aeon_10086 = (function () {
       (x === null ? x == y : false)
     );
   }
-
+  function mergeSort(ary, sign = "asc", predicate = (it) => it) {
+    if (ary.length < 2) return ary;
+    let mid = ary.length >> 1;
+    let leftAry = ary.slice(0, mid);
+    let rightAry = ary.slice(mid);
+    let leftSort = mergeSort(leftAry, sign, predicate);
+    let rightSort = mergeSort(rightAry, sign, predicate);
+    let res = [],
+      i = 0,
+      j = 0;
+    while (i < leftSort.length && j < rightSort.length) {
+      let flag = predicate(leftSort[i]) <= predicate(rightSort[j]);
+      if (sign != "asc") {
+        flag = !flag;
+      }
+      if (flag) {
+        res.push(leftSort[i++]);
+      } else {
+        res.push(rightSort[j++]);
+      }
+    }
+    while (i < leftSort.length) {
+      res.push(leftSort[i++]);
+    }
+    while (j < rightSort.length) {
+      res.push(rightSort[j++]);
+    }
+    return res;
+  }
   return {
     chunk,
     compact,
@@ -2226,6 +2320,18 @@ var aeon_10086 = (function () {
     pad,
     padEnd,
     padStart,
+    repeat,
+    replace,
+    snakeCase,
+    split,
+    startCase,
+    startsWith,
+    toLower,
+    toUpper,
+    trim,
+    trimEnd,
+    trimStart,
+    orderBy,
   };
 })();
 function DeepComparsion(obj1, obj2) {
@@ -2238,11 +2344,12 @@ function DeepComparsion(obj1, obj2) {
   }
   return true;
 }
-function Foo() {
-  this.a = 1;
-  this.b = 2;
-}
+var users = [
+  { user: "fred", age: 48 },
+  { user: "barney", age: 34 },
+  { user: "fred", age: 40 },
+  { user: "barney", age: 36 },
+];
 
-Foo.prototype.c = 3;
-const TESTRES = aeon_10086.padStart("abc", 6, "_-");
+const TESTRES = aeon_10086.orderBy(users, ["user", "age"], ["asc", "desc"]);
 console.log(TESTRES);
