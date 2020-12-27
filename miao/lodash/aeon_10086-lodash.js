@@ -1210,6 +1210,9 @@ var aeon_10086 = (function () {
       return parseInt(val);
     }
   }
+  function parseInt(val, radix = 10) {
+    return window.parseInt(val, radix);
+  }
   function toLength(val) {
     val = toInteger(val);
     if (val < 0) return 0;
@@ -1952,14 +1955,211 @@ var aeon_10086 = (function () {
     let reg = new RegExp(`^[${chars}]+`);
     return str.replace(reg, "");
   }
-
+  function truncate(str = "", options = {}) {
+    const LEN = options.length && options.length <= 30 ? options.length : 30;
+    const OMISS = options.omission || "...";
+    let sepa = options.separator;
+    sepa = new RegExp(sepa, "g");
+    let olen = OMISS.length;
+    str = str.slice(0, LEN - olen);
+    if (sepa !== undefined) {
+      let i, temp;
+      while ((temp = sepa.exec(str))) {
+        i = temp.index;
+      }
+      str = str.slice(0, i);
+      return str + OMISS;
+    }
+    return str + OMISS;
+  }
+  function unescape(str = "") {
+    return str.replace(
+      /(&amp;)|(&lt;)|(&gt;)|(&quot;)|(&#39;)|(&#96;)/g,
+      (item) => {
+        switch (item) {
+          case "&amp;":
+            return "&";
+          case "&lt;":
+            return "<";
+          case "&gt;":
+            return ">";
+          case "&quot;":
+            return '"';
+          case "&#39;":
+            return "'";
+          case "&#96;":
+            return "`";
+          default:
+            return item;
+        }
+      }
+    );
+  }
+  function upperCase(str = "") {
+    let reg = /[a-z]+|[A-Z][a-z]+|[A-Z]+/g;
+    return str.match(reg).join(" ").toUpperCase();
+  }
+  function upperFirst(str = "") {
+    return str.replace(/^\w/, (item) => item.toUpperCase());
+  }
+  function words(str = "", reg = /[a-zA-z]+/g) {
+    return str.match(reg);
+  }
+  function defaultTo(val, defaultValue) {
+    if (val !== val || val == undefined) {
+      return defaultValue;
+    } else {
+      return val;
+    }
+  }
+  function range(start = 0, end, step = 1) {
+    if (arguments.length == 0) {
+      return [];
+    } else if (arguments.length == 1) {
+      end = start;
+      start = 0;
+    }
+    let res = [];
+    if (step === 0) {
+      if (end < 0) return res;
+      for (let i = 1; i < end; i++) {
+        res.push(start);
+      }
+    } else if (end < 0) {
+      if (step > 0) step = -step;
+      for (let i = start; i > end; i += step) {
+        res.push(i);
+      }
+    } else {
+      if (step <= 0) return [];
+      for (let i = start; i < end; i += step) {
+        res.push(i);
+      }
+    }
+    return res;
+  }
+  function rangeRight(start = 0, end, step = 1) {
+    if (arguments.length == 0) {
+      return [];
+    } else if (arguments.length == 1) {
+      end = start;
+      start = 0;
+    }
+    let res = [];
+    if (step === 0) {
+      if (end < 0) return res;
+      for (let i = 1; i < end; i++) {
+        res.push(start);
+      }
+    } else if (end < 0) {
+      if (step > 0) step = -step;
+      for (let i = start; i > end; i += step) {
+        res.push(i);
+      }
+    } else {
+      if (step <= 0) return [];
+      for (let i = start; i < end; i += step) {
+        res.push(i);
+      }
+    }
+    return res.reverse();
+  }
+  function times(n, predicate) {
+    let res = [];
+    for (let i = 0; i < n; i++) {
+      if (isFunction(predicate)) {
+        res.push(predicate(i));
+      } else {
+        res.push(predicate);
+      }
+    }
+    return res;
+  }
+  function toPath(path) {
+    return handlePath(path);
+  }
+  function uniqueId(prefix = "") {
+    return prefix + Date.now();
+  }
+  function cloneDeep(obj) {
+    let res;
+    if (isArray(obj)) {
+      res = [];
+      for (let i = 0; i < obj.length; i++) {
+        res[i] = cloneDeep(obj[i]);
+      }
+    } else if (typeof obj == "object") {
+      res = {};
+      for (key in obj) {
+        if (typeof obj[key] != "object") {
+          res[key] = obj[key];
+        } else {
+          res[key] = cloneDeep(obj[key]);
+        }
+      }
+    } else {
+      res = obj;
+    }
+    return res;
+  }
+  function identity(val) {
+    return val;
+  }
+  function ary(func, n = func.length) {
+    return function (...args) {
+      return func(...args.slice(0, n));
+    };
+  }
+  function unary(func) {
+    return ary(func, 1);
+  }
+  function negate(predicate) {
+    return function (...args) {
+      return !predicate(...args);
+    };
+  }
+  function once(func) {
+    let self = this;
+    let flag = false;
+    let res;
+    return function () {
+      if (!flag) {
+        return (res = func.apply(self, arguments));
+      }
+      return res;
+    };
+  }
+  function spread(func, start = 0) {
+    return function (ary) {
+      return func(...ary.slice(start));
+    };
+  }
+  function curry(func, arity = func.length) {
+    return function (...args) {
+      if (args.length < arity) {
+        return curry(func.bind(null, ...args), arity - args.length);
+      } else {
+        return func(...args);
+      }
+    };
+  }
   // 尝试中内容
   function orderBy(collection, predicate, order) {
     predicate = predicate.map((item) => iteratee(item));
     let res = collection;
     for (let i = order.length - 1; i >= 0; i--) {
-      res = mergeSort(res, order[i], predicate[i]);
+      res = mergeSort(res, predicate[i], order[i]);
     }
+    return res;
+  }
+  function sortBy(collection, ...predicate) {
+    let res = collection;
+    predicate = flattenDeep(predicate);
+    predicate = predicate.map((item) => iteratee(item));
+    for (let i = predicate.length - 1; i >= 0; i--) {
+      res = mergeSort(res, predicate[i]);
+    }
+
     return res;
   }
   //工具函数
@@ -2084,13 +2284,13 @@ var aeon_10086 = (function () {
       (x === null ? x == y : false)
     );
   }
-  function mergeSort(ary, sign = "asc", predicate = (it) => it) {
+  function mergeSort(ary, predicate = (it) => it, sign = "asc") {
     if (ary.length < 2) return ary;
     let mid = ary.length >> 1;
     let leftAry = ary.slice(0, mid);
     let rightAry = ary.slice(mid);
-    let leftSort = mergeSort(leftAry, sign, predicate);
-    let rightSort = mergeSort(rightAry, sign, predicate);
+    let leftSort = mergeSort(leftAry, predicate, sign);
+    let rightSort = mergeSort(rightAry, predicate, sign);
     let res = [],
       i = 0,
       j = 0;
@@ -2332,6 +2532,27 @@ var aeon_10086 = (function () {
     trimEnd,
     trimStart,
     orderBy,
+    sortBy,
+    parseInt,
+    truncate,
+    unescape,
+    upperCase,
+    upperFirst,
+    words,
+    defaultTo,
+    range,
+    rangeRight,
+    times,
+    toPath,
+    uniqueId,
+    cloneDeep,
+    identity,
+    ary,
+    unary,
+    curry,
+    once,
+    negate,
+    spread,
   };
 })();
 function DeepComparsion(obj1, obj2) {
@@ -2346,10 +2567,11 @@ function DeepComparsion(obj1, obj2) {
 }
 var users = [
   { user: "fred", age: 48 },
-  { user: "barney", age: 34 },
-  { user: "fred", age: 40 },
   { user: "barney", age: 36 },
+  { user: "fred", age: 40 },
+  { user: "barney", age: 34 },
 ];
-
-const TESTRES = aeon_10086.orderBy(users, ["user", "age"], ["asc", "desc"]);
-console.log(TESTRES);
+const TESTRES = aeon_10086.spread(function (who, what) {
+  return who + " says " + what;
+});
+console.log(TESTRES(["fred", "hello"]));
