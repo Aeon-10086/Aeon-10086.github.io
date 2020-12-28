@@ -2081,24 +2081,20 @@ var aeon_10086 = (function () {
   function uniqueId(prefix = "") {
     return prefix + Date.now();
   }
-  function cloneDeep(obj) {
-    let res;
-    if (isArray(obj)) {
-      res = [];
-      for (let i = 0; i < obj.length; i++) {
-        res[i] = cloneDeep(obj[i]);
-      }
-    } else if (typeof obj == "object") {
-      res = {};
-      for (key in obj) {
-        if (typeof obj[key] != "object") {
-          res[key] = obj[key];
+  function cloneDeep(object) {
+    if (getType(object) === "[object RegExp]") {
+      return object;
+    } else if (typeof object == "object") {
+      var res = isArray(object) ? [] : {};
+      for (key in object) {
+        if (typeof object[key] != "object") {
+          res[key] = object[key];
         } else {
-          res[key] = cloneDeep(obj[key]);
+          res[key] = cloneDeep(object[key]);
         }
       }
     } else {
-      res = obj;
+      return object;
     }
     return res;
   }
@@ -2142,6 +2138,73 @@ var aeon_10086 = (function () {
         return func(...args);
       }
     };
+  }
+  function matches(source) {
+    return function (arg) {
+      return hasSameAttr.bind(null, source, arg);
+    };
+  }
+  function property(path) {
+    return function (obj) {
+      return getAttrByPath(obj, path);
+    };
+  }
+  function propertyOf(obj) {
+    return function (path) {
+      return getAttrByPath(obj, path);
+    };
+  }
+  function flip(func) {
+    return function (...args) {
+      return func(...args.reverse());
+    };
+  }
+  function constant(val) {
+    return function () {
+      return val;
+    };
+  }
+  function nthArg(n = 0) {
+    return function () {
+      if (n < 0) {
+        n = n + arguments.length;
+      }
+      return arguments[n];
+    };
+  }
+  function conforms(source) {
+    return function (object) {
+      for (key in source) {
+        if (!source[key].call(null, object[key])) return false;
+      }
+      return true;
+    };
+  }
+  function flow(...func) {
+    func = flattenDeep(func);
+    return function (...args) {
+      let res = args;
+      for (let item of func) {
+        res = [item.call(null, res)];
+      }
+      return res[0];
+    };
+  }
+  function method(path, ...args) {
+    return function (obj) {
+      let func = getAttrByPath(obj, path);
+      return func.apply(null, args);
+    };
+  }
+  function methodOf(obj, ...args) {
+    return function (path) {
+      let func = getAttrByPath(obj, path);
+      return func.apply(null, args);
+    };
+  }
+  function stringifyJson(obj) {
+    if (isFunction(obj) || isRegExp(obj)) return "undefined";
+    if (obj === null) return "null";
   }
   // 尝试中内容
   function orderBy(collection, predicate, order) {
@@ -2553,6 +2616,16 @@ var aeon_10086 = (function () {
     once,
     negate,
     spread,
+    matches,
+    property,
+    propertyOf,
+    flip,
+    conforms,
+    constant,
+    nthArg,
+    flow,
+    method,
+    methodOf,
   };
 })();
 function DeepComparsion(obj1, obj2) {
@@ -2565,13 +2638,6 @@ function DeepComparsion(obj1, obj2) {
   }
   return true;
 }
-var users = [
-  { user: "fred", age: 48 },
-  { user: "barney", age: 36 },
-  { user: "fred", age: 40 },
-  { user: "barney", age: 34 },
-];
-const TESTRES = aeon_10086.spread(function (who, what) {
-  return who + " says " + what;
-});
-console.log(TESTRES(["fred", "hello"]));
+var objects = [{ a: { b: 2 } }, { a: { b: 1 } }];
+const TESTRES = aeon_10086.property(objects);
+console.log(TESTRES);
