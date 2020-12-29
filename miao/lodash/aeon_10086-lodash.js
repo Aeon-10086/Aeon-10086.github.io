@@ -1959,10 +1959,10 @@ var aeon_10086 = (function () {
     const LEN = options.length && options.length <= 30 ? options.length : 30;
     const OMISS = options.omission || "...";
     let sepa = options.separator;
-    sepa = new RegExp(sepa, "g");
     let olen = OMISS.length;
     str = str.slice(0, LEN - olen);
     if (sepa !== undefined) {
+      sepa = new RegExp(sepa, "g");
       let i, temp;
       while ((temp = sepa.exec(str))) {
         i = temp.index;
@@ -2086,7 +2086,8 @@ var aeon_10086 = (function () {
       return object;
     } else if (typeof object == "object") {
       var res = isArray(object) ? [] : {};
-      for (key in object) {
+      let keys = Object.keys(object);
+      for (let key of keys) {
         if (typeof object[key] != "object") {
           res[key] = object[key];
         } else {
@@ -2638,6 +2639,6 @@ function DeepComparsion(obj1, obj2) {
   }
   return true;
 }
-var objects = [{ a: { b: 2 } }, { a: { b: 1 } }];
-const TESTRES = aeon_10086.property(objects);
+var objects = [1, 2, { a: 1 }, { b: [3, 4] }];
+const TESTRES = aeon_10086.cloneDeep(objects);
 console.log(TESTRES);
