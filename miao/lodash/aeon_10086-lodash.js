@@ -2141,9 +2141,7 @@ var aeon_10086 = (function () {
     };
   }
   function matches(source) {
-    return function (arg) {
-      return hasSameAttr.bind(null, source, arg);
-    };
+    return hasSameAttr.bind(null, source);
   }
   function property(path) {
     return function (obj) {
@@ -2151,9 +2149,7 @@ var aeon_10086 = (function () {
     };
   }
   function propertyOf(obj) {
-    return function (path) {
-      return getAttrByPath(obj, path);
-    };
+    return getAttrByPath.bind(null, obj);
   }
   function flip(func) {
     return function (...args) {
@@ -2175,7 +2171,8 @@ var aeon_10086 = (function () {
   }
   function conforms(source) {
     return function (object) {
-      for (key in source) {
+      let keys = Object.keys(source);
+      for (let key of keys) {
         if (!source[key].call(null, object[key])) return false;
       }
       return true;
