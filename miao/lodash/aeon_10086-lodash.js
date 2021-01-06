@@ -2200,9 +2200,107 @@ var aeon_10086 = (function () {
       return func.apply(null, args);
     };
   }
+  function once(func) {
+    let flag = true;
+    let res = null;
+    return function (...args) {
+      if (flag) {
+        res = func(...args);
+        flag = false;
+      }
+      return res;
+    };
+  }
   function stringifyJson(obj) {
     if (isFunction(obj) || isRegExp(obj)) return "undefined";
     if (obj === null) return "null";
+  }
+  function parseJson(str) {
+    let i = 0;
+    return parseValue();
+    function parseValue() {
+      let char = str[i];
+      if (char == "{") return parseObject();
+      if (char == "[") return parseArray();
+      if (char == '"') return parseString();
+      if (/t|u|n|f/.test(char)) return parseBUN();
+      return parseNumber();
+    }
+    function parseObject() {
+      if (str[i] === "{") {
+        i++;
+        let res = {};
+        let flag = false;
+        while (i < str.length && str[i] !== "}") {
+          if (flag) {
+            i++;
+          }
+          let key = parseString();
+          i++;
+          let value = parseValue();
+          res[key] = value;
+          flag = true;
+        }
+        i++;
+        return res;
+      }
+    }
+    function parseArray() {
+      if (str[i] === "[") {
+        i++;
+        let res = [];
+        let flag = false;
+        while (i < str.length && str[i] !== "]") {
+          if (flag) {
+            i++;
+          }
+          let val = parseValue();
+          res.push(val);
+          flag = true;
+        }
+        i++;
+        return res;
+      }
+    }
+    function parseString() {
+      if (str[i] === '"') {
+        i++;
+        let result = "";
+        while (i < str.length && str[i] !== '"') {
+          result += str[i];
+          i++;
+        }
+        i++;
+        return result;
+      }
+    }
+    function parseNumber() {
+      let start = i;
+      if (str[i] >= "1" && str[i] <= "9") {
+        i++;
+        while (str[i] >= "0" && str[i] <= "9") {
+          i++;
+        }
+      }
+      if (i > start) {
+        return Number(str.slice(start, i));
+      }
+    }
+    function parseBUN() {
+      if (str[i] === "t") {
+        i += 4;
+        return true;
+      } else if (str[i] === "f") {
+        i += 5;
+        return false;
+      } else if (str[i] === "u") {
+        i += 9;
+        return undefined;
+      } else if (str[i] === "n") {
+        i += 4;
+        return null;
+      }
+    }
   }
   // 尝试中内容
   function orderBy(collection, predicate, order) {
@@ -2624,6 +2722,7 @@ var aeon_10086 = (function () {
     flow,
     method,
     methodOf,
+    parseJson,
   };
 })();
 function DeepComparsion(obj1, obj2) {
